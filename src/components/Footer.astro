@@ -1,0 +1,211 @@
+---
+const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
+---
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <h2>Нека поговорим за вашия бизнес.</h2>
+    <div class="cta-actions">
+      <a href={calUrl} class="cta-btn">Запазете 30-минутен разговор</a>
+      <a href="tel:+359897853219" class="cta-phone">Или се обадете на 0897 853 219</a>
+    </div>
+  </div>
+</section>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-cols">
+      <div class="brand">
+        <div class="brand-name">Riddle Marketing</div>
+        <p>Сайтове, профили в Google, реклами и измерване за местни бизнеси в България.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Навигация в долната част">
+        <a href="/">Начало</a>
+        <a href="/uslugi/">Услуги</a>
+        <a href="/proekti/">Проекти</a>
+        <a href="/za-nas/">За нас</a>
+        <a href="/kontakt/">Контакт</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="tel:+359897853219" class="footer-phone">0897 853 219</a>
+        <a href="viber://chat?number=%2B359897853219">Пишете ни във Viber</a>
+        <a href={calUrl}>Запазете разговор</a>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>© 2026 Riddle Marketing</span>
+      <span>riddle-marketing.com</span>
+    </div>
+  </div>
+</footer>
+<div class="mobile-bar-spacer" aria-hidden="true"></div>
+<div class="mobile-bar">
+  <a href="tel:+359897853219" class="bar-call">Обадете се</a>
+  <a href={calUrl} class="bar-book">Запазете разговор</a>
+</div>
+
+<style>
+  .cta-band {
+    background: var(--accent);
+    color: var(--text);
+  }
+  .cta-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 9vw, 136px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .cta-band h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(60px, 9vw, 144px);
+    line-height: 0.88;
+    letter-spacing: -0.015em;
+    margin: 0;
+    max-width: 10ch;
+  }
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .cta-btn {
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 20px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .cta-btn:hover {
+    color: var(--bg);
+  }
+  .cta-phone {
+    font-size: 18px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .site-footer {
+    background: var(--dark);
+    color: var(--bg);
+  }
+  .footer-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 72px clamp(20px, 5vw, 72px) 40px;
+  }
+  .footer-cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px 72px;
+  }
+  .brand {
+    flex: 1 1 340px;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 44px;
+    line-height: 1;
+  }
+  .brand p {
+    margin: 16px 0 0;
+    font-size: 17px;
+    line-height: 1.5;
+    max-width: 32ch;
+    color: var(--muted-on-dark);
+  }
+  .footer-nav {
+    flex: 0 1 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+  }
+  .footer-nav a,
+  .footer-contact a {
+    color: var(--bg);
+    text-decoration: none;
+  }
+  .footer-nav a:hover,
+  .footer-contact a:hover {
+    color: var(--bg);
+  }
+  .footer-contact {
+    flex: 0 1 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 17px;
+  }
+  .footer-contact a:not(.footer-phone) {
+    text-decoration: underline;
+  }
+  .footer-phone {
+    font-weight: 700;
+    font-size: 22px;
+  }
+  .footer-meta {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(243, 240, 233, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    font-size: 15px;
+    color: var(--muted-on-dark);
+  }
+  .mobile-bar-spacer {
+    display: none;
+    height: 76px;
+    background: var(--dark);
+  }
+  .mobile-bar {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    gap: 8px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: var(--bg);
+    border-top: 1px solid rgba(26, 26, 23, 0.18);
+  }
+  .mobile-bar a {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
+  }
+  .bar-call {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .bar-call:hover {
+    color: var(--bg);
+  }
+  .bar-book {
+    background: var(--accent);
+    color: var(--text);
+  }
+  @media (max-width: 759.98px) {
+    .mobile-bar-spacer,
+    .mobile-bar {
+      display: flex;
+    }
+    .mobile-bar-spacer {
+      display: block;
+    }
+  }
+</style>

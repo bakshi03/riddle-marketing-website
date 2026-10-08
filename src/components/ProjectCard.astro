@@ -1,0 +1,141 @@
+---
+import { Picture, Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Chip from './Chip.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  linkText: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  imagePosition?: string;
+  placeholderIcon?: ImageMetadata;
+  logo: ImageMetadata;
+  logoAlt: string;
+  logoBg?: string;
+  chips: { icon: ImageMetadata; label: string }[];
+  aspect?: string;
+}
+
+const {
+  href,
+  title,
+  description,
+  linkText,
+  image,
+  imageAlt = title,
+  imagePosition = 'center',
+  placeholderIcon,
+  logo,
+  logoAlt,
+  logoBg = '#FFFFFF',
+  chips,
+  aspect = '4 / 3',
+} = Astro.props;
+---
+
+<a href={href} class="card">
+  {
+    image ? (
+      <Picture
+        src={image}
+        alt={imageAlt}
+        formats={['avif', 'webp']}
+        widths={[480, 760, 1200]}
+        sizes="(max-width: 760px) 100vw, 33vw"
+        loading="lazy"
+        class="cover"
+        style={`aspect-ratio:${aspect};object-position:${imagePosition}`}
+      />
+    ) : (
+      placeholderIcon && (
+        <div class="placeholder" style={`aspect-ratio:${aspect}`}>
+          <Image src={placeholderIcon} alt="" width={320} height={320} loading="lazy" />
+        </div>
+      )
+    )
+  }
+  <div class="title-row">
+    <div class="logo-box" style={`background:${logoBg}`}>
+      <Image src={logo} alt={logoAlt} width={176} height={104} loading="lazy" class="logo-img" />
+    </div>
+    <h3>{title}</h3>
+  </div>
+  <p>{description}</p>
+  <div class="chips">
+    {chips.map((c) => <Chip icon={c.icon} label={c.label} bg="#FFFFFF" small />)}
+  </div>
+  <span class="link-text">{linkText}</span>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    text-decoration: none;
+    color: var(--text);
+    min-width: 0;
+  }
+  .card :global(.cover) {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .placeholder {
+    width: 100%;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder :global(img) {
+    height: 52%;
+    width: auto;
+  }
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-box {
+    flex: 0 0 88px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+  }
+  .logo-box :global(.logo-img) {
+    max-height: 40px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(32px, 3vw, 44px);
+    line-height: 0.95;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.45;
+    max-width: 36ch;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .link-text {
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>

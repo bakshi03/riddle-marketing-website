@@ -1,0 +1,190 @@
+---
+import { Image } from 'astro:assets';
+import viberLogo from '../assets/img/logo-viber.png';
+import whatsappLogo from '../assets/img/logo-whatsapp.svg';
+
+interface Props {
+  current?: 'home' | 'services' | 'projects' | 'about' | 'contact';
+}
+
+const { current } = Astro.props;
+
+const links = [
+  { label: 'Услуги', href: '/uslugi/', key: 'services' },
+  { label: 'Проекти', href: '/proekti/', key: 'projects' },
+  { label: 'За нас', href: '/za-nas/', key: 'about' },
+  { label: 'Контакт', href: '/kontakt/', key: 'contact' },
+];
+---
+
+<header class="site-header">
+  <div class="bar">
+    <a href="/" class="logo">Riddle<span class="logo-full">Marketing</span></a>
+    <nav class="desktop-nav" aria-label="Основна навигация">
+      {
+        links.map((l) => (
+          <a href={l.href} class:list={[{ current: l.key === current }]} aria-current={l.key === current ? 'page' : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="actions">
+      <a href="tel:+359897853219" class="phone">0897 853 219</a>
+      <a href="viber://chat?number=%2B359897853219" class="messenger">
+        <Image src={viberLogo} alt="" width={44} height={44} class="messenger-icon" />
+        <span>Viber</span>
+      </a>
+      <a href="https://wa.me/359897853219" class="messenger">
+        <Image src={whatsappLogo} alt="" width={44} height={44} class="messenger-icon" />
+        <span>WhatsApp</span>
+      </a>
+      <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" class="cta">Запазете 30-минутен разговор</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav">Меню</button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" hidden aria-label="Мобилна навигация">
+    <a href="/">Начало</a>
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(26, 26, 23, 0.14);
+  }
+  .bar {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 56px);
+    height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .desktop-nav {
+    display: flex;
+    gap: 28px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .desktop-nav a {
+    text-decoration: none;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+  }
+  .desktop-nav a.current {
+    border-bottom-color: var(--text);
+  }
+  .actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .phone {
+    font-weight: 700;
+    font-size: 17px;
+    text-decoration: none;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .messenger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .messenger :global(.messenger-icon) {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+  .cta {
+    background: var(--accent);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .cta:hover {
+    background: #e9b920;
+    color: var(--text);
+  }
+  .menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--text);
+    border-radius: 4px;
+    padding: 9px 12px;
+    font: 600 15px var(--font-body);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .mobile-nav {
+    flex-direction: column;
+    padding: 8px 20px 28px;
+    border-top: 1px solid rgba(26, 26, 23, 0.14);
+  }
+  .mobile-nav a {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 1.15;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .mobile-nav:not([hidden]) {
+    display: flex;
+  }
+  @media (max-width: 1179.98px) {
+    .desktop-nav,
+    .cta,
+    .logo-full {
+      display: none;
+    }
+    .menu-toggle {
+      display: block;
+    }
+  }
+  @media (min-width: 1180px) {
+    .mobile-nav {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('mobile-nav');
+  toggle?.addEventListener('click', () => {
+    const open = nav!.hidden;
+    nav!.hidden = !open;
+    toggle.textContent = open ? 'Затвори' : 'Меню';
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>

@@ -1,0 +1,328 @@
+---
+import { Picture, Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Chip from '../components/Chip.astro';
+import logo21cutz from '../assets/img/logo-21cutz.png';
+import logoScaffrent from '../assets/img/logo-scaffrent.png';
+import logoHairsupply from '../assets/img/logo-hairsupply28.jpg';
+import ladybird from '../assets/img/ladybird.svg';
+import logoGoogleAds from '../assets/img/logo-google-ads.png';
+import logoGoogleMaps from '../assets/img/logo-google-maps.png';
+import logoGa4 from '../assets/img/logo-ga4.svg';
+import logoGtm from '../assets/img/logo-gtm.svg';
+import logoWordpress from '../assets/img/logo-wordpress.png';
+import logoViber from '../assets/img/logo-viber.png';
+import logoGoogleBusiness from '../assets/img/logo-google-business.png';
+import logoMeta from '../assets/img/logo-meta.svg';
+import logoInstagram from '../assets/img/logo-instagram.svg';
+import logoShopify from '../assets/img/logo-shopify.svg';
+import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
+import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
+
+const tools = [
+  { icon: logoGoogleAds, label: 'Google Ads' },
+  { icon: logoGoogleMaps, label: 'Google Maps' },
+  { icon: logoGa4, label: 'Google Analytics' },
+  { icon: logoGtm, label: 'Google Tag Manager' },
+  { icon: logoWordpress, label: 'WordPress' },
+  { icon: logoViber, label: 'Viber' },
+  { icon: logoGoogleBusiness, label: 'Google Business Profile' },
+];
+---
+
+<Base
+  title="За нас | Riddle Marketing"
+  description="Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам — говорите с човека, който върши работата."
+>
+  <Header current="about" />
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Говорите с човека, който върши работата.</h1>
+      <p>Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам.</p>
+    </div>
+  </section>
+
+  <section class="principles">
+    <div class="principles-inner">
+      <p>Започваме с разговор.</p>
+      <p class="indent-2">Казваме какво не ви трябва.</p>
+      <p class="indent-1">Показваме числата, както са.</p>
+      <p class="indent-3 accent">Носим клиенти и поръчки.</p>
+    </div>
+  </section>
+
+  <section class="clients">
+    <h2>За кого работим.</h2>
+    <div class="logo-grid">
+      <a href="https://21cutz.com/" class="logo-tile dark-tile">
+        <Image src={logo21cutz} alt="21cutz" width={400} height={200} loading="lazy" class="tile-img tall" />
+      </a>
+      <a href="https://scaff-rent.com/" class="logo-tile narrow-pad">
+        <Image src={logoScaffrent} alt="Scaff-Rent" width={400} height={240} loading="lazy" class="tile-img tallest" />
+      </a>
+      <a href="https://hairsupply28.com/" class="logo-tile">
+        <Image src={logoHairsupply} alt="HairSupply28" width={400} height={184} loading="lazy" class="tile-img mid" />
+      </a>
+      <div class="logo-tile ladybird-tile">
+        <Image src={ladybird} alt="Djidji Stil" width={176} height={176} loading="lazy" class="tile-img ladybird" />
+      </div>
+    </div>
+  </section>
+
+  <section class="tools">
+    <p class="tools-label">С какво работим.</p>
+    <div class="tools-chips">
+      {tools.map((t) => <Chip icon={t.icon} label={t.label} bg="#FFFFFF" />)}
+      <div class="meta-chip">
+        <Image src={logoMeta} alt="Meta" width={200} height={40} loading="lazy" class="meta-logo" />
+      </div>
+      <Chip icon={logoInstagram} label="Instagram" bg="#FFFFFF" />
+      <Chip icon={logoShopify} label="Shopify" bg="#FFFFFF" />
+    </div>
+  </section>
+
+  <section class="where">
+    <div class="where-inner">
+      <div class="where-head">
+        <h2>Работим там, където са клиентите.</h2>
+        <p>В бръснарницата, на обекта, в склада. Не по имейл.</p>
+      </div>
+      <figure class="fig-wide">
+        <Picture
+          src={photo21cutz}
+          alt="21cutz, ж.к. Гоце Делчев"
+          formats={['avif', 'webp']}
+          widths={[520, 820, 1240]}
+          sizes="(max-width: 760px) 100vw, 45vw"
+          loading="lazy"
+          class="fig-img wide"
+        />
+        <figcaption>21cutz, ж.к. Гоце Делчев, София</figcaption>
+      </figure>
+      <figure class="fig-tall">
+        <Picture
+          src={photoBoyana}
+          alt="Scaff-Rent, обект в Бояна"
+          formats={['avif', 'webp']}
+          widths={[420, 760, 1140]}
+          sizes="(max-width: 760px) 100vw, 32vw"
+          loading="lazy"
+          class="fig-img tall"
+        />
+        <figcaption>Scaff-Rent, обект в Бояна</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+  .hero-inner {
+    flex: 1 1 560px;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 9vw, 148px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 9ch;
+  }
+  .hero-inner p {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.45;
+    max-width: 36ch;
+  }
+  .principles {
+    background: var(--dark);
+    color: var(--bg);
+  }
+  .principles-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(80px, 10vw, 160px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 2.5vw, 36px);
+  }
+  .principles p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(52px, 8vw, 128px);
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+  }
+  .principles .indent-1 {
+    margin-left: clamp(0px, 4vw, 64px);
+  }
+  .principles .indent-2 {
+    margin-left: clamp(0px, 12vw, 200px);
+  }
+  .principles .indent-3 {
+    margin-left: clamp(0px, 20vw, 320px);
+  }
+  .principles .accent {
+    color: var(--accent);
+  }
+  .clients {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(72px, 8vw, 128px) clamp(20px, 5vw, 72px) 40px;
+  }
+  .clients h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 4.4vw, 64px);
+    line-height: 0.95;
+    margin: 0 0 32px;
+  }
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .logo-tile {
+    background: #ffffff;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 28px;
+  }
+  .logo-tile.dark-tile {
+    background: #0a0a0a;
+  }
+  .logo-tile.narrow-pad {
+    padding: 10px 28px;
+  }
+  .logo-tile.ladybird-tile {
+    padding: 8px;
+  }
+  .logo-tile :global(.tile-img) {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  .logo-tile :global(.tile-img.tall) {
+    max-height: 100px;
+  }
+  .logo-tile :global(.tile-img.tallest) {
+    max-height: 120px;
+  }
+  .logo-tile :global(.tile-img.mid) {
+    max-height: 92px;
+  }
+  .logo-tile :global(.tile-img.ladybird) {
+    height: 100%;
+    max-height: 88px;
+  }
+  .tools {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px clamp(20px, 5vw, 72px) clamp(72px, 8vw, 128px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 48px;
+    align-items: center;
+  }
+  .tools-label {
+    flex: 0 1 220px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  .tools-chips {
+    flex: 1 1 640px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 10px 14px;
+    border-radius: 4px;
+  }
+  .meta-chip :global(.meta-logo) {
+    height: 20px;
+    width: auto;
+  }
+  .where {
+    background: var(--bg-alt);
+  }
+  .where-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(72px, 9vw, 144px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px clamp(24px, 4vw, 64px);
+    align-items: flex-start;
+  }
+  .where-head {
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 48px;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .where-head h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 0.9;
+    margin: 0;
+    max-width: 10ch;
+  }
+  .where-head p {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.45;
+    max-width: 32ch;
+  }
+  .fig-wide {
+    flex: 1 1 520px;
+    margin: 0;
+  }
+  .fig-tall {
+    flex: 0 1 380px;
+    flex-grow: 1;
+    margin: clamp(0px, 10vw, 160px) 0 0;
+  }
+  figure :global(.fig-img) {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  figure :global(.fig-img.wide) {
+    aspect-ratio: 4 / 3;
+  }
+  figure :global(.fig-img.tall) {
+    aspect-ratio: 3 / 4;
+  }
+  figcaption {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+</style>

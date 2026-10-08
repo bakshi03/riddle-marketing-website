@@ -1,0 +1,473 @@
+---
+import { Picture, Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Chip from '../components/Chip.astro';
+import logoWordpress from '../assets/img/logo-wordpress.png';
+import logoShopify from '../assets/img/logo-shopify.svg';
+import logoGoogleBusiness from '../assets/img/logo-google-business.png';
+import logoGoogleMaps from '../assets/img/logo-google-maps.png';
+import logoGoogleAds from '../assets/img/logo-google-ads.png';
+import logoMeta from '../assets/img/logo-meta.svg';
+import logoInstagram from '../assets/img/logo-instagram.svg';
+import logoGa4 from '../assets/img/logo-ga4.svg';
+import logoGtm from '../assets/img/logo-gtm.svg';
+import landing21cutz from '../assets/img/landing-21cutz.png';
+import landingScaffrent from '../assets/img/landing-scaffrent.png';
+import chart from '../assets/img/chart.png';
+import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
+import photoBoyana from '../assets/img/photo-scaffrent-boyana.jpg';
+import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
+---
+
+<Base
+  title="Услуги | Riddle Marketing"
+  description="Сайтове и лендинг страници, Google бизнес профил, реклами в Google, Facebook и Instagram, проследяване и измерване. Всяка услуга се взима отделно, без пакети."
+>
+  <Header current="services" />
+
+  <section class="intro">
+    <h1>Вземате само това, което ви трябва.</h1>
+    <p>Всяка услуга се взима отделно. Без пакети.</p>
+  </section>
+
+  <section class="websites">
+    <div class="websites-text">
+      <h2>Сайт и лендинг страници</h2>
+      <p>Отваря се бързо на телефон и води към обаждане, записан час или поръчка.</p>
+      <div class="chips">
+        <Chip icon={logoWordpress} label="WordPress" bg="#FFFFFF" />
+        <Chip icon={logoShopify} label="Shopify" bg="#FFFFFF" />
+      </div>
+    </div>
+    <div class="phones">
+      <div class="phone dark">
+        <Picture
+          src={landing21cutz}
+          alt="Началният екран на 21cutz.com"
+          formats={['avif', 'webp']}
+          widths={[240, 480]}
+          sizes="240px"
+          loading="lazy"
+          class="phone-img"
+        />
+      </div>
+      <div class="phone offset">
+        <Picture
+          src={landingScaffrent}
+          alt="Началният екран на scaff-rent.com"
+          formats={['avif', 'webp']}
+          widths={[240, 480]}
+          sizes="240px"
+          loading="lazy"
+          class="phone-img"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="gbp">
+    <figure class="gbp-photo">
+      <Picture
+        src={photo21cutz}
+        alt="21cutz"
+        formats={['avif', 'webp']}
+        widths={[520, 820, 1360]}
+        sizes="(max-width: 760px) 100vw, 47vw"
+        loading="lazy"
+        class="gbp-img"
+      />
+    </figure>
+    <div class="gbp-text">
+      <h2>Google бизнес профил</h2>
+      <p>Снимки, часове, услуги и отговори на отзиви. Често това е първото, което хората виждат.</p>
+      <div class="chips">
+        <Chip icon={logoGoogleBusiness} label="Google Business Profile" bg="#FFFFFF" />
+        <Chip icon={logoGoogleMaps} label="Google Maps" bg="#FFFFFF" />
+      </div>
+      <p class="caption">На снимката: 21cutz, ж.к. Гоце Делчев</p>
+    </div>
+  </section>
+
+  <section class="google-ads">
+    <Picture
+      src={photoBoyana}
+      alt="Scaff-Rent, обект в Бояна"
+      formats={['avif', 'webp']}
+      widths={[760, 1200, 1800]}
+      sizes="(max-width: 1440px) 95vw, 1296px"
+      loading="lazy"
+      class="ads-img"
+    />
+    <div class="ads-row">
+      <h2>Реклами в Google</h2>
+      <div class="ads-text">
+        <p>За хора, които търсят точно вашата услуга, точно сега.</p>
+        <div class="chips">
+          <Chip icon={logoGoogleAds} label="Google Ads" bg="#FFFFFF" />
+        </div>
+        <p class="caption">На снимката: Scaff-Rent, обект в Люлин</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="social-ads">
+    <div class="social-text">
+      <h2>Реклами във Facebook и Instagram</h2>
+      <p>Работят, когато това, което правите, се вижда добре на снимка.</p>
+      <div class="chips">
+        <div class="meta-chip">
+          <Image src={logoMeta} alt="Meta" width={200} height={40} loading="lazy" class="meta-logo" />
+        </div>
+        <Chip icon={logoInstagram} label="Instagram" bg="#FFFFFF" />
+      </div>
+    </div>
+    <figure class="social-photo">
+      <Picture
+        src={photoHairsupply}
+        alt="Продукт на HairSupply28"
+        formats={['avif', 'webp']}
+        widths={[560, 900, 1500]}
+        sizes="(max-width: 760px) 100vw, 40vw"
+        loading="lazy"
+        class="social-img"
+      />
+      <figcaption>HairSupply28</figcaption>
+    </figure>
+  </section>
+
+  <section class="measure">
+    <h2>Проследяване и измерване</h2>
+    <div class="measure-row">
+      <div class="measure-text">
+        <p>Броим обажданията, записаните часове и поръчките. Виждате кое носи клиенти.</p>
+        <div class="chips">
+          <Chip icon={logoGa4} label="Google Analytics" bg="#FFFFFF" />
+          <Chip icon={logoGtm} label="Google Tag Manager" bg="#FFFFFF" />
+        </div>
+      </div>
+      <div class="chart-box">
+        <Image src={chart} alt="" widths={[560, 1120]} sizes="(max-width: 760px) 100vw, 40vw" loading="lazy" class="chart-img" />
+      </div>
+    </div>
+  </section>
+
+  <section id="ne" class="dont-spend">
+    <div class="dont-inner">
+      <h2>Кога ще ви кажем да не харчите</h2>
+      <div class="cases">
+        <div class="case">
+          <p class="situation">Сайтът ви се отваря бързо и хората се обаждат от него.</p>
+          <p class="verdict">Оставяме го.</p>
+        </div>
+        <div class="case indent-1">
+          <p class="situation">Едва смогвате с клиентите, които вече имате.</p>
+          <p class="verdict">Реклама не ви трябва.</p>
+        </div>
+        <div class="case indent-2">
+          <p class="situation">Клиентите ви търсят спешно в Google.</p>
+          <p class="verdict">Facebook може да почака.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(48px, 6.5vw, 104px);
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .caption {
+    margin: 24px 0 0;
+    font-size: 14px;
+  }
+  .intro {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px) clamp(56px, 7vw, 112px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 72px;
+    align-items: flex-end;
+  }
+  .intro h1 {
+    flex: 1 1 680px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 9.5vw, 156px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 11ch;
+  }
+  .intro p {
+    flex: 0 1 340px;
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.45;
+  }
+  .websites {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 48px;
+    padding: clamp(56px, 7vw, 112px) 0 clamp(56px, 7vw, 112px) clamp(20px, 5vw, 72px);
+    border-top: 1px solid rgba(26, 26, 23, 0.14);
+  }
+  .websites-text {
+    flex: 1 1 440px;
+    max-width: 620px;
+    padding-right: clamp(20px, 5vw, 72px);
+  }
+  .websites-text p {
+    font-size: 20px;
+    line-height: 1.45;
+    margin: 24px 0 28px;
+    max-width: 34ch;
+  }
+  .phones {
+    flex: 1 1 480px;
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+  .phone {
+    flex: 0 0 240px;
+    aspect-ratio: 9 / 19;
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 23, 0.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .phone.dark {
+    background: #0a0a0a;
+  }
+  .phone.offset {
+    margin-top: 80px;
+  }
+  .phone :global(.phone-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .gbp {
+    background: var(--bg-alt);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+  .gbp-photo {
+    flex: 0 1 560px;
+    flex-grow: 1;
+    max-width: 680px;
+    margin: 0;
+  }
+  .gbp-photo :global(.gbp-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .gbp-text {
+    flex: 1 1 420px;
+    padding: clamp(40px, 6vw, 96px) clamp(20px, 5vw, 72px);
+  }
+  .gbp-text h2 {
+    max-width: 8ch;
+  }
+  .gbp-text > p:not(.caption) {
+    font-size: 20px;
+    line-height: 1.45;
+    margin: 24px 0 28px;
+    max-width: 34ch;
+  }
+  .gbp-text .chips {
+    margin-bottom: 40px;
+  }
+  .gbp-text .caption {
+    margin: 0;
+  }
+  .google-ads {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(72px, 8vw, 128px) clamp(20px, 5vw, 72px);
+  }
+  .google-ads :global(.ads-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 8;
+    object-fit: cover;
+  }
+  .ads-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 72px;
+    margin-top: 40px;
+    align-items: flex-start;
+  }
+  .ads-row h2 {
+    flex: 1 1 520px;
+  }
+  .ads-text {
+    flex: 0 1 420px;
+  }
+  .ads-text > p:not(.caption) {
+    font-size: 20px;
+    line-height: 1.45;
+    margin: 0 0 24px;
+  }
+  .social-ads {
+    background: var(--dark);
+    color: var(--bg);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .social-text {
+    flex: 1 1 480px;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px);
+  }
+  .social-text h2 {
+    max-width: 10ch;
+  }
+  .social-text p {
+    font-size: 20px;
+    line-height: 1.45;
+    margin: 24px 0 28px;
+    max-width: 32ch;
+    color: var(--muted-on-dark);
+  }
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 10px 14px;
+    border-radius: 4px;
+  }
+  .meta-chip :global(.meta-logo) {
+    height: 20px;
+    width: auto;
+  }
+  .social-photo {
+    flex: 0 1 460px;
+    flex-grow: 1;
+    max-width: 560px;
+    margin: 0;
+    align-self: stretch;
+    position: relative;
+    min-height: 520px;
+  }
+  .social-photo :global(.social-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .social-photo figcaption {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: var(--dark);
+    padding: 10px 16px 0 0;
+    font-size: 14px;
+  }
+  .measure {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(72px, 9vw, 144px) clamp(20px, 5vw, 72px);
+  }
+  .measure h2 {
+    font-size: clamp(52px, 8vw, 128px);
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    max-width: 12ch;
+  }
+  .measure-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 56px;
+    margin-top: 48px;
+    align-items: flex-start;
+  }
+  .measure-text {
+    flex: 0 1 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .measure-text p {
+    font-size: 20px;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .chart-box {
+    flex: 1 1 560px;
+    background: #ffffff;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+  }
+  .chart-box :global(.chart-img) {
+    width: 100%;
+    height: auto;
+  }
+  .dont-spend {
+    background: var(--bg-alt);
+  }
+  .dont-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(80px, 10vw, 160px) clamp(20px, 5vw, 72px);
+  }
+  .dont-inner h2 {
+    font-size: clamp(44px, 5.5vw, 84px);
+    line-height: 0.92;
+    letter-spacing: normal;
+    margin: 0 0 clamp(48px, 6vw, 96px);
+    max-width: 12ch;
+  }
+  .cases {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(48px, 6vw, 88px);
+  }
+  .case {
+    max-width: 760px;
+  }
+  .case.indent-1 {
+    margin-left: clamp(0px, 18vw, 300px);
+  }
+  .case.indent-2 {
+    margin-left: clamp(0px, 36vw, 600px);
+  }
+  .situation {
+    margin: 0 0 12px;
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1.4;
+  }
+  .verdict {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(56px, 8vw, 128px);
+    line-height: 0.9;
+  }
+</style>

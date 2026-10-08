@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+
+const cards = [projects.cutz, projects.scaffrent, projects.hairsupply, projects.djidji];
+---
+
+<Base
+  title="Проекти | Riddle Marketing"
+  description="Избрани проекти на Riddle Marketing: 21cutz, Scaff-Rent, HairSupply28 и Djidji Stil — от един профил в Google до онлайн магазин."
+>
+  <Header current="projects" />
+
+  <section class="intro">
+    <h1>Избрани проекти.</h1>
+    <p>Няколко случая, които показват как работим: от един профил в Google до онлайн магазин. Отворете ги и вижте сами.</p>
+  </section>
+
+  <section class="grid">
+    {cards.map((c) => <ProjectCard {...c} aspect="3 / 2" />)}
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .intro {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px) clamp(48px, 6vw, 96px);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 10vw, 164px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 10ch;
+  }
+  .intro p {
+    margin: 32px 0 0 clamp(0px, 40vw, 620px);
+    max-width: 34ch;
+    font-size: 21px;
+    line-height: 1.45;
+  }
+  .grid {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(40px, 5vw, 72px) clamp(20px, 5vw, 72px) clamp(96px, 10vw, 160px);
+    border-top: 1px solid rgba(26, 26, 23, 0.14);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+    gap: 72px clamp(24px, 4vw, 64px);
+  }
+</style>

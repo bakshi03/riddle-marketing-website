@@ -1,0 +1,45 @@
+:root {
+  --bg: #f3f0e9;
+  --text: #1a1a17;
+  --bg-alt: #e9e4d9;
+  --dark: #1e2b24;
+  --accent: #f4c430;
+  --muted-on-dark: #d8d4c9;
+  --font-display: 'Sofia Sans Condensed', sans-serif;
+  --font-body: 'Sofia Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--text);
+}
+
+a:hover {
+  color: var(--dark);
+}
+
+img,
+video,
+picture {
+  display: block;
+}
+
+picture img {
+  width: 100%;
+  height: auto;
+}

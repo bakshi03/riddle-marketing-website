@@ -1,0 +1,155 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import viberLogo from '../assets/img/logo-viber.png';
+---
+
+<Base
+  title="Контакт | Riddle Marketing"
+  description="Обадете се на 0897 853 219 или запазете безплатен 30-минутен разговор. Говорите директно с Тихомир — без обвързване и без подписване."
+>
+  <Header current="contact" />
+
+  <section class="hero">
+    <h1>Обадете се или запазете час за разговор.</h1>
+    <div class="columns">
+      <div class="contact-col">
+        <a href="tel:+359897853219" class="big-phone">0897 853 219</a>
+        <div class="cta-row">
+          <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" class="cta">Запазете 30-минутен разговор</a>
+          <a href="viber://chat?number=%2B359897853219" class="viber">
+            <Image src={viberLogo} alt="" width={52} height={52} class="viber-icon" />
+            <span>Пишете във Viber</span>
+          </a>
+        </div>
+        <dl>
+          <dt>Отговаря</dt>
+          <dd>Тихомир</dd>
+        </dl>
+      </div>
+      <div class="card">
+        <h2>Какво става в тези 30 минути</h2>
+        <p>Разказвате ми за бизнеса и откъде идват клиентите ви сега.</p>
+        <p>Отваряме заедно сайта и профила ви в Google.</p>
+        <p>Казвам ви какво бих направил първо и какво не ви трябва.</p>
+        <p>Нищо не подписвате. Ако не мога да помогна, ще ви го кажа.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <Footer />
+</Base>
+
+<style>
+  .hero {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px) clamp(64px, 8vw, 120px);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(60px, 9vw, 148px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 12ch;
+  }
+  .columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px clamp(40px, 6vw, 104px);
+    margin-top: clamp(56px, 7vw, 112px);
+    align-items: flex-start;
+  }
+  .contact-col {
+    flex: 1 1 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .big-phone {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 8.5vw, 136px);
+    line-height: 0.9;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    align-items: center;
+  }
+  .cta {
+    background: var(--accent);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 20px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .cta:hover {
+    color: var(--text);
+  }
+  .viber {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .viber :global(.viber-icon) {
+    width: 26px;
+    height: 26px;
+  }
+  dl {
+    margin: 24px 0 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px 32px;
+    font-size: 18px;
+    line-height: 1.4;
+    max-width: 520px;
+  }
+  dt {
+    font-weight: 600;
+  }
+  dd {
+    margin: 0;
+  }
+  .card {
+    flex: 0 1 460px;
+    flex-grow: 1;
+    max-width: 560px;
+    background: var(--bg-alt);
+    padding: clamp(28px, 3vw, 44px);
+    border-radius: 4px;
+  }
+  .card h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 3.6vw, 52px);
+    line-height: 0.95;
+    margin: 0 0 24px;
+  }
+  .card p {
+    margin: 0;
+    padding: 18px 0;
+    border-top: 1px solid rgba(26, 26, 23, 0.18);
+    font-size: 18px;
+    line-height: 1.45;
+  }
+  .card p:last-child {
+    padding-bottom: 0;
+  }
+  .spacer {
+    height: clamp(72px, 8vw, 128px);
+  }
+</style>

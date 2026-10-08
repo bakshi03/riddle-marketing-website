@@ -1,0 +1,101 @@
+---
+import '@fontsource/sofia-sans/400.css';
+import '@fontsource/sofia-sans/500.css';
+import '@fontsource/sofia-sans/600.css';
+import '@fontsource/sofia-sans/700.css';
+import '@fontsource/sofia-sans-condensed/800.css';
+import '../styles/global.css';
+import ogImage from '../assets/og-image.jpg';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(ogImage.src, Astro.site);
+
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID;
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Riddle Marketing',
+  url: 'https://riddle-digital.com',
+  telephone: '+359897853219',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'София',
+    addressCountry: 'BG',
+  },
+};
+---
+
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="bg_BG" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {
+      GTM_ID && (
+        <script
+          is:inline
+          set:html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
+        />
+      )
+    }
+    {
+      GA4_ID && (
+        <>
+          <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} />
+          <script
+            is:inline
+            set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA4_ID}');`}
+          />
+        </>
+      )
+    }
+  </head>
+  <body>
+    {
+      GTM_ID && (
+        <noscript
+          set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`}
+        />
+      )
+    }
+    <slot />
+    <script is:inline>
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        var href = a.getAttribute('href') || '';
+        var name = null;
+        if (href.indexOf('tel:') === 0) name = 'click_phone';
+        else if (href.indexOf('viber:') === 0) name = 'click_viber';
+        else if (href.indexOf('wa.me') !== -1) name = 'click_whatsapp';
+        else if (href.indexOf('cal.com') !== -1) name = 'click_booking';
+        if (!name) return;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: name, link_url: href, page_path: location.pathname });
+      });
+    </script>
+  </body>
+</html>

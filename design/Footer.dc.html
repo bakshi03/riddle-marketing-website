@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div lang="bg" style="font-family:'Sofia Sans',sans-serif">
+  <section style="background:#F4C430;color:#1A1A17">
+    <div style="max-width:1440px;margin:0 auto;padding:clamp(64px,9vw,136px) clamp(20px,5vw,72px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:40px;box-sizing:border-box">
+      <h2 style="font-family:'Sofia Sans Condensed',sans-serif;font-weight:800;font-size:clamp(60px,9vw,144px);line-height:0.88;letter-spacing:-0.015em;margin:0;max-width:10ch">Нека поговорим за вашия бизнес.</h2>
+      <div style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+        <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" style="background:#1A1A17;color:#F3F0E9;font-weight:700;font-size:18px;padding:20px 28px;border-radius:4px;text-decoration:none">Запазете 30-минутен разговор</a>
+        <a href="tel:+359897853219" style="font-size:18px;color:#1A1A17;font-weight:500">Или се обадете на 0897 853 219</a>
+      </div>
+    </div>
+  </section>
+  <footer style="background:#1E2B24;color:#F3F0E9">
+    <div style="max-width:1440px;margin:0 auto;padding:72px clamp(20px,5vw,72px) 40px;box-sizing:border-box">
+      <div style="display:flex;flex-wrap:wrap;gap:48px 72px">
+        <div style="flex:1 1 340px">
+          <div style="font-family:'Sofia Sans Condensed',sans-serif;font-weight:800;font-size:44px;line-height:1">Riddle Marketing</div>
+          <p style="margin:16px 0 0;font-size:17px;line-height:1.5;max-width:32ch;color:#D8D4C9">Сайтове, профили в Google, реклами и измерване за местни бизнеси в България.</p>
+        </div>
+        <nav style="flex:0 1 180px;display:flex;flex-direction:column;gap:10px;font-size:17px">
+          <a href="Home.dc.html" style="color:#F3F0E9;text-decoration:none">Начало</a>
+          <a href="Services.dc.html" style="color:#F3F0E9;text-decoration:none">Услуги</a>
+          <a href="Projects.dc.html" style="color:#F3F0E9;text-decoration:none">Проекти</a>
+          <a href="About.dc.html" style="color:#F3F0E9;text-decoration:none">За нас</a>
+          <a href="Contact.dc.html" style="color:#F3F0E9;text-decoration:none">Контакт</a>
+        </nav>
+        <div style="flex:0 1 260px;display:flex;flex-direction:column;gap:10px;font-size:17px">
+          <a href="tel:+359897853219" style="color:#F3F0E9;font-weight:700;font-size:22px;text-decoration:none">0897 853 219</a>
+          <a href="viber://chat?number=%2B359897853219" style="color:#F3F0E9">Пишете ни във Viber</a>
+          <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" style="color:#F3F0E9">Запазете разговор</a>
+        </div>
+      </div>
+      <div style="margin-top:64px;padding-top:20px;border-top:1px solid rgba(243,240,233,0.2);display:flex;flex-wrap:wrap;gap:12px 32px;font-size:15px;color:#D8D4C9">
+        <span>© 2026 Riddle Marketing</span>
+        <span>riddle-marketing.com</span>
+      </div>
+    </div>
+  </footer>
+  <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+    <div style="height:76px;background:#1E2B24"></div>
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#F3F0E9;border-top:1px solid rgba(26,26,23,0.18)">
+      <a href="tel:+359897853219" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;height:52px;border-radius:4px;background:#1A1A17;color:#F3F0E9;font-weight:700;font-size:17px;text-decoration:none">Обадете се</a>
+      <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" style="flex:1 1 0;display:flex;align-items:center;justify-content:center;height:52px;border-radius:4px;background:#F4C430;color:#1A1A17;font-weight:700;font-size:17px;text-decoration:none">Запазете разговор</a>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+  componentDidMount() {
+    this.onR = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this.onR);
+    const play = () => document.querySelectorAll('video').forEach(v => { v.muted = true; v.play().catch(() => {}); });
+    play(); this.t = setTimeout(play, 600);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); clearTimeout(this.t); }
+  renderVals() { return { mobile: this.state.w < 760 }; }
+}
+</script>
+</body>
+</html>
