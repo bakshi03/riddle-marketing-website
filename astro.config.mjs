@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://riddle-digital.com',
+  site: 'https://riddle-marketing.com',
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   integrations: [sitemap()],

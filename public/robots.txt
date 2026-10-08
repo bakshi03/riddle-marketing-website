@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://riddle-digital.com/sitemap-index.xml
+Sitemap: https://riddle-marketing.com/sitemap-index.xml
