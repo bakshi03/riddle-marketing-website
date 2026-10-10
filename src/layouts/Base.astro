@@ -6,6 +6,7 @@ import '@fontsource/sofia-sans/700.css';
 import '@fontsource/sofia-sans-condensed/800.css';
 import '../styles/global.css';
 import ogImage from '../assets/og-image.jpg';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   title: string;
@@ -16,8 +17,7 @@ const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImage.src, Astro.site);
 
-const GTM_ID = import.meta.env.PUBLIC_GTM_ID;
-const GA4_ID = import.meta.env.PUBLIC_GA4_ID;
+import { GTM_ID, GA4_ID } from '../lib/analytics';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -54,6 +54,14 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     {
+      (GTM_ID || GA4_ID) && (
+        <script
+          is:inline
+          set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;(function(){var s=null;try{s=JSON.parse(localStorage.getItem('rm_consent_v1'));}catch(e){}gtag('consent','default',{ad_storage:s&&s.ads?'granted':'denied',ad_user_data:s&&s.ads?'granted':'denied',ad_personalization:s&&s.ads?'granted':'denied',analytics_storage:s&&s.analytics?'granted':'denied',functionality_storage:'granted',security_storage:'granted'});gtag('set','ads_data_redaction',true);gtag('set','url_passthrough',true);})();`}
+        />
+      )
+    }
+    {
       GTM_ID && (
         <script
           is:inline
@@ -82,6 +90,7 @@ const jsonLd = {
       )
     }
     <slot />
+    <ConsentBanner />
     <script is:inline>
       document.addEventListener('click', function (e) {
         var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;

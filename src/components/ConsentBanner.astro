@@ -1,0 +1,253 @@
+---
+// Cookie consent banner wired to Google Consent Mode v2.
+// Rendered only when a Google tag (GTM or GA4) is configured — without
+// tracking there is nothing to consent to.
+import { HAS_TAGS as hasTags } from '../lib/analytics';
+---
+
+{
+  hasTags && (
+    <div
+      id="consent-banner"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="consent-title"
+      hidden
+    >
+      <div class="consent-card">
+        <p id="consent-title" class="consent-heading">Бисквитки на сайта</p>
+        <p class="consent-text">
+          Използваме бисквитки, за да разберем как посетителите използват сайта и да подобряваме
+          услугите си. Можете да приемете всички, да откажете или да изберете кои категории да
+          разрешите.
+        </p>
+        <div class="consent-prefs" id="consent-prefs" hidden>
+          <label class="pref">
+            <input type="checkbox" checked disabled />
+            <span>
+              <strong>Задължителни</strong> — необходими за работата на сайта. Винаги активни.
+            </span>
+          </label>
+          <label class="pref">
+            <input type="checkbox" id="consent-analytics" />
+            <span>
+              <strong>Аналитични</strong> — Google Analytics, анонимна статистика за посещенията.
+            </span>
+          </label>
+          <label class="pref">
+            <input type="checkbox" id="consent-ads" />
+            <span>
+              <strong>Маркетингови</strong> — измерване и персонализация на реклами.
+            </span>
+          </label>
+        </div>
+        <div class="consent-actions">
+          <button type="button" class="consent-btn accept" id="consent-accept">
+            Приемам всички
+          </button>
+          <button type="button" class="consent-btn reject" id="consent-reject">
+            Отказвам
+          </button>
+          <button type="button" class="consent-btn save" id="consent-save" hidden>
+            Запази избора
+          </button>
+          <button type="button" class="consent-link" id="consent-toggle-prefs">
+            Настройки
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  hasTags && (
+    <script is:inline>
+      (function () {
+        var KEY = 'rm_consent_v1';
+        var banner = document.getElementById('consent-banner');
+        if (!banner) return;
+        var prefs = document.getElementById('consent-prefs');
+        var cbAnalytics = document.getElementById('consent-analytics');
+        var cbAds = document.getElementById('consent-ads');
+        var btnSave = document.getElementById('consent-save');
+        var btnToggle = document.getElementById('consent-toggle-prefs');
+
+        function read() {
+          try {
+            return JSON.parse(localStorage.getItem(KEY));
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function apply(analytics, ads) {
+          try {
+            localStorage.setItem(
+              KEY,
+              JSON.stringify({ analytics: analytics, ads: ads, ts: new Date().getTime() })
+            );
+          } catch (e) {}
+          var g =
+            window.gtag ||
+            function () {
+              (window.dataLayer = window.dataLayer || []).push(arguments);
+            };
+          g('consent', 'update', {
+            analytics_storage: analytics ? 'granted' : 'denied',
+            ad_storage: ads ? 'granted' : 'denied',
+            ad_user_data: ads ? 'granted' : 'denied',
+            ad_personalization: ads ? 'granted' : 'denied',
+          });
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'consent_update',
+            analytics_consent: analytics ? 'granted' : 'denied',
+            ads_consent: ads ? 'granted' : 'denied',
+          });
+          banner.hidden = true;
+        }
+
+        function show() {
+          var stored = read();
+          cbAnalytics.checked = !!(stored && stored.analytics);
+          cbAds.checked = !!(stored && stored.ads);
+          prefs.hidden = true;
+          btnSave.hidden = true;
+          banner.hidden = false;
+        }
+
+        btnToggle.addEventListener('click', function () {
+          prefs.hidden = !prefs.hidden;
+          btnSave.hidden = prefs.hidden;
+        });
+        document.getElementById('consent-accept').addEventListener('click', function () {
+          apply(true, true);
+        });
+        document.getElementById('consent-reject').addEventListener('click', function () {
+          apply(false, false);
+        });
+        btnSave.addEventListener('click', function () {
+          apply(cbAnalytics.checked, cbAds.checked);
+        });
+        document.addEventListener('click', function (e) {
+          var t = e.target && e.target.closest ? e.target.closest('[data-consent-settings]') : null;
+          if (t) {
+            e.preventDefault();
+            show();
+          }
+        });
+
+        if (!read()) show();
+      })();
+    </script>
+  )
+}
+
+<style>
+  #consent-banner {
+    position: fixed;
+    z-index: 80;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .consent-card {
+    background: var(--dark);
+    color: var(--bg);
+    border-radius: 6px;
+    padding: 24px;
+    max-width: 440px;
+    box-shadow: 0 12px 40px rgba(26, 26, 23, 0.35);
+  }
+  .consent-heading {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 24px;
+    margin: 0 0 8px;
+  }
+  .consent-text {
+    margin: 0 0 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted-on-dark);
+  }
+  .consent-prefs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 16px;
+    padding: 14px;
+    background: rgba(243, 240, 233, 0.07);
+    border-radius: 4px;
+  }
+  .pref {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted-on-dark);
+    cursor: pointer;
+  }
+  .pref input {
+    margin-top: 3px;
+    accent-color: var(--accent);
+  }
+  .pref strong {
+    color: var(--bg);
+  }
+  .consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .consent-btn {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 18px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .consent-btn.accept {
+    background: var(--accent);
+    color: var(--text);
+  }
+  .consent-btn.reject,
+  .consent-btn.save {
+    background: transparent;
+    color: var(--bg);
+    border-color: rgba(243, 240, 233, 0.5);
+  }
+  .consent-btn.reject:hover,
+  .consent-btn.save:hover {
+    border-color: var(--bg);
+  }
+  .consent-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--muted-on-dark);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .consent-link:hover {
+    color: var(--bg);
+  }
+  @media (max-width: 759.98px) {
+    #consent-banner {
+      bottom: calc(84px + env(safe-area-inset-bottom));
+    }
+    .consent-card {
+      max-width: none;
+      width: 100%;
+    }
+  }
+</style>

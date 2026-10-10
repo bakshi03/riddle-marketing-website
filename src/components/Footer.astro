@@ -1,5 +1,6 @@
 ---
 const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
+import { HAS_TAGS as hasTags } from '../lib/analytics';
 ---
 
 <section class="cta-band">
@@ -34,6 +35,13 @@ const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-ми
     <div class="footer-meta">
       <span>© 2026 Riddle Marketing</span>
       <span>riddle-marketing.com</span>
+      {
+        hasTags && (
+          <button type="button" class="cookie-settings" data-consent-settings>
+            Настройки за бисквитки
+          </button>
+        )
+      }
     </div>
   </div>
 </footer>
@@ -159,6 +167,19 @@ const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-ми
     gap: 12px 32px;
     font-size: 15px;
     color: var(--muted-on-dark);
+  }
+  .cookie-settings {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--muted-on-dark);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .cookie-settings:hover {
+    color: var(--bg);
   }
   .mobile-bar-spacer {
     display: none;
