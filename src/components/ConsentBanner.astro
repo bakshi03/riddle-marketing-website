@@ -145,6 +145,11 @@ import { HAS_TAGS as hasTags } from '../lib/analytics';
 }
 
 <style>
+  /* Our display rules would otherwise override the UA's [hidden] → display:none */
+  #consent-banner[hidden],
+  .consent-prefs[hidden] {
+    display: none;
+  }
   #consent-banner {
     position: fixed;
     z-index: 80;
