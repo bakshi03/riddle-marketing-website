@@ -1,0 +1,320 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Placeholder from '../../components/Placeholder.astro';
+
+// Drafts are built only in development, so the layout can be reviewed with
+// visible empty slots. In production they do not exist as pages.
+export async function getStaticPaths() {
+  const entries = await getCollection('cases', (e) => (import.meta.env.PROD ? !e.data.draft : true));
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/img/*.{jpg,jpeg,png,svg,webp}',
+  { eager: true }
+);
+const images = d.images
+  .map((name) => Object.entries(allImages).find(([p]) => p.endsWith(`/${name}`))?.[1]?.default)
+  .filter((img): img is ImageMetadata => Boolean(img));
+
+const title = `${d.client}: ${d.business} | Riddle Marketing`;
+const description = d.situation
+  ? `${d.client}. ${d.business}. ${d.situation}`
+  : `${d.client}. ${d.business}. Какво направихме и какво донесе.`;
+---
+
+<Base title={title} description={description}>
+  <Header current="projects" />
+
+  {
+    d.draft && (
+      <div class="draft-band">
+        ЧЕРНОВА. Тази страница се вижда само в режим на разработка и не се публикува.
+      </div>
+    )
+  }
+
+  <section class="case-hero">
+    <h1>{d.client}</h1>
+    <div class="case-facts">
+      <dl>
+        <dt>Бизнес</dt>
+        <dd>{d.business}</dd>
+        <dt>Къде</dt>
+        <dd>{d.place ? d.place : <Placeholder note="квартал или град" />}</dd>
+        <dt>Услуги</dt>
+        <dd>{d.services.join(', ')}</dd>
+        <dt>Работим заедно от</dt>
+        <dd>{d.since ? d.since : <Placeholder note="месец и година" />}</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="case-situation">
+    <div class="case-situation-inner">
+      <h2>Ситуацията</h2>
+      <p>{d.situation ? d.situation : <Placeholder note="откъде тръгна бизнесът, с думите на собственика" />}</p>
+    </div>
+  </section>
+
+  <section class="case-did">
+    <h2>Какво направихме</h2>
+    <div class="did-list">
+      {
+        d.whatWeDid.length > 0 ? (
+          d.whatWeDid.map((item) => <p>{item}</p>)
+        ) : (
+          <p>
+            <Placeholder note="какво направихме, стъпка по стъпка" />
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="case-results">
+    <div class="case-results-inner">
+      <h2>Резултатът</h2>
+      <div class="results-grid">
+        {
+          d.results.length > 0 ? (
+            d.results.map((r) => (
+              <div class="result">
+                <p class="result-value">{r.value}</p>
+                <p class="result-label">{r.label}</p>
+              </div>
+            ))
+          ) : (
+            <div class="result">
+              <p class="result-label">
+                <Placeholder note="до три числа с етикети, например записани часове на месец" />
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="case-quote">
+    {
+      d.quote ? (
+        <blockquote>
+          <p class="quote-text">{d.quote.text}</p>
+          <footer>
+            {d.quote.name}, {d.quote.role}
+          </footer>
+        </blockquote>
+      ) : (
+        <blockquote>
+          <p class="quote-text">
+            <Placeholder note="цитат от клиента, с име и роля" />
+          </p>
+        </blockquote>
+      )
+    }
+  </section>
+
+  <section class="case-images">
+    {
+      images.length > 0 ? (
+        <div class="images-grid">
+          {images.map((img) => (
+            <Picture
+              src={img}
+              alt={d.client}
+              formats={['avif', 'webp']}
+              widths={[480, 760, 1200]}
+              sizes="(max-width: 760px) 100vw, 45vw"
+              loading="lazy"
+              class="case-img"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="images-empty">
+          <Placeholder note="снимки и скрийншоти от проекта" />
+        </div>
+      )
+    }
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .draft-band {
+    background: var(--accent);
+    padding: 12px clamp(20px, 5vw, 72px);
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .case-hero {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px) clamp(40px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 72px;
+    align-items: flex-end;
+  }
+  h1 {
+    flex: 1 1 560px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 10vw, 164px);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .case-facts {
+    flex: 0 1 440px;
+  }
+  dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px 28px;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+  dt {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  dd {
+    margin: 0;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 4.4vw, 64px);
+    line-height: 0.95;
+    margin: 0;
+  }
+  .case-situation {
+    background: var(--bg-alt);
+  }
+  .case-situation-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 7vw, 104px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 72px;
+  }
+  .case-situation h2 {
+    flex: 0 1 340px;
+  }
+  .case-situation p {
+    flex: 1 1 480px;
+    margin: 0;
+    font-size: clamp(19px, 1.7vw, 23px);
+    line-height: 1.5;
+    max-width: 52ch;
+  }
+  .case-did {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 7vw, 104px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 72px;
+  }
+  .case-did h2 {
+    flex: 0 1 340px;
+  }
+  .did-list {
+    flex: 1 1 480px;
+  }
+  .did-list p {
+    margin: 0;
+    padding: 16px 0;
+    border-top: 1px solid rgba(26, 26, 23, 0.16);
+    font-size: 19px;
+    line-height: 1.45;
+  }
+  .case-results {
+    background: var(--dark);
+    color: var(--bg);
+  }
+  .case-results-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 8vw, 128px) clamp(20px, 5vw, 72px);
+  }
+  .case-results h2 {
+    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 40px clamp(24px, 4vw, 64px);
+  }
+  .result-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 8vw, 128px);
+    line-height: 0.9;
+    color: var(--accent);
+  }
+  .result-label {
+    margin: 10px 0 0;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--muted-on-dark);
+  }
+  .case-quote {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 8vw, 128px) clamp(20px, 5vw, 72px);
+  }
+  blockquote {
+    margin: 0;
+    max-width: 920px;
+  }
+  .quote-text {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 64px);
+    line-height: 1;
+  }
+  blockquote footer {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  .case-images {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 72px) clamp(96px, 10vw, 160px);
+  }
+  .images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+    gap: 16px;
+  }
+  .images-grid :global(.case-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .images-empty {
+    background: var(--bg-alt);
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+</style>

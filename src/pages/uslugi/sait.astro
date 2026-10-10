@@ -1,0 +1,70 @@
+---
+import { Picture } from 'astro:assets';
+import ServicePage from '../../components/ServicePage.astro';
+import landing21cutz from '../../assets/img/landing-21cutz.png';
+---
+
+<ServicePage
+  title="Сайт, от който ви се обаждат | Riddle Marketing"
+  description="Правим сайтове, които се отварят бързо на телефон и водят хората към обаждане, записан час или поръчка. WordPress и Shopify, за местни бизнеси в България."
+  headline="Сайт, от който ви се обаждат."
+  opening="Отваря се бързо на телефон и води хората към обаждане, записан час или поръчка."
+  exampleClient="21cutz, бръснарница в София"
+  whatYouGet={[
+    'Сайт, който се отваря бързо на телефон.',
+    'Обаждане, записан час или поръчка с едно докосване.',
+    'Истински снимки и сайт, който изглежда като вашия бизнес.',
+    'WordPress или Shopify, според бизнеса.',
+    'Страници за реклама, когато пускаме реклами.',
+  ]}
+  steps={[
+    'Разговор за бизнеса и какво трябва да върши сайтът.',
+    'Правим сайта с ваши истински снимки.',
+    'Пускаме го и свързваме измерването.',
+  ]}
+  whenNot={{
+    situation: 'Сайтът ви се отваря бързо и хората се обаждат от него.',
+    verdict: 'Оставяме го.',
+  }}
+  measureLine="Сайт без измерване работи на сляпо."
+  faq={[
+    {
+      q: 'Ще работи ли на телефон?',
+      a: 'Да. Сайтът се прави първо за телефон. Отваря се бързо и води към обаждане или записан час.',
+    },
+    { q: 'Чий е сайтът?' },
+    { q: 'Колко струва?' },
+    { q: 'Колко време отнема?' },
+  ]}
+>
+  <div class="phone">
+    <Picture
+      src={landing21cutz}
+      alt="Началният екран на 21cutz.com"
+      formats={['avif', 'webp']}
+      widths={[240, 480]}
+      sizes="240px"
+      loading="eager"
+      class="phone-img"
+    />
+  </div>
+</ServicePage>
+
+<style>
+  .phone {
+    width: 240px;
+    aspect-ratio: 9 / 19;
+    background: #0a0a0a;
+    border: 1px solid rgba(26, 26, 23, 0.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .phone :global(.phone-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+</style>

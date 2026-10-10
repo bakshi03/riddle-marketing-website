@@ -1,0 +1,71 @@
+---
+import Placeholder from './Placeholder.astro';
+
+interface Props {
+  heading?: string;
+  items: { q: string; a?: string }[];
+}
+
+const { heading = 'Чести въпроси', items } = Astro.props;
+---
+
+<section class="faq">
+  <div class="faq-inner">
+    <h2>{heading}</h2>
+    <div class="faq-list">
+      {
+        items.map((i) => (
+          <div class="faq-item">
+            <p class="q">{i.q}</p>
+            <p class="a">{i.a ? i.a : <Placeholder note="отговор" />}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    border-top: 1px solid rgba(26, 26, 23, 0.14);
+  }
+  .faq-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 8vw, 128px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px 72px;
+    align-items: flex-start;
+  }
+  h2 {
+    flex: 0 1 380px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 4.4vw, 64px);
+    line-height: 0.95;
+    margin: 0;
+  }
+  .faq-list {
+    flex: 1 1 560px;
+    display: flex;
+    flex-direction: column;
+  }
+  .faq-item {
+    padding: 24px 0;
+    border-top: 1px solid rgba(26, 26, 23, 0.16);
+  }
+  .q {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 2.2vw, 32px);
+    line-height: 1;
+  }
+  .a {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.45;
+    max-width: 52ch;
+  }
+</style>

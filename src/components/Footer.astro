@@ -1,14 +1,28 @@
 ---
-const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
+import CallSteps from './CallSteps.astro';
 import { HAS_TAGS as hasTags } from '../lib/analytics';
+
+const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
+
+const serviceLinks = [
+  { label: 'Сайт и лендинг страници', href: '/uslugi/sait/' },
+  { label: 'Google бизнес профил', href: '/uslugi/google-biznes-profil/' },
+  { label: 'Реклами в Google', href: '/uslugi/reklami-google/' },
+  { label: 'Реклами във Facebook и Instagram', href: '/uslugi/reklami-facebook-instagram/' },
+  { label: 'Проследяване и измерване', href: '/uslugi/prosledyavane/' },
+];
 ---
 
 <section class="cta-band">
   <div class="cta-inner">
     <h2>Нека поговорим за вашия бизнес.</h2>
-    <div class="cta-actions">
-      <a href={calUrl} class="cta-btn">Запазете 30-минутен разговор</a>
-      <a href="tel:+359897853219" class="cta-phone">Или се обадете на 0897 853 219</a>
+    <div class="cta-side">
+      <CallSteps />
+      <div class="cta-actions">
+        <a href={calUrl} class="cta-btn">Запазете 30-минутен разговор</a>
+        <span class="cta-free">Разговорът е безплатен.</span>
+        <a href="tel:+359897853219" class="cta-phone">Или се обадете на 0897 853 219</a>
+      </div>
     </div>
   </div>
 </section>
@@ -25,6 +39,9 @@ import { HAS_TAGS as hasTags } from '../lib/analytics';
         <a href="/proekti/">Проекти</a>
         <a href="/za-nas/">За нас</a>
         <a href="/kontakt/">Контакт</a>
+      </nav>
+      <nav class="footer-services" aria-label="Услуги">
+        {serviceLinks.map((s) => <a href={s.href}>{s.label}</a>)}
       </nav>
       <div class="footer-contact">
         <a href="tel:+359897853219" class="footer-phone">0897 853 219</a>
@@ -75,11 +92,22 @@ import { HAS_TAGS as hasTags } from '../lib/analytics';
     margin: 0;
     max-width: 10ch;
   }
+  .cta-side {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px clamp(32px, 4vw, 64px);
+    align-items: flex-start;
+  }
   .cta-actions {
     display: flex;
     flex-direction: column;
     gap: 18px;
     align-items: flex-start;
+  }
+  .cta-free {
+    margin-top: -8px;
+    font-size: 16px;
+    font-weight: 600;
   }
   .cta-btn {
     background: var(--text);
@@ -142,6 +170,20 @@ import { HAS_TAGS as hasTags } from '../lib/analytics';
   }
   .footer-nav a:hover,
   .footer-contact a:hover {
+    color: var(--bg);
+  }
+  .footer-services {
+    flex: 0 1 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+  }
+  .footer-services a {
+    color: var(--muted-on-dark);
+    text-decoration: none;
+  }
+  .footer-services a:hover {
     color: var(--bg);
   }
   .footer-contact {

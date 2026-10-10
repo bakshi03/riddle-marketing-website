@@ -15,6 +15,14 @@ const links = [
   { label: 'За нас', href: '/za-nas/', key: 'about' },
   { label: 'Контакт', href: '/kontakt/', key: 'contact' },
 ];
+
+const serviceLinks = [
+  { label: 'Сайт и лендинг страници', href: '/uslugi/sait/' },
+  { label: 'Google бизнес профил', href: '/uslugi/google-biznes-profil/' },
+  { label: 'Реклами в Google', href: '/uslugi/reklami-google/' },
+  { label: 'Реклами във Facebook и Instagram', href: '/uslugi/reklami-facebook-instagram/' },
+  { label: 'Проследяване и измерване', href: '/uslugi/prosledyavane/' },
+];
 ---
 
 <header class="site-header">
@@ -22,11 +30,24 @@ const links = [
     <a href="/" class="logo">Riddle<span class="logo-full">Marketing</span></a>
     <nav class="desktop-nav" aria-label="Основна навигация">
       {
-        links.map((l) => (
-          <a href={l.href} class:list={[{ current: l.key === current }]} aria-current={l.key === current ? 'page' : undefined}>
-            {l.label}
-          </a>
-        ))
+        links.map((l) =>
+          l.key === 'services' ? (
+            <div class="has-sub">
+              <a href={l.href} class:list={[{ current: l.key === current }]} aria-current={l.key === current ? 'page' : undefined}>
+                {l.label}
+              </a>
+              <div class="submenu">
+                {serviceLinks.map((s) => (
+                  <a href={s.href}>{s.label}</a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a href={l.href} class:list={[{ current: l.key === current }]} aria-current={l.key === current ? 'page' : undefined}>
+              {l.label}
+            </a>
+          )
+        )
       }
     </nav>
     <div class="actions">
@@ -45,7 +66,20 @@ const links = [
   </div>
   <nav class="mobile-nav" id="mobile-nav" hidden aria-label="Мобилна навигация">
     <a href="/">Начало</a>
-    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    {
+      links.map((l) => (
+        <>
+          <a href={l.href}>{l.label}</a>
+          {l.key === 'services' && (
+            <div class="mobile-sub">
+              {serviceLinks.map((s) => (
+                <a href={s.href}>{s.label}</a>
+              ))}
+            </div>
+          )}
+        </>
+      ))
+    }
   </nav>
 </header>
 
@@ -93,6 +127,52 @@ const links = [
   }
   .desktop-nav a.current {
     border-bottom-color: var(--text);
+  }
+  .has-sub {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    height: 76px;
+  }
+  .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -20px;
+    min-width: 300px;
+    padding: 12px 0;
+    background: var(--bg);
+    border: 1px solid rgba(26, 26, 23, 0.14);
+    border-top: none;
+    z-index: 60;
+  }
+  .has-sub:hover .submenu,
+  .has-sub:focus-within .submenu {
+    display: flex;
+    flex-direction: column;
+  }
+  .submenu a {
+    padding: 10px 20px;
+    border-bottom: none;
+    font-size: 16px;
+  }
+  .submenu a:hover {
+    background: var(--bg-alt);
+  }
+  .mobile-sub {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 4px 0 10px;
+    padding-left: 18px;
+    border-left: 2px solid rgba(26, 26, 23, 0.2);
+  }
+  .mobile-sub a {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.6;
   }
   .actions {
     margin-left: auto;

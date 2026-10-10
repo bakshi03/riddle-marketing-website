@@ -1,16 +1,20 @@
 ---
-import Base from '../layouts/Base.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { projects } from '../data/projects';
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects';
+import { getPublishedCases, withCaseLink } from '../../lib/cases';
 
-const cards = [projects.cutz, projects.scaffrent, projects.hairsupply, projects.djidji];
+const published = new Map((await getPublishedCases()).map((e) => [e.id, e]));
+const cards = [projects.cutz, projects.scaffrent, projects.hairsupply, projects.djidji].map((p) =>
+  withCaseLink(p, published)
+);
 ---
 
 <Base
-  title="Проекти | Riddle Marketing"
-  description="Избрани проекти на Riddle Marketing: 21cutz, Scaff-Rent, HairSupply28 и Djidji Stil — от един профил в Google до онлайн магазин."
+  title="Проекти: 21cutz, Scaff-Rent, HairSupply28, Djidji Stil | Riddle Marketing"
+  description="Избрани проекти на Riddle Marketing: 21cutz, Scaff-Rent, HairSupply28 и Djidji Stil. От един профил в Google до онлайн магазин."
 >
   <Header current="projects" />
 

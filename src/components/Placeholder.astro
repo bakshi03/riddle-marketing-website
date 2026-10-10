@@ -1,0 +1,32 @@
+---
+// Single source of the placeholder convention:
+// [ПОПЪЛНИ: какво трябва] for missing facts, [ПОТВЪРДИ] for claims to verify.
+// scripts/check-placeholders.mjs fails the production build while any marker
+// is still present in built HTML, so these can never ship unnoticed.
+interface Props {
+  kind?: 'попълни' | 'потвърди';
+  note?: string;
+}
+
+const { kind = 'попълни', note } = Astro.props;
+const text = kind === 'потвърди' ? '[ПОТВЪРДИ]' : `[ПОПЪЛНИ: ${note ?? 'текст'}]`;
+---
+
+<mark class="ph">{text}</mark>
+
+<style>
+  .ph {
+    display: inline-block;
+    background: transparent;
+    color: inherit;
+    border: 2px dashed var(--accent);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    vertical-align: middle;
+    white-space: normal;
+  }
+</style>

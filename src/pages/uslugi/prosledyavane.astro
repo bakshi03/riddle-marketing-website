@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import ServicePage from '../../components/ServicePage.astro';
+import ReportingBlock from '../../components/ReportingBlock.astro';
+import chart from '../../assets/img/chart.png';
+---
+
+<ServicePage
+  title="Проследяване и измерване | Riddle Marketing"
+  description="Броим обажданията, записаните часове и поръчките и ви показваме откъде идват. Google Analytics и Google Tag Manager за местни бизнеси в България."
+  headline="Знаете кое ви носи клиенти."
+  opening="Броим обажданията, записаните часове и поръчките и ви показваме откъде идват."
+  exampleClient="HairSupply28, проследяване на поръчките"
+  whatYouGet={[
+    'Броим обажданията, записаните часове и поръчките.',
+    'Виждате откъде идва всяко от тях.',
+    'Табло на живо, което отваряте от телефона.',
+    'Google Analytics и Google Tag Manager, свързани със сайта и рекламите.',
+  ]}
+  steps={[
+    'Преглеждаме какво вече се измерва.',
+    'Свързваме сайта, рекламите и обажданията.',
+    'Получавате табло и гледаме числата заедно.',
+  ]}
+  faq={[
+    {
+      q: 'Всяко посещение ли се брои?',
+      a: 'Не. Част от посетителите отказват бисквитки и не се броят. Затова гледаме обажданията, записаните часове и поръчките.',
+    },
+    {
+      q: 'Какво виждам аз?',
+      a: 'Табло на живо с обажданията, записаните часове, поръчките и похарчените пари. Отваряте го от телефона.',
+    },
+    { q: 'Колко струва?' },
+    { q: 'Трябва ли ми, ако нямам реклами?' },
+  ]}
+>
+  <div class="chart-box">
+    <Image
+      src={chart}
+      alt=""
+      widths={[560, 1120]}
+      sizes="(max-width: 760px) 100vw, 47vw"
+      loading="eager"
+      class="chart-img"
+    />
+  </div>
+  <ReportingBlock slot="extra" />
+</ServicePage>
+
+<style>
+  .chart-box {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 4px;
+  }
+  .chart-box :global(.chart-img) {
+    width: 100%;
+    height: auto;
+  }
+</style>

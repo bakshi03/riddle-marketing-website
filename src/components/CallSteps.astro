@@ -1,0 +1,36 @@
+---
+// Compact version of the kontakt page's "Какво става в тези 30 минути" card,
+// shown beside the final CTA band on every page. Sits on the yellow band,
+// so colors are inherited dark-on-accent.
+---
+
+<div class="call-steps">
+  <p class="cs-label">Какво става в тези 30 минути</p>
+  <p class="cs-step">Разказвате ми за бизнеса и откъде идват клиентите ви сега.</p>
+  <p class="cs-step">Отваряме заедно сайта и профила ви в Google.</p>
+  <p class="cs-step">Казвам ви какво бих направил първо и какво не ви трябва.</p>
+</div>
+
+<style>
+  .call-steps {
+    max-width: 420px;
+  }
+  .cs-label {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 1;
+  }
+  .cs-step {
+    margin: 0;
+    padding: 12px 0;
+    border-top: 1px solid rgba(26, 26, 23, 0.25);
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .cs-step:first-of-type {
+    border-top: none;
+    padding-top: 14px;
+  }
+</style>

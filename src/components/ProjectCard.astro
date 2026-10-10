@@ -17,6 +17,7 @@ interface Props {
   logoBg?: string;
   chips: { icon: ImageMetadata; label: string }[];
   aspect?: string;
+  result?: { value: string; label: string };
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   logoBg = '#FFFFFF',
   chips,
   aspect = '4 / 3',
+  result,
 } = Astro.props;
 ---
 
@@ -64,6 +66,14 @@ const {
     <h3>{title}</h3>
   </div>
   <p>{description}</p>
+  {
+    result && (
+      <p class="result">
+        <span class="result-value">{result.value}</span>
+        <span class="result-label">{result.label}</span>
+      </p>
+    )
+  }
   <div class="chips">
     {chips.map((c) => <Chip icon={c.icon} label={c.label} bg="#FFFFFF" small />)}
   </div>
@@ -127,6 +137,22 @@ const {
     font-size: 18px;
     line-height: 1.45;
     max-width: 36ch;
+  }
+  .result {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+  }
+  .result-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1;
+  }
+  .result-label {
+    font-size: 15px;
+    line-height: 1.3;
   }
   .chips {
     display: flex;

@@ -13,6 +13,7 @@ import ladybird from '../assets/img/ladybird.svg';
 
 export const projects = {
   cutz: {
+    caseSlug: '21cutz',
     href: 'https://21cutz.com/',
     title: '21cutz',
     description: 'Бръснарница. Сайт със записване на час, реклами и проследяване.',
@@ -29,6 +30,7 @@ export const projects = {
     ],
   },
   scaffrent: {
+    caseSlug: 'scaff-rent',
     href: 'https://scaff-rent.com/',
     title: 'Scaff-Rent',
     description: 'Скеле под наем. Сайт и реклами в Google.',
@@ -44,6 +46,7 @@ export const projects = {
     ],
   },
   hairsupply: {
+    caseSlug: 'hairsupply28',
     href: 'https://hairsupply28.com/',
     title: 'HairSupply28',
     description: 'Онлайн магазин. Магазин в Shopify, реклами и проследяване на поръчките.',
@@ -55,6 +58,7 @@ export const projects = {
     chips: [{ icon: logoShopify, label: 'Shopify' }],
   },
   djidji: {
+    caseSlug: 'djidji-stil',
     href: 'https://share.google/HMsM5ODVUHr5m9B5t',
     title: 'Djidji Stil',
     description: 'Шивашко ателие. Само Google бизнес профил, без сайт.',

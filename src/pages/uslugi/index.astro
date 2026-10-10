@@ -1,29 +1,31 @@
 ---
 import { Picture, Image } from 'astro:assets';
-import Base from '../layouts/Base.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Chip from '../components/Chip.astro';
-import logoWordpress from '../assets/img/logo-wordpress.png';
-import logoShopify from '../assets/img/logo-shopify.svg';
-import logoGoogleBusiness from '../assets/img/logo-google-business.png';
-import logoGoogleMaps from '../assets/img/logo-google-maps.png';
-import logoGoogleAds from '../assets/img/logo-google-ads.png';
-import logoMeta from '../assets/img/logo-meta.svg';
-import logoInstagram from '../assets/img/logo-instagram.svg';
-import logoGa4 from '../assets/img/logo-ga4.svg';
-import logoGtm from '../assets/img/logo-gtm.svg';
-import landing21cutz from '../assets/img/landing-21cutz.png';
-import landingScaffrent from '../assets/img/landing-scaffrent.png';
-import chart from '../assets/img/chart.png';
-import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
-import photoBoyana from '../assets/img/photo-scaffrent-boyana.jpg';
-import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Chip from '../../components/Chip.astro';
+import PromiseBlock from '../../components/PromiseBlock.astro';
+import Faq from '../../components/Faq.astro';
+import logoWordpress from '../../assets/img/logo-wordpress.png';
+import logoShopify from '../../assets/img/logo-shopify.svg';
+import logoGoogleBusiness from '../../assets/img/logo-google-business.png';
+import logoGoogleMaps from '../../assets/img/logo-google-maps.png';
+import logoGoogleAds from '../../assets/img/logo-google-ads.png';
+import logoMeta from '../../assets/img/logo-meta.svg';
+import logoInstagram from '../../assets/img/logo-instagram.svg';
+import logoGa4 from '../../assets/img/logo-ga4.svg';
+import logoGtm from '../../assets/img/logo-gtm.svg';
+import landing21cutz from '../../assets/img/landing-21cutz.png';
+import landingScaffrent from '../../assets/img/landing-scaffrent.png';
+import chart from '../../assets/img/chart.png';
+import photo21cutz from '../../assets/img/photo-21cutz-interior.jpg';
+import photoBoyana from '../../assets/img/photo-scaffrent-boyana.jpg';
+import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
 ---
 
 <Base
-  title="Услуги | Riddle Marketing"
-  description="Сайтове и лендинг страници, Google бизнес профил, реклами в Google, Facebook и Instagram, проследяване и измерване. Всяка услуга се взима отделно, без пакети."
+  title="Услуги: сайт, Google профил, реклами и измерване | Riddle Marketing"
+  description="Сайтове и страници за реклама, Google бизнес профил, реклами в Google, Facebook и Instagram, проследяване и измерване. Всяка услуга се взима отделно, без пакети."
 >
   <Header current="services" />
 
@@ -40,6 +42,7 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
         <Chip icon={logoWordpress} label="WordPress" bg="#FFFFFF" />
         <Chip icon={logoShopify} label="Shopify" bg="#FFFFFF" />
       </div>
+      <a href="/uslugi/sait/" class="more-link">Повече за услугата</a>
     </div>
     <div class="phones">
       <div class="phone dark">
@@ -87,6 +90,7 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
         <Chip icon={logoGoogleMaps} label="Google Maps" bg="#FFFFFF" />
       </div>
       <p class="caption">На снимката: 21cutz, ж.к. Гоце Делчев</p>
+      <a href="/uslugi/google-biznes-profil/" class="more-link">Повече за услугата</a>
     </div>
   </section>
 
@@ -108,6 +112,7 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
           <Chip icon={logoGoogleAds} label="Google Ads" bg="#FFFFFF" />
         </div>
         <p class="caption">На снимката: Scaff-Rent, обект в Люлин</p>
+        <a href="/uslugi/reklami-google/" class="more-link">Повече за услугата</a>
       </div>
     </div>
   </section>
@@ -122,6 +127,7 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
         </div>
         <Chip icon={logoInstagram} label="Instagram" bg="#FFFFFF" />
       </div>
+      <a href="/uslugi/reklami-facebook-instagram/" class="more-link on-dark">Повече за услугата</a>
     </div>
     <figure class="social-photo">
       <Picture
@@ -146,6 +152,7 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
           <Chip icon={logoGa4} label="Google Analytics" bg="#FFFFFF" />
           <Chip icon={logoGtm} label="Google Tag Manager" bg="#FFFFFF" />
         </div>
+        <a href="/uslugi/prosledyavane/" class="more-link">Повече за услугата</a>
       </div>
       <div class="chart-box">
         <Image src={chart} alt="" widths={[560, 1120]} sizes="(max-width: 760px) 100vw, 40vw" loading="lazy" class="chart-img" />
@@ -173,6 +180,17 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
     </div>
   </section>
 
+  <PromiseBlock />
+
+  <Faq
+    items={[
+      { q: 'Колко струва?' },
+      { q: 'Кога ще видя резултат?' },
+      { q: 'Чий е сайтът?' },
+      { q: 'Колко да отделя за реклама?' },
+    ]}
+  />
+
   <Footer />
 </Base>
 
@@ -193,6 +211,19 @@ import photoHairsupply from '../assets/img/photo-hairsupply-product.jpg';
   .caption {
     margin: 24px 0 0;
     font-size: 14px;
+  }
+  .more-link {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .more-link.on-dark {
+    color: var(--bg);
+  }
+  .more-link.on-dark:hover {
+    color: var(--bg);
   }
   .intro {
     max-width: 1440px;

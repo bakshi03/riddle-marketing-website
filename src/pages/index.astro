@@ -5,7 +5,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Chip from '../components/Chip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ReportingBlock from '../components/ReportingBlock.astro';
+import PromiseBlock from '../components/PromiseBlock.astro';
+import Placeholder from '../components/Placeholder.astro';
 import { projects } from '../data/projects';
+import { getPublishedCases, withCaseLink } from '../lib/cases';
 import logo21cutz from '../assets/img/logo-21cutz.png';
 import logoScaffrent from '../assets/img/logo-scaffrent.png';
 import logoHairsupply from '../assets/img/logo-hairsupply28.jpg';
@@ -26,20 +30,24 @@ import bookingShot from '../assets/img/booking-21cutz.png';
 import chart from '../assets/img/chart.png';
 
 const tools = [
-  { icon: logoGoogleAds, label: 'Google Ads' },
-  { icon: logoGoogleMaps, label: 'Google Maps' },
-  { icon: logoGa4, label: 'Google Analytics' },
-  { icon: logoGtm, label: 'Google Tag Manager' },
-  { icon: logoWordpress, label: 'WordPress' },
-  { icon: logoViber, label: 'Viber' },
-  { icon: logoGoogleBusiness, label: 'Google Business Profile' },
+  { icon: logoGoogleAds, label: 'Google Ads', cap: 'реклами при търсене в Google' },
+  { icon: logoGoogleMaps, label: 'Google Maps', cap: 'как ви намират наблизо' },
+  { icon: logoGa4, label: 'Google Analytics', cap: 'броим кой идва на сайта' },
+  { icon: logoGtm, label: 'Google Tag Manager', cap: 'свързва сайта с измерването' },
+  { icon: logoWordpress, label: 'WordPress', cap: 'с него правим сайтове' },
+  { icon: logoViber, label: 'Viber', cap: 'за директна връзка с нас' },
+  { icon: logoGoogleBusiness, label: 'Google Business Profile', cap: 'профилът ви в Google и Maps' },
 ];
 
-const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
+const published = new Map((await getPublishedCases()).map((e) => [e.id, e]));
+const hasPublishedCases = published.size > 0;
+const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =>
+  withCaseLink(p, published)
+);
 ---
 
 <Base
-  title="Riddle Marketing — сайтове, Google и реклами за местни бизнеси"
+  title="Riddle Marketing: сайтове, Google и реклами за местни бизнеси"
   description="Свързваме сайта с Google, рекламите и измерването, за да ви търсят повече хора. Сайтове, Google бизнес профили, реклами и проследяване за местни бизнеси в България."
 >
   <Header current="home" />
@@ -51,6 +59,7 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
         <p>Свързваме сайта с Google, рекламите и измерването, за да ви търсят повече хора.</p>
         <div class="hero-cta">
           <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" class="cta">Запазете 30-минутен разговор</a>
+          {hasPublishedCases && <a href="/proekti/" class="cta-ghost">Вижте проектите</a>}
           <a href="tel:+359897853219" class="hero-phone">или се обадете: 0897 853 219</a>
         </div>
       </div>
@@ -162,6 +171,8 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
     </div>
   </section>
 
+  <ReportingBlock />
+
   <section class="not-needed">
     <div class="not-needed-inner">
       <h2>Казваме ви и какво не ви трябва.</h2>
@@ -172,6 +183,8 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
     </div>
   </section>
 
+  <PromiseBlock />
+
   <section class="tools">
     <h2>С тези инструменти работим всеки ден.</h2>
     <div class="tools-grid">
@@ -179,20 +192,32 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
         tools.map((t) => (
           <div class="tool">
             <Image src={t.icon} alt="" width={72} height={72} loading="lazy" class="tool-icon" />
-            <span>{t.label}</span>
+            <span class="tool-text">
+              <span>{t.label}</span>
+              <span class="tool-cap">{t.cap}</span>
+            </span>
           </div>
         ))
       }
       <div class="tool">
-        <Image src={logoMeta} alt="Meta" width={280} height={56} loading="lazy" class="tool-meta" />
+        <span class="tool-text">
+          <Image src={logoMeta} alt="Meta" width={280} height={56} loading="lazy" class="tool-meta" />
+          <span class="tool-cap">реклами във Facebook</span>
+        </span>
       </div>
       <div class="tool">
         <Image src={logoInstagram} alt="" width={72} height={72} loading="lazy" class="tool-icon" />
-        <span>Instagram</span>
+        <span class="tool-text">
+          <span>Instagram</span>
+          <span class="tool-cap">реклами със снимки и видео</span>
+        </span>
       </div>
       <div class="tool">
         <Image src={logoShopify} alt="" width={72} height={72} loading="lazy" class="tool-icon" />
-        <span>Shopify</span>
+        <span class="tool-text">
+          <span>Shopify</span>
+          <span class="tool-cap">за онлайн магазини</span>
+        </span>
       </div>
     </div>
   </section>
@@ -214,11 +239,15 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
     <div class="person-inner">
       <h2>Зад Riddle стои човек.</h2>
       <p>Казвам се Тихомир. Говорите директно с мен.</p>
+      <p class="person-creds"><Placeholder note="едно изречение опит и квалификации" /></p>
       <div class="person-links">
         <a href="tel:+359897853219" class="person-phone">0897 853 219</a>
         <a href="viber://chat?number=%2B359897853219">Viber</a>
         <a href="/za-nas/">Повече за мен</a>
       </div>
+    </div>
+    <div class="person-photo">
+      <Placeholder note="снимка на Тихомир" />
     </div>
   </section>
 
@@ -297,6 +326,14 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
   .hero-phone {
     font-size: 18px;
     font-weight: 500;
+  }
+  .cta-ghost {
+    font-weight: 700;
+    font-size: 18px;
+    padding: 19px 28px;
+    border: 1px solid var(--text);
+    border-radius: 4px;
+    text-decoration: none;
   }
   .hero-right {
     flex: 1 1 400px;
@@ -561,6 +598,16 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
     font-size: 19px;
     font-weight: 600;
   }
+  .tool-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tool .tool-cap {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(26, 26, 23, 0.65);
+  }
   .tool :global(.tool-icon) {
     width: 36px;
     height: 36px;
@@ -655,5 +702,17 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply];
   }
   .person-links a:not(.person-phone) {
     font-size: 18px;
+  }
+  .person-creds {
+    margin: -8px 0 0;
+  }
+  .person-photo {
+    flex: 1 1 360px;
+    min-height: 320px;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
   }
 </style>

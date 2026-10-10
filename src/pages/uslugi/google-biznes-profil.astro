@@ -1,0 +1,90 @@
+---
+import { Picture } from 'astro:assets';
+import ServicePage from '../../components/ServicePage.astro';
+import mapsShot from '../../assets/img/maps-21cutz.png';
+---
+
+<ServicePage
+  title="Google бизнес профил | Riddle Marketing"
+  description="Подреждаме снимките, работното време, услугите и отговорите на отзиви в профила ви в Google, за да изберат вас. За местни бизнеси в България."
+  headline="Първото, което хората виждат в Google Maps."
+  opening="Подреждаме снимките, работното време, услугите и отговорите на отзиви, за да изберат вас."
+  exampleClient="21cutz, ж.к. Гоце Делчев"
+  whatYouGet={[
+    'Подредени снимки, работно време и услуги.',
+    'Отговори на отзивите.',
+    'Профил, който се показва в Google Maps и в търсенето.',
+    'Истински снимки от вашия обект.',
+  ]}
+  steps={[
+    'Преглеждаме профила ви заедно.',
+    'Подреждаме снимки, часове, услуги и отговори.',
+    'Следим какво се случва и допълваме.',
+  ]}
+  faq={[
+    {
+      q: 'Нямам сайт. Профилът стига ли?',
+      a: 'Понякога да. Djidji Stil работи само с Google бизнес профил, без сайт. Ако ви стига подреден профил, няма да ви продаваме сайт и реклами.',
+    },
+    { q: 'Кой отговаря на отзивите?' },
+    { q: 'Колко струва?' },
+    { q: 'Кога ще видя резултат?' },
+  ]}
+>
+  <div class="phone">
+    <Picture
+      src={mapsShot}
+      alt="21cutz в Google Maps"
+      formats={['avif', 'webp']}
+      widths={[240, 480]}
+      sizes="240px"
+      loading="eager"
+      class="phone-img"
+    />
+  </div>
+  <section class="fb-start" slot="extra">
+    <div class="fb-inner">
+      <p class="fb-q">Имате само страница във Facebook?</p>
+      <p class="fb-a">Започваме от профила ви в Google.</p>
+    </div>
+  </section>
+</ServicePage>
+
+<style>
+  .phone {
+    width: 240px;
+    aspect-ratio: 9 / 19;
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 23, 0.22);
+    position: relative;
+    overflow: hidden;
+  }
+  .phone :global(.phone-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .fb-start {
+    border-top: 1px solid rgba(26, 26, 23, 0.14);
+  }
+  .fb-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(48px, 6vw, 88px) clamp(20px, 5vw, 72px);
+  }
+  .fb-q {
+    margin: 0 0 8px;
+    font-size: clamp(20px, 1.8vw, 26px);
+    line-height: 1.4;
+  }
+  .fb-a {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 4.5vw, 72px);
+    line-height: 0.95;
+  }
+</style>

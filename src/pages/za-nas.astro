@@ -20,6 +20,7 @@ import logoInstagram from '../assets/img/logo-instagram.svg';
 import logoShopify from '../assets/img/logo-shopify.svg';
 import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
 import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
+import Placeholder from '../components/Placeholder.astro';
 
 const tools = [
   { icon: logoGoogleAds, label: 'Google Ads' },
@@ -33,8 +34,8 @@ const tools = [
 ---
 
 <Base
-  title="За нас | Riddle Marketing"
-  description="Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам — говорите с човека, който върши работата."
+  title="За нас: човекът зад Riddle Marketing"
+  description="Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам. Говорите с човека, който върши работата."
 >
   <Header current="about" />
 
@@ -42,20 +43,24 @@ const tools = [
     <div class="hero-inner">
       <h1>Говорите с човека, който върши работата.</h1>
       <p>Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам.</p>
+      <p class="creds"><Placeholder note="едно изречение опит и квалификации" /></p>
+    </div>
+    <div class="hero-photo">
+      <Placeholder note="снимка на Тихомир" />
     </div>
   </section>
 
   <section class="principles">
     <div class="principles-inner">
-      <p>Започваме с разговор.</p>
-      <p class="indent-2">Казваме какво не ви трябва.</p>
-      <p class="indent-1">Показваме числата, както са.</p>
-      <p class="indent-3 accent">Носим клиенти и поръчки.</p>
+      <p>Започвам с разговор.</p>
+      <p class="indent-2">Казвам какво не ви трябва.</p>
+      <p class="indent-1">Показвам числата, както са.</p>
+      <p class="indent-3 accent">Нося клиенти и поръчки.</p>
     </div>
   </section>
 
   <section class="clients">
-    <h2>За кого работим.</h2>
+    <h2>За кого работя.</h2>
     <div class="logo-grid">
       <a href="https://21cutz.com/" class="logo-tile dark-tile">
         <Image src={logo21cutz} alt="21cutz" width={400} height={200} loading="lazy" class="tile-img tall" />
@@ -73,7 +78,7 @@ const tools = [
   </section>
 
   <section class="tools">
-    <p class="tools-label">С какво работим.</p>
+    <p class="tools-label">С какво работя.</p>
     <div class="tools-chips">
       {tools.map((t) => <Chip icon={t.icon} label={t.label} bg="#FFFFFF" />)}
       <div class="meta-chip">
@@ -87,7 +92,7 @@ const tools = [
   <section class="where">
     <div class="where-inner">
       <div class="where-head">
-        <h2>Работим там, където са клиентите.</h2>
+        <h2>Работя там, където са клиентите.</h2>
         <p>В бръснарницата, на обекта, в склада. Не по имейл.</p>
       </div>
       <figure class="fig-wide">
@@ -148,6 +153,18 @@ const tools = [
     font-size: 21px;
     line-height: 1.45;
     max-width: 36ch;
+  }
+  .hero-inner .creds {
+    margin-top: -24px;
+  }
+  .hero-photo {
+    flex: 1 1 360px;
+    min-height: 360px;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
   }
   .principles {
     background: var(--dark);

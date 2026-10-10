@@ -3,12 +3,13 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Faq from '../components/Faq.astro';
 import viberLogo from '../assets/img/logo-viber.png';
 ---
 
 <Base
-  title="Контакт | Riddle Marketing"
-  description="Обадете се на 0897 853 219 или запазете безплатен 30-минутен разговор. Говорите директно с Тихомир — без обвързване и без подписване."
+  title="Контакт: 0897 853 219 | Riddle Marketing"
+  description="Обадете се на 0897 853 219 или запазете 30-минутен разговор. Говорите директно с Тихомир. Разговорът е безплатен."
 >
   <Header current="contact" />
 
@@ -34,12 +35,19 @@ import viberLogo from '../assets/img/logo-viber.png';
         <p>Разказвате ми за бизнеса и откъде идват клиентите ви сега.</p>
         <p>Отваряме заедно сайта и профила ви в Google.</p>
         <p>Казвам ви какво бих направил първо и какво не ви трябва.</p>
-        <p>Нищо не подписвате. Ако не мога да помогна, ще ви го кажа.</p>
+        <p>Разговорът е безплатен. Ако не мога да помогна, ще ви го кажа.</p>
       </div>
     </div>
   </section>
 
-  <div class="spacer"></div>
+  <Faq
+    items={[
+      { q: 'Колко струва?' },
+      { q: 'Кога ще видя резултат?' },
+      { q: 'Чий е сайтът?' },
+      { q: 'Колко да отделя за реклама?' },
+    ]}
+  />
 
   <Footer />
 </Base>
@@ -148,8 +156,5 @@ import viberLogo from '../assets/img/logo-viber.png';
   }
   .card p:last-child {
     padding-bottom: 0;
-  }
-  .spacer {
-    height: clamp(72px, 8vw, 128px);
   }
 </style>

@@ -1,0 +1,111 @@
+---
+import Placeholder from './Placeholder.astro';
+
+const contrast = [
+  { usual: 'Месечен PDF отчет', ours: 'Табло на живо' },
+  { usual: 'Кликове и импресии', ours: 'Обаждания, записани часове и поръчки' },
+  { usual: 'Само числата от рекламата', ours: 'Рекламите и сайтът на едно място' },
+  { usual: 'Неясно колко е похарчено', ours: 'Разходът и какво е донесъл' },
+];
+---
+
+<section class="reporting">
+  <div class="rep-inner">
+    <div class="rep-head">
+      <h2>Виждате резултатите по всяко време.</h2>
+      <p>
+        Имате табло на живо с обажданията, записаните часове, поръчките и похарчените пари.
+        Отваряте го от телефона, когато поискате.
+      </p>
+    </div>
+    <div class="rep-grid">
+      <div class="rep-col usual">
+        <h3>Обикновено получавате</h3>
+        {contrast.map((r) => <p>{r.usual}</p>)}
+      </div>
+      <div class="rep-col ours">
+        <h3>При нас получавате</h3>
+        {contrast.map((r) => <p>{r.ours}</p>)}
+      </div>
+    </div>
+    <div class="rep-shot">
+      <Placeholder note="скрийншот на таблото на живо" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .reporting {
+    border-top: 1px solid rgba(26, 26, 23, 0.14);
+  }
+  .rep-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(72px, 9vw, 144px) clamp(20px, 5vw, 72px);
+  }
+  .rep-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 72px;
+    align-items: flex-end;
+    margin-bottom: clamp(40px, 5vw, 72px);
+  }
+  .rep-head h2 {
+    flex: 1 1 560px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(52px, 7vw, 112px);
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 11ch;
+  }
+  .rep-head p {
+    flex: 0 1 400px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.45;
+  }
+  .rep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 24px clamp(24px, 4vw, 56px);
+  }
+  .rep-col h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(26px, 2.4vw, 36px);
+    line-height: 1;
+    margin: 0 0 8px;
+  }
+  .rep-col p {
+    margin: 0;
+    padding: 16px 0;
+    border-top: 1px solid rgba(26, 26, 23, 0.16);
+    font-size: 19px;
+    line-height: 1.4;
+  }
+  .rep-col.usual p,
+  .rep-col.usual h3 {
+    color: rgba(26, 26, 23, 0.55);
+  }
+  .rep-col.ours p {
+    font-weight: 600;
+    border-top-color: rgba(26, 26, 23, 0.3);
+  }
+  .rep-col.ours {
+    border-left: 4px solid var(--accent);
+    padding-left: clamp(16px, 2vw, 28px);
+  }
+  .rep-shot {
+    margin-top: clamp(40px, 5vw, 64px);
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 23, 0.16);
+    border-radius: 4px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+import Placeholder from './Placeholder.astro';
+---
+
+<section class="promise">
+  <div class="promise-inner">
+    <p class="promise-big">
+      Сайтът и профилът в Google са ваши.
+      <Placeholder kind="потвърди" />
+    </p>
+    <p class="promise-line">
+      Бюджета за реклама плащате директно на Google. Нашата работа е отделно.
+      <Placeholder kind="потвърди" />
+    </p>
+  </div>
+</section>
+
+<style>
+  .promise {
+    background: var(--dark);
+    color: var(--bg);
+  }
+  .promise-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 8vw, 128px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .promise-big {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(44px, 6vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+    max-width: 16ch;
+  }
+  .promise-line {
+    margin: 0;
+    font-size: clamp(19px, 1.7vw, 23px);
+    line-height: 1.45;
+    color: var(--muted-on-dark);
+    max-width: 48ch;
+  }
+</style>

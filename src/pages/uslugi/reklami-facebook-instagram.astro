@@ -1,0 +1,57 @@
+---
+import { Picture } from 'astro:assets';
+import ServicePage from '../../components/ServicePage.astro';
+import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
+---
+
+<ServicePage
+  title="Реклами във Facebook и Instagram | Riddle Marketing"
+  description="Реклами във Facebook и Instagram за бизнеси, чиято работа се вижда добре на снимка или видео. Показваме ви на хората наблизо. Броим какво носи рекламата."
+  headline="Покажете работата си на хората наблизо."
+  opening="Работи, когато това, което правите, се вижда добре на снимка или видео."
+  exampleClient="HairSupply28, онлайн магазин"
+  whatYouGet={[
+    'Реклами с истински снимки и видео от вашата работа.',
+    'Показване на хората във вашия район.',
+    'Броим какво носи рекламата: обаждания и поръчки.',
+    'Местим бюджета към това, което работи.',
+  ]}
+  steps={[
+    'Разговор и преглед на снимките, които имате.',
+    'Пускаме рекламите с истински снимки и видео.',
+    'Гледаме числата и подобряваме.',
+  ]}
+  whenNot={{
+    situation: 'Клиентите ви търсят спешно в Google.',
+    verdict: 'Facebook може да почака.',
+  }}
+  measureLine="Всяка реклама се измерва. Сайтът също."
+  faq={[
+    {
+      q: 'Работи ли за моя бизнес?',
+      a: 'Работи, когато това, което правите, се вижда добре на снимка или видео. Ако клиентите ви търсят спешно в Google, започваме оттам.',
+    },
+    { q: 'Нямам хубави снимки. Проблем ли е?' },
+    { q: 'Колко да отделя за реклама?' },
+    { q: 'Кога ще видя резултат?' },
+  ]}
+>
+  <Picture
+    src={photoHairsupply}
+    alt="Продукт на HairSupply28"
+    formats={['avif', 'webp']}
+    widths={[560, 900, 1360]}
+    sizes="(max-width: 760px) 100vw, 47vw"
+    loading="eager"
+    class="social-img"
+  />
+</ServicePage>
+
+<style>
+  :global(.social-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+</style>
