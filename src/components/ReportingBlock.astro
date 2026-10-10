@@ -1,5 +1,6 @@
 ---
-import Placeholder from './Placeholder.astro';
+import { Picture } from 'astro:assets';
+import dashboard from '../assets/img/live-dashboard.png';
 
 const contrast = [
   { usual: 'Месечен PDF отчет', ours: 'Табло на живо' },
@@ -28,9 +29,18 @@ const contrast = [
         {contrast.map((r) => <p>{r.ours}</p>)}
       </div>
     </div>
-    <div class="rep-shot">
-      <Placeholder note="скрийншот на таблото на живо" />
-    </div>
+    <figure class="rep-shot">
+      <Picture
+        src={dashboard}
+        alt="Табло на живо: разходи, кликове и конверсии от рекламите"
+        formats={['avif', 'webp']}
+        widths={[760, 1200, 1800]}
+        sizes="(max-width: 1440px) 95vw, 1296px"
+        loading="lazy"
+        class="rep-img"
+      />
+      <figcaption>Табло на живо на клиент. Имената на кампаниите са скрити.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -98,14 +108,19 @@ const contrast = [
     padding-left: clamp(16px, 2vw, 28px);
   }
   .rep-shot {
-    margin-top: clamp(40px, 5vw, 64px);
-    background: #ffffff;
+    margin: clamp(40px, 5vw, 64px) 0 0;
     border: 1px solid rgba(26, 26, 23, 0.16);
     border-radius: 4px;
-    min-height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    overflow: hidden;
+  }
+  .rep-shot :global(.rep-img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .rep-shot figcaption {
+    padding: 12px 16px;
+    font-size: 14px;
+    background: #ffffff;
   }
 </style>
