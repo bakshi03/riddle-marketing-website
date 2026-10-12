@@ -248,11 +248,27 @@ import { HAS_TAGS as hasTags } from '../lib/analytics';
   }
   @media (max-width: 759.98px) {
     #consent-banner {
-      bottom: calc(84px + env(safe-area-inset-bottom));
+      left: 10px;
+      right: 10px;
+      bottom: calc(80px + env(safe-area-inset-bottom));
     }
     .consent-card {
       max-width: none;
       width: 100%;
+      padding: 16px;
+    }
+    .consent-heading {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+    .consent-text {
+      font-size: 13.5px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .consent-btn {
+      font-size: 14px;
+      padding: 10px 14px;
     }
   }
 </style>

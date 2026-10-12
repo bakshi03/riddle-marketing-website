@@ -302,6 +302,17 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
   .phone.offset {
     margin-top: 80px;
   }
+  /* The two fixed-width mockups need 496px; on phones the first one gets
+     pushed off the left edge. Let them shrink and share the row instead. */
+  @media (max-width: 599.98px) {
+    .phone {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .phone.offset {
+      margin-top: 48px;
+    }
+  }
   .phone :global(.phone-img) {
     position: absolute;
     inset: 0;
@@ -500,6 +511,10 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
   }
   .case.indent-2 {
     margin-left: clamp(0px, 36vw, 600px);
+  }
+  @media (max-width: 599.98px) {
+    .case.indent-1 { margin-left: 16px; }
+    .case.indent-2 { margin-left: 32px; }
   }
   .situation {
     margin: 0 0 12px;

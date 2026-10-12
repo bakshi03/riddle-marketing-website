@@ -480,6 +480,14 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
   .row.last-row {
     border-bottom: 1px solid rgba(243, 240, 233, 0.22);
   }
+  /* On phones the vw-based stair indents eat too much width and push
+     the last rows past the viewport edge; keep only a subtle stagger. */
+  @media (max-width: 599.98px) {
+    .row.indent-1 { margin-left: 8px; }
+    .row.indent-2 { margin-left: 16px; }
+    .row.indent-3 { margin-left: 24px; }
+    .row.indent-4 { margin-left: 32px; }
+  }
   .row-text {
     flex: 1 1 360px;
   }
