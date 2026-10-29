@@ -14,6 +14,7 @@ import logo21cutz from '../assets/img/logo-21cutz.png';
 import logoScaffrent from '../assets/img/logo-scaffrent.png';
 import logoHairsupply from '../assets/img/logo-hairsupply28.jpg';
 import ladybird from '../assets/img/ladybird.svg';
+import photoTihomir from '../assets/img/photo-tihomir.png';
 import logoGoogleBusiness from '../assets/img/logo-google-business.png';
 import logoGoogleMaps from '../assets/img/logo-google-maps.png';
 import logoGoogleAds from '../assets/img/logo-google-ads.png';
@@ -41,6 +42,8 @@ const tools = [
 
 const published = new Map((await getPublishedCases()).map((e) => [e.id, e]));
 const hasPublishedCases = published.size > 0;
+const cutzCase = published.get('21cutz');
+const strip = cutzCase?.data.highlight;
 const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =>
   withCaseLink(p, published)
 );
@@ -91,6 +94,23 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
       </div>
     </div>
   </section>
+
+  {
+    cutzCase && strip && (
+      <section class="results-strip">
+        <div class="strip-inner">
+          <p class="strip-value">{strip.value}</p>
+          <div class="strip-text">
+            <p class="strip-label">{strip.label}</p>
+            {strip.note && <p class="strip-note">{strip.note}</p>}
+          </div>
+          <a href={`/proekti/${cutzCase.id}/`} class="strip-link">
+            Вижте как
+          </a>
+        </div>
+      </section>
+    )
+  }
 
   <section class="circle">
     <div class="circle-inner">
@@ -250,7 +270,15 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
       </div>
     </div>
     <div class="person-photo">
-      <Placeholder note="снимка на Тихомир" />
+      <Picture
+        src={photoTihomir}
+        alt="Тихомир, основател на Riddle Marketing"
+        formats={['avif', 'webp']}
+        widths={[400, 800]}
+        sizes="(max-width: 759px) 100vw, 400px"
+        loading="lazy"
+        class="person-img"
+      />
     </div>
   </section>
 
@@ -423,6 +451,44 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
   .client-tile :global(.client-img.ladybird) {
     height: 100%;
     max-height: 88px;
+  }
+  .results-strip {
+    background: var(--bg-alt);
+  }
+  .strip-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(28px, 3.5vw, 48px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px clamp(24px, 3vw, 48px);
+  }
+  .strip-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 7vw, 112px);
+    line-height: 0.9;
+  }
+  .strip-text {
+    flex: 1 1 320px;
+  }
+  .strip-label {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 2.4vw, 36px);
+    line-height: 1;
+  }
+  .strip-note {
+    margin: 8px 0 0;
+    font-size: 16px;
+    color: rgba(26, 26, 23, 0.7);
+  }
+  .strip-link {
+    font-size: 18px;
+    font-weight: 600;
   }
   .circle {
     background: var(--dark);
@@ -725,5 +791,10 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     align-items: center;
     justify-content: center;
     padding: 24px;
+  }
+  .person-photo :global(.person-img) {
+    width: min(100%, 400px);
+    height: auto;
+    display: block;
   }
 </style>

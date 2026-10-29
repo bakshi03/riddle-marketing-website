@@ -21,6 +21,7 @@ import logoShopify from '../assets/img/logo-shopify.svg';
 import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
 import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
 import Placeholder from '../components/Placeholder.astro';
+import photoTihomir from '../assets/img/photo-tihomir.png';
 
 const tools = [
   { icon: logoGoogleAds, label: 'Google Ads' },
@@ -49,7 +50,15 @@ const tools = [
       </p>
     </div>
     <div class="hero-photo">
-      <Placeholder note="снимка на Тихомир" />
+      <Picture
+        src={photoTihomir}
+        alt="Тихомир, основател на Riddle Marketing"
+        formats={['avif', 'webp']}
+        widths={[400, 800]}
+        sizes="(max-width: 759px) 100vw, 440px"
+        loading="eager"
+        class="about-photo"
+      />
     </div>
   </section>
 
@@ -168,6 +177,11 @@ const tools = [
     align-items: center;
     justify-content: center;
     padding: 24px;
+  }
+  .hero-photo :global(.about-photo) {
+    width: min(100%, 440px);
+    height: auto;
+    display: block;
   }
   .principles {
     background: var(--dark);
