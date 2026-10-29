@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture, Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
@@ -7,10 +7,10 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Placeholder from '../../components/Placeholder.astro';
 
-// Drafts are built only in development, so the layout can be reviewed with
-// visible empty slots. In production they do not exist as pages.
+// Unpublished cases are built only in development, so the layout can be
+// reviewed with visible empty slots. In production they do not exist as pages.
 export async function getStaticPaths() {
-  const entries = await getCollection('cases', (e) => (import.meta.env.PROD ? !e.data.draft : true));
+  const entries = await getCollection('cases', (e) => (import.meta.env.PROD ? e.data.published : true));
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
@@ -21,21 +21,58 @@ const allImages = import.meta.glob<{ default: ImageMetadata }>(
   '../../assets/img/*.{jpg,jpeg,png,svg,webp}',
   { eager: true }
 );
-const images = d.images
-  .map((name) => Object.entries(allImages).find(([p]) => p.endsWith(`/${name}`))?.[1]?.default)
-  .filter((img): img is ImageMetadata => Boolean(img));
+const img = (name?: string) =>
+  name ? Object.entries(allImages).find(([p]) => p.endsWith(`/${name}`))?.[1]?.default : undefined;
 
-const title = `${d.client}: ${d.business} | Riddle Marketing`;
-const description = d.situation
-  ? `${d.client}. ${d.business}. ${d.situation}`
-  : `${d.client}. ${d.business}. Какво направихме и какво донесе.`;
+const heroImg = img(d.hero?.src);
+const quoteImg = img(d.quote?.photo) ?? img(d.quoteImage?.src);
+const quoteImgAlt = d.quote?.photo ? d.quote.author : (d.quoteImage?.alt ?? d.client);
+const gallery = d.images
+  .map((im) => ({ ...im, meta: img(im.src) }))
+  .filter((im): im is typeof im & { meta: ImageMetadata } => Boolean(im.meta));
+
+const groupDefs = d.resultGroups ?? [
+  { id: 'site', title: 'От сайта', source: 'Източник: Google Analytics 4' },
+  { id: 'ads', title: 'От рекламите в Google', source: 'Източник: Google Ads' },
+];
+const groups = groupDefs
+  .map((g) => ({ ...g, results: d.results.filter((r) => r.group === g.id) }))
+  .filter((g) => g.results.length > 0);
+
+const logoImg = img(d.logo);
+const dashImg = img(d.dashboard?.image);
+
+// Bulgarian number formatting for the chart: space as thousands separator.
+const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const chartMax = d.chart ? Math.max(...d.chart.points.map((p) => p.value)) : 0;
+
+const siteUrlText = d.siteUrl?.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+const title = `${d.title ?? `${d.client}: ${d.category}`} | Riddle Marketing`;
+const description = [d.intro, d.highlight ? `${d.highlight.value} ${d.highlight.label}.` : '']
+  .filter(Boolean)
+  .join(' ');
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Начало', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: 'Проекти', item: new URL('/proekti/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: d.client, item: new URL(Astro.url.pathname, Astro.site).href },
+  ],
+};
 ---
 
-<Base title={title} description={description}>
+<Base
+  title={title}
+  description={description || `${d.client}. ${d.category}. Какво направихме и какво донесе.`}
+  ogImage={heroImg?.src}
+>
   <Header current="projects" />
 
   {
-    d.draft && (
+    !d.published && (
       <div class="draft-band">
         ЧЕРНОВА. Тази страница се вижда само в режим на разработка и не се публикува.
       </div>
@@ -43,25 +80,62 @@ const description = d.situation
   }
 
   <section class="case-hero">
-    <h1>{d.client}</h1>
-    <div class="case-facts">
-      <dl>
-        <dt>Бизнес</dt>
-        <dd>{d.business}</dd>
-        <dt>Къде</dt>
-        <dd>{d.place ? d.place : <Placeholder note="квартал или град" />}</dd>
-        <dt>Услуги</dt>
-        <dd>{d.services.join(', ')}</dd>
-        <dt>Работим заедно от</dt>
-        <dd>{d.since ? d.since : <Placeholder note="месец и година" />}</dd>
-      </dl>
+    <div class="hero-text">
+      <nav class="breadcrumb" aria-label="Навигация по страницата">
+        <a href="/">Начало</a>
+        <span aria-hidden="true">›</span>
+        <a href="/proekti/">Проекти</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">{d.client}</span>
+      </nav>
+      {logoImg && <Image src={logoImg} alt={d.client} width={240} loading="eager" class="client-logo" />}
+      <h1>{d.title ? d.title : <Placeholder note="заглавие на казуса" />}</h1>
+      <p class="intro">{d.intro ? d.intro : <Placeholder note="кратко представяне на бизнеса" />}</p>
+      {
+        d.heroStats.length > 0 && (
+          <div class="hero-stats">
+            {d.heroStats.map((s) => (
+              <div class="hero-stat">
+                <p class="hero-stat-value">{s.value}</p>
+                <p class="hero-stat-label">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        )
+      }
+      <p class="facts">
+        {d.category}
+        {d.location && <span class="fact-sep" aria-hidden="true">·</span>}
+        {d.location}
+        {d.period && <span class="fact-sep" aria-hidden="true">·</span>}
+        {d.period}
+      </p>
+    </div>
+    <div class="hero-photo">
+      {
+        heroImg ? (
+          <Picture
+            src={heroImg}
+            alt={d.hero?.alt ?? d.client}
+            formats={['avif', 'webp']}
+            widths={[480, 760, 1100]}
+            sizes="(max-width: 759px) 100vw, 44vw"
+            loading="eager"
+            class="hero-img"
+          />
+        ) : (
+          <div class="photo-empty">
+            <Placeholder note="голяма снимка на клиента" />
+          </div>
+        )
+      }
     </div>
   </section>
 
-  <section class="case-situation">
-    <div class="case-situation-inner">
-      <h2>Ситуацията</h2>
-      <p>{d.situation ? d.situation : <Placeholder note="откъде тръгна бизнесът, с думите на собственика" />}</p>
+  <section class="case-before">
+    <div class="before-inner">
+      <h2>Преди</h2>
+      <p>{d.before ? d.before : <Placeholder note="как стояха нещата, преди да започнем" />}</p>
     </div>
   </section>
 
@@ -69,11 +143,19 @@ const description = d.situation
     <h2>Какво направихме</h2>
     <div class="did-list">
       {
-        d.whatWeDid.length > 0 ? (
-          d.whatWeDid.map((item) => <p>{item}</p>)
+        d.services.length > 0 ? (
+          d.services.map((s) => {
+            const logo = img(s.logo);
+            return (
+              <div class="did-item">
+                {logo && <Image src={logo} alt="" width={72} height={72} loading="lazy" class="did-icon" />}
+                <span>{s.name}</span>
+              </div>
+            );
+          })
         ) : (
           <p>
-            <Placeholder note="какво направихме, стъпка по стъпка" />
+            <Placeholder note="списък с услугите по проекта" />
           </p>
         )
       }
@@ -83,71 +165,225 @@ const description = d.situation
   <section class="case-results">
     <div class="case-results-inner">
       <h2>Резултатът</h2>
-      <div class="results-grid">
-        {
-          d.results.length > 0 ? (
-            d.results.map((r) => (
-              <div class="result">
-                <p class="result-value">{r.value}</p>
-                <p class="result-label">{r.label}</p>
+      {
+        groups.length > 0 ? (
+          groups.map((g) => (
+            <div class="result-group">
+              <div class="group-head">
+                <h3>{g.title}</h3>
+                <p class="group-source">{g.source}</p>
               </div>
-            ))
-          ) : (
-            <div class="result">
-              <p class="result-label">
-                <Placeholder note="до три числа с етикети, например записани часове на месец" />
-              </p>
+              <div class="results-grid">
+                {g.results.map((r) => (
+                  <div class="result">
+                    <p class="result-value">{r.value}</p>
+                    <p class="result-label">{r.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          )
-        }
-      </div>
+          ))
+        ) : (
+          <p class="result-label">
+            <Placeholder note="числа от GA4 и Google Ads, в две групи" />
+          </p>
+        )
+      }
+      {
+        d.chart && (
+          <div class="chart">
+            <div class="group-head">
+              <h3>{d.chart.title}</h3>
+              {d.chart.source && <p class="group-source">{d.chart.source}</p>}
+            </div>
+            <div aria-hidden="true">
+              <div class="chart-plot">
+                {d.chart.points.map((p, i) => (
+                  <div class={`chart-col${i === d.chart!.markIndex ? ' marked' : ''}`}>
+                    <p class="chart-value">{fmt(p.value)}</p>
+                    <div
+                      class={`chart-bar${i >= d.chart!.markIndex ? ' after' : ''}`}
+                      style={`height: ${Math.round((p.value / chartMax) * 100)}%`}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div class="chart-axis">
+                {d.chart.points.map((p, i) => (
+                  <p class={`chart-month${i === d.chart!.markIndex ? ' marked' : ''}`}>
+                    {p.label}
+                    {p.note && <small>{p.note}</small>}
+                    {i === d.chart!.markIndex && <small class="chart-mark">{d.chart!.markLabel}</small>}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <table class="visually-hidden">
+              <caption>{d.chart.title}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Месец</th>
+                  <th scope="col">Продажби в евро</th>
+                </tr>
+              </thead>
+              <tbody>
+                {d.chart.points.map((p, i) => (
+                  <tr>
+                    <th scope="row">
+                      {p.label}
+                      {p.note ? ` (${p.note})` : ''}
+                      {i === d.chart!.markIndex ? ` (${d.chart!.markLabel})` : ''}
+                    </th>
+                    <td>{fmt(p.value)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
+      }
+      {d.resultsNote && <p class="results-note">{d.resultsNote}</p>}
     </div>
   </section>
 
-  <section class="case-quote">
-    {
-      d.quote ? (
+  {
+    d.dashboard && (
+      <section class="case-dash">
+        <div class="dash-head">
+          <h2>{d.dashboard.title}</h2>
+          <p>{d.dashboard.caption}</p>
+        </div>
+        <figure class="dash-frame">
+          {
+            dashImg ? (
+              <Picture
+                src={dashImg}
+                alt={d.dashboard.imageAlt ?? d.dashboard.title}
+                formats={['avif', 'webp']}
+                widths={[760, 1200, 1800]}
+                sizes="(max-width: 1440px) 95vw, 1296px"
+                loading="lazy"
+                class="dash-img"
+              />
+            ) : (
+              <div class="dash-empty">
+                <Placeholder note="скрийншот от таблото в Looker Studio" />
+              </div>
+            )
+          }
+        </figure>
+      </section>
+    )
+  }
+
+  {
+    gallery.length > 0 && (
+      <section class="case-images">
+        <div class="images-row">
+          {gallery.map((im) => (
+            <figure>
+              <div class="shot-frame">
+                <Picture
+                  src={im.meta}
+                  alt={im.alt}
+                  formats={['avif', 'webp']}
+                  widths={[320, 640]}
+                  sizes="(max-width: 759px) 90vw, 320px"
+                  loading="lazy"
+                  class="shot-img"
+                />
+              </div>
+              {im.caption && <figcaption>{im.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.quote && (
+      <section class="case-quote">
+        {quoteImg && (
+          <div class="quote-photo">
+            <Picture
+              src={quoteImg}
+              alt={quoteImgAlt}
+              formats={['avif', 'webp']}
+              widths={[420, 840]}
+              sizes="(max-width: 759px) 100vw, 380px"
+              loading="lazy"
+              class="quote-img"
+            />
+          </div>
+        )}
         <blockquote>
           <p class="quote-text">{d.quote.text}</p>
           <footer>
-            {d.quote.name}, {d.quote.role}
+            {d.quote.author}, {d.quote.role}
           </footer>
         </blockquote>
-      ) : (
-        <blockquote>
-          <p class="quote-text">
-            <Placeholder note="цитат от клиента, с име и роля" />
-          </p>
-        </blockquote>
-      )
-    }
-  </section>
+      </section>
+    )
+  }
 
-  <section class="case-images">
-    {
-      images.length > 0 ? (
-        <div class="images-grid">
-          {images.map((img) => (
-            <Picture
-              src={img}
-              alt={d.client}
-              formats={['avif', 'webp']}
-              widths={[480, 760, 1200]}
-              sizes="(max-width: 760px) 100vw, 45vw"
-              loading="lazy"
-              class="case-img"
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="images-empty">
-          <Placeholder note="снимки и скрийншоти от проекта" />
-        </div>
-      )
-    }
-  </section>
+  {
+    d.siteUrl && (
+      <section class="case-live">
+        <p>Вижте резултата на живо:</p>
+        <a href={d.siteUrl} rel="noopener">{siteUrlText}</a>
+      </section>
+    )
+  }
 
   <Footer />
+
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+
+  <script>
+    // Big result numbers count up from 0 when they scroll into view.
+    // Bulgarian formatting: space for thousands, comma for decimals.
+    const els = document.querySelectorAll<HTMLElement>('.result-value');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window && els.length > 0) {
+      const format = (n: number, decimals: number) => {
+        const [int, dec] = n.toFixed(decimals).split('.');
+        const grouped = int.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        return dec ? `${grouped},${dec}` : grouped;
+      };
+      const animate = (el: HTMLElement) => {
+        const text = el.textContent ?? '';
+        const match = text.match(/\d(?:[\d\s]*\d)?(?:,\d+)?/);
+        if (!match || match.index === undefined) return;
+        const raw = match[0];
+        const target = parseFloat(raw.replace(/\s/g, '').replace(',', '.'));
+        if (!isFinite(target)) return;
+        const decimals = (raw.split(',')[1] ?? '').length;
+        const prefix = text.slice(0, match.index);
+        const suffix = text.slice(match.index + raw.length);
+        const duration = 1100;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = prefix + format(target * eased, decimals) + suffix;
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const en of entries) {
+            if (!en.isIntersecting) continue;
+            io.unobserve(en.target);
+            animate(en.target as HTMLElement);
+          }
+        },
+        { threshold: 0.5 }
+      );
+      els.forEach((el) => io.observe(el));
+    }
+  </script>
 </Base>
 
 <style>
@@ -157,41 +393,73 @@ const description = d.situation
     font-weight: 700;
     font-size: 16px;
   }
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 15px;
+    margin-bottom: clamp(24px, 3vw, 48px);
+  }
+  .breadcrumb a {
+    color: var(--text);
+  }
+  .breadcrumb span[aria-current] {
+    font-weight: 600;
+  }
   .case-hero {
     max-width: 1440px;
     margin: 0 auto;
-    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px) clamp(40px, 5vw, 72px);
+    padding: clamp(40px, 5vw, 80px) clamp(20px, 5vw, 72px) clamp(48px, 6vw, 96px);
     display: flex;
     flex-wrap: wrap;
-    gap: 40px 72px;
-    align-items: flex-end;
+    gap: 40px clamp(40px, 5vw, 88px);
+    align-items: center;
+  }
+  .hero-text {
+    flex: 1 1 480px;
+    min-width: 0;
   }
   h1 {
-    flex: 1 1 560px;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(64px, 10vw, 164px);
-    line-height: 0.86;
+    font-size: clamp(52px, 6.5vw, 104px);
+    line-height: 0.9;
     letter-spacing: -0.02em;
     margin: 0;
+    max-width: 14ch;
   }
-  .case-facts {
-    flex: 0 1 440px;
+  .intro {
+    margin: 28px 0 0;
+    font-size: clamp(19px, 1.7vw, 23px);
+    line-height: 1.5;
+    max-width: 46ch;
+    text-wrap: pretty;
   }
-  dl {
-    margin: 0;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 12px 28px;
-    font-size: 17px;
-    line-height: 1.4;
+  .facts {
+    margin: 24px 0 0;
+    font-size: 16px;
+    color: rgba(26, 26, 23, 0.7);
   }
-  dt {
-    font-weight: 600;
-    white-space: nowrap;
+  .fact-sep {
+    margin: 0 8px;
   }
-  dd {
-    margin: 0;
+  .hero-photo {
+    flex: 1 1 380px;
+    max-width: 560px;
+  }
+  .hero-photo :global(.hero-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .photo-empty {
+    aspect-ratio: 4 / 5;
+    background: var(--bg-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
   }
   h2 {
     font-family: var(--font-display);
@@ -200,21 +468,21 @@ const description = d.situation
     line-height: 0.95;
     margin: 0;
   }
-  .case-situation {
+  .case-before {
     background: var(--bg-alt);
   }
-  .case-situation-inner {
+  .before-inner {
     max-width: 1440px;
     margin: 0 auto;
-    padding: clamp(56px, 7vw, 104px) clamp(20px, 5vw, 72px);
+    padding: clamp(48px, 6vw, 88px) clamp(20px, 5vw, 72px);
     display: flex;
     flex-wrap: wrap;
-    gap: 32px 72px;
+    gap: 24px 72px;
   }
-  .case-situation h2 {
+  .case-before h2 {
     flex: 0 1 340px;
   }
-  .case-situation p {
+  .case-before p {
     flex: 1 1 480px;
     margin: 0;
     font-size: clamp(19px, 1.7vw, 23px);
@@ -234,13 +502,26 @@ const description = d.situation
   }
   .did-list {
     flex: 1 1 480px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    column-gap: 32px;
+    align-content: start;
   }
-  .did-list p {
-    margin: 0;
-    padding: 16px 0;
+  .did-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 0;
     border-top: 1px solid rgba(26, 26, 23, 0.16);
     font-size: 19px;
-    line-height: 1.45;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .did-item :global(.did-icon) {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    object-fit: contain;
   }
   .case-results {
     background: var(--dark);
@@ -254,31 +535,116 @@ const description = d.situation
   .case-results h2 {
     margin-bottom: clamp(32px, 4vw, 56px);
   }
+  .result-group {
+    padding: clamp(28px, 3vw, 44px) 0;
+    border-top: 1px solid rgba(243, 240, 233, 0.22);
+  }
+  .group-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 32px;
+    margin-bottom: clamp(24px, 3vw, 40px);
+  }
+  .group-head h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1;
+    margin: 0;
+  }
+  .group-source {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted-on-dark);
+  }
   .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-    gap: 40px clamp(24px, 4vw, 64px);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 36px clamp(24px, 4vw, 56px);
   }
   .result-value {
     margin: 0;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(64px, 8vw, 128px);
+    font-size: clamp(56px, 6.5vw, 104px);
     line-height: 0.9;
     color: var(--accent);
+    white-space: nowrap;
   }
   .result-label {
     margin: 10px 0 0;
     font-size: 18px;
     line-height: 1.4;
     color: var(--muted-on-dark);
+    max-width: 24ch;
+  }
+  .results-note {
+    margin: clamp(32px, 4vw, 48px) 0 0;
+    padding-top: clamp(28px, 3vw, 44px);
+    border-top: 1px solid rgba(243, 240, 233, 0.22);
+    font-size: clamp(19px, 1.7vw, 23px);
+    line-height: 1.5;
+    max-width: 52ch;
+  }
+  .case-images {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 8vw, 120px) clamp(20px, 5vw, 72px) 0;
+  }
+  .images-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(24px, 3vw, 48px);
+    justify-content: center;
+  }
+  .images-row figure {
+    margin: 0;
+    flex: 0 1 320px;
+  }
+  .shot-frame {
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 23, 0.14);
+    padding: 10px;
+    aspect-ratio: 3 / 5;
+  }
+  .shot-frame :global(picture) {
+    display: block;
+    height: 100%;
+  }
+  .shot-frame :global(.shot-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .images-row figcaption {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 1.4;
   }
   .case-quote {
     max-width: 1440px;
     margin: 0 auto;
     padding: clamp(64px, 8vw, 128px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px clamp(40px, 5vw, 88px);
+  }
+  .quote-photo {
+    flex: 0 1 380px;
+    min-width: 260px;
+  }
+  .quote-photo :global(.quote-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
   }
   blockquote {
+    flex: 1 1 440px;
     margin: 0;
     max-width: 920px;
   }
@@ -286,32 +652,171 @@ const description = d.situation
     margin: 0;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(32px, 4vw, 64px);
-    line-height: 1;
+    font-size: clamp(32px, 3.6vw, 56px);
+    line-height: 1.02;
   }
   blockquote footer {
     margin-top: 20px;
     font-size: 18px;
   }
-  .case-images {
+  .case-live {
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 clamp(20px, 5vw, 72px) clamp(96px, 10vw, 160px);
   }
-  .images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
-    gap: 16px;
+  .case-live p {
+    margin: 0 0 8px;
+    font-size: 18px;
   }
-  .images-grid :global(.case-img) {
+  .case-live a {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 4vw, 64px);
+    line-height: 1;
+    color: var(--text);
+  }
+  .hero-text :global(.client-logo) {
+    width: auto;
+    max-width: 200px;
+    max-height: 64px;
+    object-fit: contain;
+    margin-bottom: 24px;
+  }
+  .hero-stats {
+    margin-top: clamp(28px, 3vw, 44px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    gap: 0 clamp(24px, 3vw, 40px);
+    max-width: 560px;
+  }
+  .hero-stat {
+    padding: 14px 0;
+    border-top: 1px solid rgba(26, 26, 23, 0.16);
+  }
+  .hero-stat-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(30px, 2.8vw, 44px);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    margin: 6px 0 0;
+    font-size: 15px;
+    line-height: 1.35;
+    color: rgba(26, 26, 23, 0.7);
+  }
+  .chart {
+    padding: clamp(28px, 3vw, 44px) 0 0;
+    border-top: 1px solid rgba(243, 240, 233, 0.22);
+  }
+  .chart .group-head {
+    margin-bottom: clamp(28px, 3.5vw, 48px);
+  }
+  .chart-plot,
+  .chart-axis {
+    display: flex;
+    gap: clamp(6px, 1.4vw, 20px);
+  }
+  .chart-plot {
+    align-items: flex-end;
+    height: clamp(200px, 26vw, 320px);
+    padding-top: 34px;
+    box-sizing: content-box;
+    border-bottom: 1px solid rgba(243, 240, 233, 0.35);
+  }
+  .chart-col {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .chart-col.marked,
+  .chart-month.marked {
+    border-left: 2px dashed var(--accent);
+  }
+  .chart-value {
+    margin: 0 0 8px;
+    font-size: clamp(11px, 1.3vw, 16px);
+    font-weight: 600;
+    color: var(--muted-on-dark);
+    white-space: nowrap;
+  }
+  .chart-bar {
+    width: min(100%, 72px);
+    background: #8a8f85;
+    border-radius: 4px 4px 0 0;
+  }
+  .chart-bar.after {
+    background: var(--accent);
+  }
+  .chart-month {
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 10px 0 0;
+    font-size: clamp(12px, 1.3vw, 16px);
+    line-height: 1.3;
+    color: var(--muted-on-dark);
+    text-align: center;
+  }
+  .chart-month small {
+    display: block;
+    font-size: clamp(10px, 1.1vw, 13px);
+  }
+  .chart-month .chart-mark {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .case-dash {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(64px, 8vw, 120px) clamp(20px, 5vw, 72px) 0;
+  }
+  .dash-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 72px;
+    align-items: flex-end;
+    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+  .dash-head h2 {
+    flex: 1 1 480px;
+    max-width: 16ch;
+  }
+  .dash-head p {
+    flex: 0 1 420px;
+    margin: 0;
+    font-size: clamp(18px, 1.5vw, 21px);
+    line-height: 1.5;
+  }
+  .dash-frame {
+    margin: 0;
+    border: 1px solid rgba(26, 26, 23, 0.16);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .dash-frame :global(.dash-img) {
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    display: block;
   }
-  .images-empty {
+  .dash-empty {
+    aspect-ratio: 16 / 9;
     background: var(--bg-alt);
-    min-height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;

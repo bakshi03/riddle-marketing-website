@@ -1,8 +1,9 @@
 ---
 client: Djidji Stil
-business: Шивашко ателие
+category: Шивашко ателие
 services:
-  - Google бизнес профил
-images: []
-draft: true
+  - name: Google бизнес профил
+    logo: logo-google-business.png
+order: 4
+published: false
 ---
