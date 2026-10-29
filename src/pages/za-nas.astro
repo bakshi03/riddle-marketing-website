@@ -21,7 +21,6 @@ import logoShopify from '../assets/img/logo-shopify.svg';
 import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
 import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
 import Placeholder from '../components/Placeholder.astro';
-import photoTihomir from '../assets/img/photo-tihomir.png';
 
 const tools = [
   { icon: logoGoogleAds, label: 'Google Ads' },
@@ -36,23 +35,19 @@ const tools = [
 
 <Base
   title="За нас: човекът зад Riddle Marketing"
-  description="Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам. Говорите с човека, който върши работата."
+  description="Riddle Marketing е малък екип от София. Правим сайтове, профили в Google и реклами за местни бизнеси. Говорите директно с хората, които вършат работата."
 >
   <Header current="about" />
 
   <section class="hero">
     <div class="hero-inner">
-      <h1>Говорите с човека, който върши работата.</h1>
-      <p>Казвам се Тихомир. Правя сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говоря сам.</p>
-      <p class="creds">
-        От 4 години правя сайтове за местни бизнеси, от 2 и реклами. Над 20 бизнеса, опит от
-        рекламна агенция, сертификати от Google и Meta.
-      </p>
+      <h1>Говорите с хората, които вършат работата.</h1>
+      <p>Ние сме малък екип от София. Правим сайтове, профили в Google и реклами за местни бизнеси. С всеки клиент говорим директно, без посредници.</p>
     </div>
     <div class="hero-photo">
       <Picture
-        src={photoTihomir}
-        alt="Тихомир, основател на Riddle Marketing"
+        src={photoBoyana}
+        alt="Обект на Scaff-Rent, наш клиент"
         formats={['avif', 'webp']}
         widths={[400, 800]}
         sizes="(max-width: 759px) 100vw, 440px"
@@ -64,15 +59,15 @@ const tools = [
 
   <section class="principles">
     <div class="principles-inner">
-      <p>Започвам с разговор.</p>
-      <p class="indent-2">Казвам какво не ви трябва.</p>
-      <p class="indent-1">Показвам числата, както са.</p>
-      <p class="indent-3 accent">Нося клиенти и поръчки.</p>
+      <p>Започваме с разговор.</p>
+      <p class="indent-2">Казваме какво не ви трябва.</p>
+      <p class="indent-1">Показваме числата, както са.</p>
+      <p class="indent-3 accent">Носим клиенти и поръчки.</p>
     </div>
   </section>
 
   <section class="clients">
-    <h2>За кого работя.</h2>
+    <h2>За кого работим.</h2>
     <div class="logo-grid">
       <a href="https://21cutz.com/" class="logo-tile dark-tile">
         <Image src={logo21cutz} alt="21cutz" width={400} height={200} loading="lazy" class="tile-img tall" />
@@ -90,7 +85,7 @@ const tools = [
   </section>
 
   <section class="tools">
-    <p class="tools-label">С какво работя.</p>
+    <p class="tools-label">С какво работим.</p>
     <div class="tools-chips">
       {tools.map((t) => <Chip icon={t.icon} label={t.label} bg="#FFFFFF" />)}
       <div class="meta-chip">
