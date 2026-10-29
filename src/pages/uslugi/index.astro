@@ -21,6 +21,7 @@ import chart from '../../assets/img/chart.png';
 import photo21cutz from '../../assets/img/photo-21cutz-interior.jpg';
 import photoBoyana from '../../assets/img/photo-scaffrent-boyana.jpg';
 import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
+import { SERVICE_PAGES_LIVE } from '../../lib/flags';
 ---
 
 <Base
@@ -42,7 +43,7 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
         <Chip icon={logoWordpress} label="WordPress" bg="#FFFFFF" />
         <Chip icon={logoShopify} label="Shopify" bg="#FFFFFF" />
       </div>
-      <a href="/uslugi/sait/" class="more-link">Повече за услугата</a>
+      {SERVICE_PAGES_LIVE && <a href="/uslugi/sait/" class="more-link">Повече за услугата</a>}
     </div>
     <div class="phones">
       <div class="phone dark">
@@ -90,7 +91,7 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
         <Chip icon={logoGoogleMaps} label="Google Maps" bg="#FFFFFF" />
       </div>
       <p class="caption">На снимката: 21cutz, ж.к. Гоце Делчев</p>
-      <a href="/uslugi/google-biznes-profil/" class="more-link">Повече за услугата</a>
+      {SERVICE_PAGES_LIVE && <a href="/uslugi/google-biznes-profil/" class="more-link">Повече за услугата</a>}
     </div>
   </section>
 
@@ -112,7 +113,7 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
           <Chip icon={logoGoogleAds} label="Google Ads" bg="#FFFFFF" />
         </div>
         <p class="caption">На снимката: Scaff-Rent, обект в Люлин</p>
-        <a href="/uslugi/reklami-google/" class="more-link">Повече за услугата</a>
+        {SERVICE_PAGES_LIVE && <a href="/uslugi/reklami-google/" class="more-link">Повече за услугата</a>}
       </div>
     </div>
   </section>
@@ -127,7 +128,7 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
         </div>
         <Chip icon={logoInstagram} label="Instagram" bg="#FFFFFF" />
       </div>
-      <a href="/uslugi/reklami-facebook-instagram/" class="more-link on-dark">Повече за услугата</a>
+      {SERVICE_PAGES_LIVE && <a href="/uslugi/reklami-facebook-instagram/" class="more-link on-dark">Повече за услугата</a>}
     </div>
     <figure class="social-photo">
       <Picture
@@ -152,7 +153,7 @@ import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
           <Chip icon={logoGa4} label="Google Analytics" bg="#FFFFFF" />
           <Chip icon={logoGtm} label="Google Tag Manager" bg="#FFFFFF" />
         </div>
-        <a href="/uslugi/prosledyavane/" class="more-link">Повече за услугата</a>
+        {SERVICE_PAGES_LIVE && <a href="/uslugi/prosledyavane/" class="more-link">Повече за услугата</a>}
       </div>
       <div class="chart-box">
         <Image src={chart} alt="" widths={[560, 1120]} sizes="(max-width: 760px) 100vw, 40vw" loading="lazy" class="chart-img" />

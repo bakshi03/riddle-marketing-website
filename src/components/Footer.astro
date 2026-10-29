@@ -1,16 +1,19 @@
 ---
 import CallSteps from './CallSteps.astro';
 import { HAS_TAGS as hasTags } from '../lib/analytics';
+import { SERVICE_PAGES_LIVE } from '../lib/flags';
 
 const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
 
-const serviceLinks = [
-  { label: 'Сайт и лендинг страници', href: '/uslugi/sait/' },
-  { label: 'Google бизнес профил', href: '/uslugi/google-biznes-profil/' },
-  { label: 'Реклами в Google', href: '/uslugi/reklami-google/' },
-  { label: 'Реклами във Facebook и Instagram', href: '/uslugi/reklami-facebook-instagram/' },
-  { label: 'Проследяване и измерване', href: '/uslugi/prosledyavane/' },
-];
+const serviceLinks = SERVICE_PAGES_LIVE
+  ? [
+      { label: 'Сайт и лендинг страници', href: '/uslugi/sait/' },
+      { label: 'Google бизнес профил', href: '/uslugi/google-biznes-profil/' },
+      { label: 'Реклами в Google', href: '/uslugi/reklami-google/' },
+      { label: 'Реклами във Facebook и Instagram', href: '/uslugi/reklami-facebook-instagram/' },
+      { label: 'Проследяване и измерване', href: '/uslugi/prosledyavane/' },
+    ]
+  : [];
 ---
 
 <section class="cta-band">
@@ -40,9 +43,15 @@ const serviceLinks = [
         <a href="/za-nas/">За нас</a>
         <a href="/kontakt/">Контакт</a>
       </nav>
-      <nav class="footer-services" aria-label="Услуги">
-        {serviceLinks.map((s) => <a href={s.href}>{s.label}</a>)}
-      </nav>
+      {
+        serviceLinks.length > 0 && (
+          <nav class="footer-services" aria-label="Услуги">
+            {serviceLinks.map((s) => (
+              <a href={s.href}>{s.label}</a>
+            ))}
+          </nav>
+        )
+      }
       <div class="footer-contact">
         <a href="tel:+359897853219" class="footer-phone">0897 853 219</a>
         <a href="viber://chat?number=%2B359897853219">Пишете ни във Viber</a>

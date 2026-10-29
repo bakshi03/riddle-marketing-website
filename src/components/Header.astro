@@ -16,13 +16,17 @@ const links = [
   { label: 'Контакт', href: '/kontakt/', key: 'contact' },
 ];
 
-const serviceLinks = [
-  { label: 'Сайт и лендинг страници', href: '/uslugi/sait/' },
-  { label: 'Google бизнес профил', href: '/uslugi/google-biznes-profil/' },
-  { label: 'Реклами в Google', href: '/uslugi/reklami-google/' },
-  { label: 'Реклами във Facebook и Instagram', href: '/uslugi/reklami-facebook-instagram/' },
-  { label: 'Проследяване и измерване', href: '/uslugi/prosledyavane/' },
-];
+import { SERVICE_PAGES_LIVE } from '../lib/flags';
+
+const serviceLinks = SERVICE_PAGES_LIVE
+  ? [
+      { label: 'Сайт и лендинг страници', href: '/uslugi/sait/' },
+      { label: 'Google бизнес профил', href: '/uslugi/google-biznes-profil/' },
+      { label: 'Реклами в Google', href: '/uslugi/reklami-google/' },
+      { label: 'Реклами във Facebook и Instagram', href: '/uslugi/reklami-facebook-instagram/' },
+      { label: 'Проследяване и измерване', href: '/uslugi/prosledyavane/' },
+    ]
+  : [];
 ---
 
 <header class="site-header">
@@ -31,7 +35,7 @@ const serviceLinks = [
     <nav class="desktop-nav" aria-label="Основна навигация">
       {
         links.map((l) =>
-          l.key === 'services' ? (
+          l.key === 'services' && serviceLinks.length > 0 ? (
             <div class="has-sub">
               <a href={l.href} class:list={[{ current: l.key === current }]} aria-current={l.key === current ? 'page' : undefined}>
                 {l.label}
@@ -70,7 +74,7 @@ const serviceLinks = [
       links.map((l) => (
         <>
           <a href={l.href}>{l.label}</a>
-          {l.key === 'services' && (
+          {l.key === 'services' && serviceLinks.length > 0 && (
             <div class="mobile-sub">
               {serviceLinks.map((s) => (
                 <a href={s.href}>{s.label}</a>
