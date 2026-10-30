@@ -1,6 +1,13 @@
 ---
 import { Picture } from 'astro:assets';
-import dashboard from '../assets/img/live-dashboard.png';
+import type { ImageMetadata } from 'astro';
+
+// TODO: add src/assets/dashboard-bg.jpg (a presentable dashboard shot).
+// The old live-dashboard.png screenshot is retired; the figure below stays
+// hidden until the new file exists.
+const dashboard = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/dashboard-bg.jpg', { eager: true })
+)[0]?.default;
 
 const contrast = [
   { usual: 'Месечен PDF отчет', ours: 'Табло на живо' },
@@ -29,18 +36,24 @@ const contrast = [
         {contrast.map((r) => <p>{r.ours}</p>)}
       </div>
     </div>
-    <figure class="rep-shot">
-      <Picture
-        src={dashboard}
-        alt="Табло на живо: разходи, кликове и конверсии от рекламите"
-        formats={['avif', 'webp']}
-        widths={[760, 1200, 1800]}
-        sizes="(max-width: 1440px) 95vw, 1296px"
-        loading="lazy"
-        class="rep-img"
-      />
-      <figcaption>Табло на живо на клиент. Имената на кампаниите са скрити.</figcaption>
-    </figure>
+    {
+      dashboard && (
+        <figure class="rep-shot">
+          <a href={dashboard.src} class="rep-zoom" aria-label="Отворете таблото в пълен размер">
+            <Picture
+              src={dashboard}
+              alt="Табло на живо: разходи, кликове и конверсии от рекламите"
+              formats={['avif', 'webp']}
+              widths={[760, 1200, 1800]}
+              sizes="(max-width: 1440px) 95vw, 1296px"
+              loading="lazy"
+              class="rep-img"
+            />
+          </a>
+          <figcaption>Табло на живо на клиент. Имената на кампаниите са скрити.</figcaption>
+        </figure>
+      )
+    }
   </div>
 </section>
 
@@ -117,6 +130,11 @@ const contrast = [
     width: 100%;
     height: auto;
     display: block;
+  }
+  .rep-zoom {
+    display: block;
+    /* Tap opens the image full size; on desktop the pointer hints the same. */
+    cursor: zoom-in;
   }
   .rep-shot figcaption {
     padding: 12px 16px;

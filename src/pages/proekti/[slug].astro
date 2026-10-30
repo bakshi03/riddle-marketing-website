@@ -35,9 +35,26 @@ const groupDefs = d.resultGroups ?? [
   { id: 'site', title: 'От сайта', source: 'Източник: Google Analytics 4' },
   { id: 'ads', title: 'От рекламите в Google', source: 'Източник: Google Ads' },
 ];
+// „€ на контакт“ is derived here from the raw ad figures (budget ÷ contacts),
+// so it can never drift from the numbers shown next to it.
+const costPerContact = d.adsMath
+  ? {
+      value: `${Math.round(d.adsMath.budget / (d.adsMath.directions + d.adsMath.calls + d.adsMath.bookings))} €`,
+      label: 'на контакт: обаждане, упътване или записан час',
+      group: d.adsMath.group,
+    }
+  : undefined;
 const groups = groupDefs
-  .map((g) => ({ ...g, results: d.results.filter((r) => r.group === g.id) }))
+  .map((g) => ({
+    ...g,
+    results: [
+      ...d.results.filter((r) => r.group === g.id),
+      ...(costPerContact && costPerContact.group === g.id ? [costPerContact] : []),
+    ],
+  }))
   .filter((g) => g.results.length > 0);
+// Published pages hide an empty results section; drafts keep the visible slot.
+const showResults = groups.length > 0 || Boolean(d.chart) || Boolean(d.resultsNote) || !d.published;
 
 const logoImg = img(d.logo);
 const dashImg = img(d.dashboard?.image);
@@ -162,7 +179,7 @@ const breadcrumbLd = {
     </div>
   </section>
 
-  <section class="case-results">
+  {showResults && <section class="case-results">
     <div class="case-results-inner">
       <h2>Резултатът</h2>
       {
@@ -181,6 +198,7 @@ const breadcrumbLd = {
                   </div>
                 ))}
               </div>
+              {g.note && <p class="group-note">{g.note}</p>}
             </div>
           ))
         ) : (
@@ -244,7 +262,7 @@ const breadcrumbLd = {
       }
       {d.resultsNote && <p class="results-note">{d.resultsNote}</p>}
     </div>
-  </section>
+  </section>}
 
   {
     d.dashboard && (
@@ -319,9 +337,7 @@ const breadcrumbLd = {
         )}
         <blockquote>
           <p class="quote-text">{d.quote.text}</p>
-          <footer>
-            {d.quote.author}, {d.quote.role}
-          </footer>
+          <footer>{d.quote.role ? `${d.quote.author}, ${d.quote.role}` : d.quote.author}</footer>
         </blockquote>
       </section>
     )
@@ -579,6 +595,13 @@ const breadcrumbLd = {
     line-height: 1.4;
     color: var(--muted-on-dark);
     max-width: 24ch;
+  }
+  .group-note {
+    margin: clamp(24px, 3vw, 36px) 0 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--muted-on-dark);
+    max-width: 52ch;
   }
   .results-note {
     margin: clamp(32px, 4vw, 48px) 0 0;

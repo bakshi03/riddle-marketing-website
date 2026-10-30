@@ -1,0 +1,63 @@
+---
+// Booking confirmation page. cal.com redirects here after a successful
+// booking, which fires the booking_confirmed event in GA4. The page is
+// noindex and excluded from the sitemap.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL } from '../lib/site';
+---
+
+<Base
+  title="Благодарим, разговорът е запазен | Riddle Marketing"
+  description="Разговорът е запазен. Ще получите потвърждение по имейл с линк за срещата."
+  noindex
+>
+  <Header />
+
+  <section class="thanks">
+    <h1>Благодарим, разговорът е запазен.</h1>
+    <p>
+      Ще получите потвърждение по имейл с линк за срещата. Ако нещо се промени, обадете се на
+      <a href={PHONE_HREF}>{PHONE_DISPLAY}</a> или ни пишете във <a href={VIBER_URL}>Viber</a>.
+    </p>
+    <a href="/" class="back">Обратно към началото</a>
+  </section>
+
+  <Footer />
+</Base>
+
+<script is:inline>
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'booking_confirmed', { page_path: location.pathname });
+  }
+</script>
+
+<style>
+  .thanks {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(72px, 10vw, 160px) clamp(20px, 5vw, 72px) clamp(96px, 12vw, 192px);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(52px, 7.5vw, 124px);
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    margin: 0;
+    max-width: 12ch;
+  }
+  p {
+    margin: 32px 0 0;
+    font-size: 21px;
+    line-height: 1.5;
+    max-width: 44ch;
+  }
+  .back {
+    display: inline-block;
+    margin-top: 32px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>

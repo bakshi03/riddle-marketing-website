@@ -22,6 +22,7 @@ import photo21cutz from '../../assets/img/photo-21cutz-interior.jpg';
 import photoBoyana from '../../assets/img/photo-scaffrent-boyana.jpg';
 import photoHairsupply from '../../assets/img/photo-hairsupply-product.jpg';
 import { SERVICE_PAGES_LIVE } from '../../lib/flags';
+import { faq } from '../../data/faq';
 import type { ImageMetadata } from 'astro';
 
 // TODO: add src/assets/dashboard-blurred.jpg (blurred client dashboard screenshot).
@@ -208,26 +209,7 @@ const dashboardBlurred = Object.values(
 
   <PromiseBlock />
 
-  <Faq
-    items={[
-      {
-        q: 'Колко струва?',
-        a: 'Строго индивидуално е, според бизнеса ви и къде е нужно да се показвате. Ако ви трябва само реклама в Google, няма да ви продаваме и Meta.',
-      },
-      {
-        q: 'Кога ще видя резултат?',
-        a: 'Първите числа виждате още на следващия ден. След първия месец правим анализ заедно, онлайн или на живо, както ви е удобно.',
-      },
-      {
-        q: 'Чий е сайтът?',
-        a: 'Както изберете. Може да е изцяло ваш. Може и да е наш, а вие да го ползвате на абонамент.',
-      },
-      {
-        q: 'Колко да отделя за реклама?',
-        a: 'Строго индивидуално е. Зависи какво искаме да постигнем и най-вече къде.',
-      },
-    ]}
-  />
+  <Faq items={faq} />
 
   <Footer />
 </Base>

@@ -25,9 +25,28 @@ const cases = defineCollection({
       .array(z.object({ value: z.string(), label: z.string(), group: z.string() }))
       .default([]),
     // Names the result groups. Absent: the legacy pair (site / ads) is used,
-    // so older cases keep their wording without repeating it.
+    // so older cases keep their wording without repeating it. A group's note
+    // is a short line printed under its numbers.
     resultGroups: z
-      .array(z.object({ id: z.string(), title: z.string(), source: z.string().optional() }))
+      .array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          source: z.string().optional(),
+          note: z.string().optional(),
+        })
+      )
+      .optional(),
+    // Raw ad figures used to compute "€ на контакт" (budget ÷ contacts) in the
+    // template, so the derived number can never drift from the real ones.
+    adsMath: z
+      .object({
+        group: z.string().default('ads'),
+        budget: z.number(),
+        directions: z.number(),
+        calls: z.number(),
+        bookings: z.number(),
+      })
       .optional(),
     // Short line shown under both result groups.
     resultsNote: z.string().optional(),
@@ -61,7 +80,12 @@ const cases = defineCollection({
     // quote.photo is the author's photo; until there is one, quoteImage is
     // shown next to the quote instead. Neither present: text only, no frame.
     quote: z
-      .object({ text: z.string(), author: z.string(), role: z.string(), photo: z.string().optional() })
+      .object({
+        text: z.string(),
+        author: z.string(),
+        role: z.string().optional(),
+        photo: z.string().optional(),
+      })
       .optional(),
     quoteImage: img.optional(),
     hero: img.optional(),

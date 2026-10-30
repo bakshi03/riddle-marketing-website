@@ -37,6 +37,10 @@ const {
   aspect = '4 / 3',
   result,
 } = Astro.props;
+
+// The 21cutz logo is white lettering on an opaque near-black box; on a dark
+// tile it reads as a black rectangle unless the box is blended away.
+const darkLogoBg = /^#[01]/i.test(logoBg);
 ---
 
 <a href={href} class="card">
@@ -64,7 +68,7 @@ const {
     {
       logo && (
         <div class="logo-box" style={`background:${logoBg}`}>
-          <Image src={logo} alt="" width={176} height={104} loading="lazy" class="logo-img" />
+          <Image src={logo} alt="" width={176} height={104} loading="lazy" class:list={['logo-img', { 'blend-dark': darkLogoBg }]} />
         </div>
       )
     }
@@ -129,6 +133,9 @@ const {
     width: auto;
     height: auto;
     object-fit: contain;
+  }
+  .logo-box :global(.logo-img.blend-dark) {
+    mix-blend-mode: screen;
   }
   h3 {
     font-family: var(--font-display);

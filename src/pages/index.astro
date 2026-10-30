@@ -7,13 +7,12 @@ import ProjectCard from '../components/ProjectCard.astro';
 import ReportingBlock from '../components/ReportingBlock.astro';
 import PromiseBlock from '../components/PromiseBlock.astro';
 import { projects } from '../data/projects';
-import { results21cutz } from '../data/results';
 import { getPublishedCases, withCaseLink } from '../lib/cases';
-import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL } from '../lib/site';
+import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib/site';
 import logo21cutz from '../assets/img/logo-21cutz.png';
 import logoScaffrent from '../assets/img/logo-scaffrent.png';
 import logoHairsupply from '../assets/img/logo-hairsupply28.jpg';
-import photoSalon from '../assets/img/photo-21cutz-interior.jpg';
+import proofPhoto from '../assets/img/hero-21cutz.jpg';
 import logoGoogleBusiness from '../assets/img/logo-google-business.png';
 import logoGoogleMaps from '../assets/img/logo-google-maps.png';
 import logoGoogleAds from '../assets/img/logo-google-ads.png';
@@ -48,6 +47,7 @@ const circleCards = [
 
 const published = new Map((await getPublishedCases()).map((e) => [e.id, e]));
 const hasPublishedCases = published.size > 0;
+const cutzHighlight = published.get('21cutz')?.data.highlight;
 const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =>
   withCaseLink(p, published)
 );
@@ -71,6 +71,26 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
         </div>
       </div>
     </div>
+    {
+      cutzHighlight && (
+        <a href="/proekti/21cutz/" class="hero-proof">
+          <Picture
+            src={proofPhoto}
+            alt="Салонът на 21cutz, наш клиент"
+            formats={['avif', 'webp']}
+            widths={[400, 800]}
+            sizes="(max-width: 759px) 100vw, 420px"
+            loading="eager"
+            class="proof-img"
+          />
+          <span class="proof-body">
+            <span class="proof-value">{cutzHighlight.value}</span>
+            <span class="proof-label">{cutzHighlight.label}</span>
+            <span class="proof-link">Вижте как</span>
+          </span>
+        </a>
+      )
+    }
   </section>
 
   <section class="clients-strip">
@@ -128,30 +148,6 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
       </div>
 
       <p class="circle-restart">После кръгът започва отначало.</p>
-    </div>
-  </section>
-
-  <section class="result-block">
-    <div class="result-inner">
-      <p class="result-label">{results21cutz.label}</p>
-      <div class="result-numbers">
-        {
-          results21cutz.numbers.map((n) => (
-            <p class="num">
-              <span class="num-value">{n.value}</span>
-              <span class="num-label">{n.label}</span>
-            </p>
-          ))
-        }
-        <p class="num budget">
-          <span class="num-value">{results21cutz.budget.value}</span>
-          <span class="num-label">{results21cutz.budget.label}</span>
-        </p>
-      </div>
-      <div class="result-foot">
-        <p class="result-source">{results21cutz.source}</p>
-        <a href={results21cutz.link.href} class="result-link">{results21cutz.link.label}</a>
-      </div>
     </div>
   </section>
 
@@ -223,22 +219,13 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     <div class="person-inner">
       <h2>Говорите с хората, които вършат работата.</h2>
       <p>Малък екип от София. Без посредници между вас и тези, които правят сайта и рекламите.</p>
-      <div class="person-links">
-        <a href={PHONE_HREF} class="person-phone">{PHONE_DISPLAY}</a>
-        <a href={VIBER_URL}>Viber</a>
-        <a href="/za-nas/">Повече за нас</a>
-      </div>
+      <a href="/za-nas/" class="person-more">Повече за нас</a>
     </div>
-    <div class="person-photo">
-      <Picture
-        src={photoSalon}
-        alt="Салонът на 21cutz, наш клиент"
-        formats={['avif', 'webp']}
-        widths={[400, 800]}
-        sizes="(max-width: 759px) 100vw, 400px"
-        loading="lazy"
-        class="person-img"
-      />
+    <div class="person-card">
+      <a href={PHONE_HREF} class="person-phone">{PHONE_DISPLAY}</a>
+      <a href={VIBER_URL} class="person-contact">Пишете ни във Viber</a>
+      <a href={`mailto:${EMAIL}`} class="person-contact">{EMAIL}</a>
+      <a href={BOOKING_URL} class="person-book">Запазете 30-минутен разговор</a>
     </div>
   </section>
 
@@ -247,17 +234,70 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
 
 <style>
   .hero {
+    max-width: 1440px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
+    gap: 24px;
   }
   .hero-left {
     flex: 1 1 560px;
+    min-width: 0;
     padding: clamp(48px, 7vw, 120px) clamp(20px, 5vw, 72px) clamp(40px, 5vw, 72px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 56px;
+  }
+  .hero-proof {
+    flex: 1 1 340px;
+    max-width: 440px;
+    align-self: center;
+    margin: clamp(24px, 3vw, 56px) clamp(20px, 5vw, 72px) clamp(24px, 3vw, 56px) 0;
+    background: var(--dark);
+    color: var(--bg);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    overflow: hidden;
+  }
+  .hero-proof :global(.proof-img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  .proof-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 24px 28px 28px;
+  }
+  .proof-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(64px, 6vw, 96px);
+    line-height: 0.9;
+    color: var(--accent);
+  }
+  .proof-label {
+    font-size: 19px;
+    line-height: 1.35;
+    color: var(--muted-on-dark);
+  }
+  .proof-link {
+    margin-top: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--bg);
+    text-decoration: underline;
+  }
+  @media (max-width: 759.98px) {
+    .hero-proof {
+      margin: 0 clamp(20px, 5vw, 72px) 40px;
+      max-width: none;
+    }
   }
   h1 {
     font-family: var(--font-display);
@@ -348,14 +388,20 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     height: auto;
     object-fit: contain;
   }
+  /* The 21cutz logo is white lettering on an opaque near-black box; screen
+     blending melts the box into the dark tile so it stops reading as a black
+     rectangle. The max-heights below size the three wordmarks optically
+     equal (Scaff-Rent's square mark needs more height to carry the same
+     visual weight). */
   .client-tile :global(.client-img.cutz) {
-    max-height: 76px;
+    max-height: 80px;
+    mix-blend-mode: screen;
   }
   .client-tile :global(.client-img.scaffrent) {
-    max-height: 84px;
+    max-height: 96px;
   }
   .client-tile :global(.client-img.hairsupply) {
-    max-height: 70px;
+    max-height: 72px;
   }
   .circle {
     background: var(--dark);
@@ -453,60 +499,6 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     font-size: clamp(32px, 3.4vw, 52px);
     line-height: 1;
     margin: clamp(40px, 5vw, 64px) 0 0;
-  }
-  .result-block {
-    background: var(--bg-alt);
-  }
-  .result-inner {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: clamp(48px, 6vw, 88px) clamp(20px, 5vw, 72px);
-  }
-  .result-label {
-    margin: 0 0 clamp(28px, 3vw, 40px);
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(28px, 3vw, 44px);
-    line-height: 0.95;
-  }
-  .result-numbers {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-    gap: 24px clamp(24px, 3vw, 48px);
-  }
-  .num {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(26, 26, 23, 0.25);
-  }
-  .num-value {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(52px, 5.5vw, 88px);
-    line-height: 0.9;
-  }
-  .num-label {
-    font-size: 17px;
-    line-height: 1.35;
-  }
-  .result-foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 12px 32px;
-    margin-top: clamp(28px, 3vw, 40px);
-  }
-  .result-source {
-    margin: 0;
-    font-size: 15px;
-    color: rgba(26, 26, 23, 0.7);
-  }
-  .result-link {
-    font-size: 18px;
-    font-weight: 600;
   }
   .not-needed {
     background: var(--bg-alt);
@@ -639,17 +631,20 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     gap: 56px clamp(20px, 3vw, 40px);
   }
   .person {
+    max-width: 1440px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
+    align-items: center;
+    gap: 40px clamp(40px, 5vw, 88px);
+    padding: clamp(48px, 7vw, 112px) clamp(20px, 5vw, 72px);
     border-top: 1px solid rgba(26, 26, 23, 0.14);
   }
   .person-inner {
     flex: 1 1 440px;
-    padding: clamp(48px, 7vw, 112px) clamp(20px, 5vw, 72px);
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 28px;
   }
   .person h2 {
@@ -667,11 +662,21 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     line-height: 1.45;
     max-width: 30ch;
   }
-  .person-links {
+  .person-more {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .person-card {
+    flex: 0 1 420px;
+    flex-grow: 1;
+    max-width: 520px;
+    background: var(--bg-alt);
+    padding: clamp(28px, 3vw, 44px);
+    border-radius: 4px;
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 12px 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
   }
   .person-phone {
     font-family: var(--font-display);
@@ -679,22 +684,23 @@ const cards = [projects.cutz, projects.scaffrent, projects.hairsupply].map((p) =
     font-size: clamp(40px, 4vw, 56px);
     line-height: 1;
     text-decoration: none;
+    white-space: nowrap;
   }
-  .person-links a:not(.person-phone) {
+  .person-contact {
     font-size: 18px;
+    font-weight: 600;
   }
-  .person-photo {
-    flex: 1 1 360px;
-    min-height: 320px;
-    background: var(--bg-alt);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+  .person-book {
+    margin-top: 10px;
+    background: var(--accent);
+    color: var(--text);
+    font-weight: 700;
+    font-size: 17px;
+    padding: 16px 24px;
+    border-radius: 4px;
+    text-decoration: none;
   }
-  .person-photo :global(.person-img) {
-    width: min(100%, 400px);
-    height: auto;
-    display: block;
+  .person-book:hover {
+    color: var(--text);
   }
 </style>

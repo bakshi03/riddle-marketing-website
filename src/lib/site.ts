@@ -6,3 +6,6 @@ export const VIBER_URL = 'viber://chat?number=%2B359897853219';
 // TODO: replace with a team cal.com link. The current one contains a personal name.
 export const BOOKING_URL = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
 export const EMAIL = 'growth@riddle-marketing.com';
+// TODO: set the lead-form endpoint (e.g. a Google Apps Script web app URL).
+// The form on /kontakt/ stays hidden while this is empty.
+export const FORM_ENDPOINT = '';

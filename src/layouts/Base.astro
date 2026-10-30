@@ -13,9 +13,11 @@ interface Props {
   description: string;
   /** Path of a page-specific OG image (e.g. an imported image's .src). */
   ogImage?: string;
+  /** Keep the page out of search results (e.g. the booking thank-you page). */
+  noindex?: boolean;
 }
 
-const { title, description, ogImage: ogImageOverride } = Astro.props;
+const { title, description, ogImage: ogImageOverride, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL(ogImageOverride ?? ogImage.src, Astro.site);
 const hasOgSize = !ogImageOverride;
@@ -43,6 +45,7 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -101,18 +104,33 @@ const jsonLd = {
     <slot />
     <ConsentBanner />
     <script is:inline>
+      // The site runs gtag.js only (no GTM container), so events must go
+      // through gtag('event', ...); GTM-style dataLayer pushes never reach
+      // GA4. Consent mode is handled by gtag itself: with storage denied it
+      // sends cookieless pings instead of dropping the event.
       document.addEventListener('click', function (e) {
         var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
-        if (!a) return;
+        if (!a || typeof window.gtag !== 'function') return;
         var href = a.getAttribute('href') || '';
         var name = null;
-        if (href.indexOf('tel:') === 0) name = 'click_phone';
+        if (href.indexOf('tel:') === 0) name = 'click_call';
         else if (href.indexOf('viber:') === 0) name = 'click_viber';
         else if (href.indexOf('cal.com') !== -1) name = 'click_booking';
         else if (href.indexOf('mailto:') === 0) name = 'click_email';
         if (!name) return;
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: name, link_url: href, page_path: location.pathname });
+        var loc = 'page';
+        if (a.closest('header')) loc = 'header';
+        else if (a.closest('.mobile-bar')) loc = 'mobile_bar';
+        else if (a.closest('footer')) loc = 'footer';
+        else {
+          var s = a.closest('section');
+          if (s && s.className) loc = String(s.className).split(' ')[0];
+        }
+        window.gtag('event', name, {
+          link_url: href,
+          page_path: location.pathname,
+          cta_location: loc,
+        });
       });
     </script>
   </body>

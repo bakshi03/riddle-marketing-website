@@ -1,23 +1,25 @@
 ---
-# TODO преди публикуване: реален цитат от собственика, скрийншот от таблото в
-# Looker Studio и потвърждение на реда за октомври в resultsNote. После
-# published: true. Черновата се вижда само в режим на разработка.
+# Страницата е публикувана без числа. TODO преди да се покажат резултатите:
+# потвърждение на числата от собственика, реален цитат и скрийншот от таблото
+# в Looker Studio. Дотогава блоковете стоят коментирани по-долу и страницата
+# показва само какво правим.
 title: "HairSupply28: нов канал и ясна картина за всяка продажба"
 client: HairSupply28
 category: Онлайн магазин
-period: от юни до октомври 2026
-intro: Онлайн магазин за грижа за къдрава коса в Shopify. Изградихме Google Ads от нулата и свързахме всяка продажба с канала, който я е донесъл.
+period: работим заедно от юни 2026
+intro: Онлайн магазин в Shopify. Работим заедно от юни 2026. Пуснахме реклами в Google, настроихме Google Analytics и Google Tag Manager, имейл маркетинг с Klaviyo и отчети на живо в Looker Studio.
 before: Магазин с добро търсене, но без реклами в Google и с проследяване само през браузъра. Продажбите вървяха, без да се вижда кой канал ги носи.
 logo: logo-hairsupply28.jpg
-heroStats:
-  - value: "436"
-    label: конверсии от Google Ads
-  - value: 20 300 €
-    label: оборот от новия канал
-  - value: +11%
-    label: продажби на месец
-  - value: +12%
-    label: средна стойност на поръчка
+# TODO (скрити, непотвърдени): heroStats
+# heroStats:
+#   - value: "436"
+#     label: конверсии от Google Ads
+#   - value: 20 300 €
+#     label: оборот от новия канал
+#   - value: +11%
+#     label: продажби на месец
+#   - value: +12%
+#     label: средна стойност на поръчка
 services:
   - name: Реклами в Google, изградени от нулата
     logo: logo-google-ads.png
@@ -29,75 +31,19 @@ services:
     logo: logo-ga4.svg
   - name: Имейл маркетинг с Klaviyo
   - name: Табло на живо в Looker Studio
-resultGroups:
-  - id: google
-    title: Google Ads, нов канал
-    source: "Източник: Google Ads"
-  - id: store
-    title: Онлайн магазинът
-    source: "Източник: Shopify"
-results:
-  - value: 20 300 €
-    label: стойност на конверсиите
-    group: google
-  - value: "436"
-    label: конверсии
-    group: google
-  - value: 3,8
-    label: възвръщаемост на рекламния разход (ROAS)
-    group: google
-  - value: 5 280 €
-    label: рекламен разход за пет месеца
-    group: google
-  - value: 0,50 €
-    label: средна цена на клик
-    group: google
-  - value: 12,1 €
-    label: цена на конверсия
-    group: google
-  - value: 15 072 €
-    label: средни продажби на месец, при 13 611 € през април и май
-    group: store
-  - value: 51,4 €
-    label: средна стойност на поръчка, при 46,0 € преди
-    group: store
-resultsNote: "През октомври продажбите са с 22% повече спрямо септември, а покупките от Meta са с 42% повече при 22% по-нисък разход. [ПОТВЪРДИ]"
-chart:
-  title: Месечни онлайн продажби
-  source: "Източник: Shopify, бруто, в евро"
-  markIndex: 2
-  markLabel: Riddle започва
-  points:
-    - label: апр
-      value: 12858
-    - label: май
-      value: 14363
-    - label: юни
-      value: 18544
-    - label: юли
-      value: 17842
-    - label: авг
-      value: 15099
-    - label: сеп
-      value: 10739
-    - label: окт
-      value: 13138
-      note: до 29.10
-dashboard:
-  title: Всяко евро и всяка продажба, на едно място.
-  caption: Табло на живо в Looker Studio събира Shopify, Meta и Google Ads. Собственикът отваря таблото по всяко време и вижда какво е похарчено и какво е донесло. Всяка продажба се проследява server-side.
-highlight:
-  value: "436"
-  label: конверсии от Google Ads за пет месеца
-  note: Нов канал, изграден от нулата
-  cardLabel: конверсии от Google Ads
-quote:
-  text: "[ПОПЪЛНИ: Цитат от собственика]"
-  author: "[ПОПЪЛНИ: име]"
-  role: "[ПОПЪЛНИ: роля]"
-quoteImage:
-  src: photo-hairsupply-product.jpg
-  alt: Продукти на HairSupply28
+# TODO (скрити до потвърждение от собственика): results, resultGroups, chart,
+# resultsNote, highlight. Числата от чернова 2026-10: 20 300 € стойност на
+# конверсиите, 436 конверсии, ROAS 3,8, 5 280 € разход за пет месеца, 0,50 €
+# CPC, 12,1 € цена на конверсия, 15 072 € средни месечни продажби (13 611 €
+# преди), 51,4 € средна поръчка (46,0 € преди); октомври +22% спрямо
+# септември, Meta покупки +42% при 22% по-нисък разход.
+# TODO: цитат от собственика (без лично име, „Собственикът на HairSupply28“).
+# quoteImage остава за цитата, когато има цитат.
+# quoteImage:
+#   src: photo-hairsupply-product.jpg
+#   alt: Продукти на HairSupply28
+# TODO: скрийншот от таблото в Looker Studio (dashboard.image), после се
+# връща блокът dashboard.
 hero:
   src: hero-hairsupply28.png
   alt: Продукти на HairSupply28
@@ -113,5 +59,5 @@ images:
     caption: Серията Color Save
 siteUrl: https://hairsupply28.com/
 order: 3
-published: false
+published: true
 ---

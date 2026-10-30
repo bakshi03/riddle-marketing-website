@@ -99,6 +99,8 @@ import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
 
 <style>
   .hero {
+    max-width: 1440px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
@@ -220,9 +222,12 @@ import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
   }
   .logo-tile :global(.tile-img.tall) {
     max-height: 100px;
+    /* White lettering on an opaque near-black box; blend the box into the
+       dark tile so it stops reading as a black rectangle. */
+    mix-blend-mode: screen;
   }
   .logo-tile :global(.tile-img.tallest) {
-    max-height: 120px;
+    max-height: 128px;
   }
   .logo-tile :global(.tile-img.mid) {
     max-height: 92px;

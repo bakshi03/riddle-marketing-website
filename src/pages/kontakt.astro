@@ -5,7 +5,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Faq from '../components/Faq.astro';
 import viberLogo from '../assets/img/logo-viber.png';
-import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib/site';
+import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL, FORM_ENDPOINT } from '../lib/site';
+import { faq } from '../data/faq';
 ---
 
 <Base
@@ -38,28 +39,77 @@ import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib
     </div>
   </section>
 
-  <Faq
-    items={[
-      {
-        q: 'Колко струва?',
-        a: 'Строго индивидуално е, според бизнеса ви и къде е нужно да се показвате. Ако ви трябва само реклама в Google, няма да ви продаваме и Meta.',
-      },
-      {
-        q: 'Кога ще видя резултат?',
-        a: 'Първите числа виждате още на следващия ден. След първия месец правим анализ заедно, онлайн или на живо, както ви е удобно.',
-      },
-      {
-        q: 'Чий е сайтът?',
-        a: 'Както изберете. Може да е изцяло ваш. Може и да е наш, а вие да го ползвате на абонамент.',
-      },
-      {
-        q: 'Колко да отделя за реклама?',
-        a: 'Строго индивидуално е. Зависи какво искаме да постигнем и най-вече къде.',
-      },
-    ]}
-  />
+  {
+    FORM_ENDPOINT && (
+      <section class="lead">
+        <div class="lead-inner">
+          <div class="lead-head">
+            <h2>Безплатен преглед на профила и сайта ви.</h2>
+            <p>Изпратете ни линк. Ще ви кажем какво бихме подобрили първо.</p>
+          </div>
+          <form class="lead-form" id="lead-form" data-endpoint={FORM_ENDPOINT}>
+            <label>
+              <span>Име</span>
+              <input type="text" name="name" required autocomplete="name" />
+            </label>
+            <label>
+              <span>Телефон</span>
+              <input type="tel" name="phone" required autocomplete="tel" />
+            </label>
+            <label>
+              <span>Линк към сайта или профила ви</span>
+              <input type="url" name="link" required placeholder="https://" />
+            </label>
+            <label class="lead-consent">
+              <input type="checkbox" name="consent" required />
+              <span>
+                Съгласявам се данните от формата да се използват за връзка с мен, според{' '}
+                <a href="/poveritelnost/">политиката за поверителност</a>.
+              </span>
+            </label>
+            <button type="submit" class="lead-btn">Изпратете</button>
+            <p class="lead-status" id="lead-status" role="status" hidden />
+          </form>
+        </div>
+      </section>
+    )
+  }
+
+  <Faq items={faq} />
 
   <Footer />
+
+  <script>
+    // Lead form: POST to the endpoint from data-endpoint, then confirm and
+    // fire generate_lead. The whole block is absent while FORM_ENDPOINT is
+    // empty, so this script just finds nothing and exits.
+    const form = document.getElementById('lead-form') as HTMLFormElement | null;
+    const status = document.getElementById('lead-status');
+    if (form && status) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+        btn.disabled = true;
+        status.hidden = true;
+        fetch(form.dataset.endpoint!, { method: 'POST', mode: 'no-cors', body: new FormData(form) })
+          .then(() => {
+            form.reset();
+            status.textContent = 'Получихме данните. Ще се свържем с вас до един работен ден.';
+            status.hidden = false;
+            const g = (window as any).gtag;
+            if (typeof g === 'function') g('event', 'generate_lead', { page_path: location.pathname });
+          })
+          .catch(() => {
+            status.textContent = 'Нещо се обърка. Обадете се или ни пишете във Viber.';
+            status.hidden = false;
+          })
+          .finally(() => {
+            btn.disabled = false;
+          });
+      });
+    }
+  </script>
 </Base>
 
 <style>
@@ -97,6 +147,8 @@ import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib
     line-height: 0.9;
     text-decoration: none;
     letter-spacing: -0.01em;
+    /* The number must never break onto two lines. */
+    white-space: nowrap;
   }
   .cta-row {
     display: flex;
@@ -170,5 +222,85 @@ import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib
   }
   .card p:last-child {
     padding-bottom: 0;
+  }
+  .lead {
+    background: var(--bg-alt);
+  }
+  .lead-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 7vw, 112px) clamp(20px, 5vw, 72px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px clamp(40px, 6vw, 104px);
+    align-items: flex-start;
+  }
+  .lead-head {
+    flex: 1 1 420px;
+  }
+  .lead-head h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 4.4vw, 64px);
+    line-height: 0.95;
+    margin: 0;
+    max-width: 14ch;
+  }
+  .lead-head p {
+    margin: 20px 0 0;
+    font-size: 20px;
+    line-height: 1.45;
+    max-width: 36ch;
+  }
+  .lead-form {
+    flex: 1 1 420px;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .lead-form label:not(.lead-consent) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .lead-form input:not([type='checkbox']) {
+    font: 400 18px var(--font-body);
+    padding: 14px 16px;
+    border: 1px solid rgba(26, 26, 23, 0.35);
+    border-radius: 4px;
+    background: #ffffff;
+    color: var(--text);
+  }
+  .lead-consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .lead-consent input {
+    margin-top: 3px;
+  }
+  .lead-btn {
+    align-self: flex-start;
+    background: var(--accent);
+    color: var(--text);
+    font: 700 18px var(--font-body);
+    padding: 18px 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .lead-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+  .lead-status {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
   }
 </style>
