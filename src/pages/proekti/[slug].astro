@@ -17,8 +17,10 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const d = entry.data;
 
+// Covers src/assets/img/ and per-case folders like src/assets/hairsupply28/;
+// an image src may carry its folder ("hairsupply28/welcome-email.jpg").
 const allImages = import.meta.glob<{ default: ImageMetadata }>(
-  '../../assets/img/*.{jpg,jpeg,png,svg,webp}',
+  '../../assets/**/*.{jpg,jpeg,png,svg,webp}',
   { eager: true }
 );
 const img = (name?: string) =>
@@ -31,7 +33,7 @@ const gallery = d.images
   .map((im) => ({ ...im, meta: img(im.src) }))
   .filter((im): im is typeof im & { meta: ImageMetadata } => Boolean(im.meta));
 
-const groupDefs = d.resultGroups ?? [
+const groupDefs: NonNullable<typeof d.resultGroups> = d.resultGroups ?? [
   { id: 'site', title: 'От сайта', source: 'Източник: Google Analytics 4' },
   { id: 'ads', title: 'От рекламите в Google', source: 'Източник: Google Ads' },
 ];
@@ -42,6 +44,7 @@ const costPerContact = d.adsMath
       value: `${Math.round(d.adsMath.budget / (d.adsMath.directions + d.adsMath.calls + d.adsMath.bookings))} €`,
       label: 'на контакт: обаждане, упътване или записан час',
       group: d.adsMath.group,
+      dots: undefined,
     }
   : undefined;
 const groups = groupDefs
@@ -54,7 +57,8 @@ const groups = groupDefs
   }))
   .filter((g) => g.results.length > 0);
 // Published pages hide an empty results section; drafts keep the visible slot.
-const showResults = groups.length > 0 || Boolean(d.chart) || Boolean(d.resultsNote) || !d.published;
+const showResults =
+  groups.length > 0 || Boolean(d.chart) || Boolean(d.resultsNote) || Boolean(d.resultsFootnote) || !d.published;
 
 const logoImg = img(d.logo);
 const dashImg = img(d.dashboard?.image);
@@ -65,10 +69,10 @@ const chartMax = d.chart ? Math.max(...d.chart.points.map((p) => p.value)) : 0;
 
 const siteUrlText = d.siteUrl?.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
-const title = `${d.title ?? `${d.client}: ${d.category}`} | Riddle Marketing`;
-const description = [d.intro, d.highlight ? `${d.highlight.value} ${d.highlight.label}.` : '']
-  .filter(Boolean)
-  .join(' ');
+const title = d.seoTitle ?? `${d.title ?? `${d.client}: ${d.category}`} | Riddle Marketing`;
+const description =
+  d.seoDescription ??
+  [d.intro, d.highlight ? `${d.highlight.value} ${d.highlight.label}.` : ''].filter(Boolean).join(' ');
 
 const breadcrumbLd = {
   '@context': 'https://schema.org',
@@ -181,26 +185,62 @@ const breadcrumbLd = {
 
   {showResults && <section class="case-results">
     <div class="case-results-inner">
-      <h2>Резултатът</h2>
+      <h2 class:list={[{ 'has-period': Boolean(d.resultsPeriod) }]}>Резултатът</h2>
+      {d.resultsPeriod && <p class="results-period">{d.resultsPeriod}</p>}
       {
         groups.length > 0 ? (
-          groups.map((g) => (
-            <div class="result-group">
-              <div class="group-head">
-                <h3>{g.title}</h3>
-                <p class="group-source">{g.source}</p>
-              </div>
-              <div class="results-grid">
+          groups.map((g) => {
+            const stats = (
+              <div class:list={['results-grid', g.columns ? `cols-${g.columns}` : undefined]}>
                 {g.results.map((r) => (
                   <div class="result">
                     <p class="result-value">{r.value}</p>
                     <p class="result-label">{r.label}</p>
+                    {r.dots && (
+                      <div class="dots" aria-hidden="true">
+                        {Array.from({ length: r.dots.total }, (_, i) => (
+                          <i class:list={[{ on: i < (r.dots?.filled ?? 0) }]} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-              {g.note && <p class="group-note">{g.note}</p>}
-            </div>
-          ))
+            );
+            return (
+              <div class="result-group">
+                <div class="group-head">
+                  <h3>{g.title}</h3>
+                  <p class="group-source">{g.source}</p>
+                </div>
+                {g.bars ? (
+                  <div class="split">
+                    <div>
+                      {g.intro && <p class="split-intro">{g.intro}</p>}
+                      <div class="index-bars" role="img" aria-label={g.bars.ariaLabel}>
+                        {g.bars.items.map((b) => (
+                          <div class:list={['index-bar', { accent: b.accent }]}>
+                            <span class="bar-name">{b.label}</span>
+                            <span class="bar-track">
+                              <span
+                                class="bar-fill"
+                                style={`width:${Math.round((b.value / Math.max(...g.bars!.items.map((x) => x.value))) * 1000) / 10}%`}
+                              />
+                            </span>
+                            <span class="bar-value">{b.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {stats}
+                  </div>
+                ) : (
+                  stats
+                )}
+                {g.note && <p class="group-note">{g.note}</p>}
+              </div>
+            );
+          })
         ) : (
           <p class="result-label">
             <Placeholder note="числа от GA4 и Google Ads, в две групи" />
@@ -261,6 +301,7 @@ const breadcrumbLd = {
         )
       }
       {d.resultsNote && <p class="results-note">{d.resultsNote}</p>}
+      {d.resultsFootnote && <p class="results-footnote">{d.resultsFootnote}</p>}
     </div>
   </section>}
 
@@ -297,10 +338,11 @@ const breadcrumbLd = {
   {
     gallery.length > 0 && (
       <section class="case-images">
-        <div class="images-row">
+        {d.imagesTitle && <h2 class="images-title">{d.imagesTitle}</h2>}
+        <div class:list={['images-row', { four: gallery.length >= 4 }]}>
           {gallery.map((im) => (
             <figure>
-              <div class="shot-frame">
+              <div class="shot-frame" style={d.imagesAspect ? `aspect-ratio:${d.imagesAspect}` : undefined}>
                 <Picture
                   src={im.meta}
                   alt={im.alt}
@@ -346,8 +388,10 @@ const breadcrumbLd = {
   {
     d.siteUrl && (
       <section class="case-live">
-        <p>Вижте резултата на живо:</p>
-        <a href={d.siteUrl} rel="noopener">{siteUrlText}</a>
+        <p>{d.siteUrlLabel ?? 'Вижте резултата на живо:'}</p>
+        <a href={d.siteUrl} rel="noopener" target={d.siteUrlNewTab ? '_blank' : undefined}>
+          {siteUrlText}
+        </a>
       </section>
     )
   }
@@ -580,6 +624,120 @@ const breadcrumbLd = {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
     gap: 36px clamp(24px, 4vw, 56px);
   }
+  /* Fixed column counts: four across (two on narrow screens) or a steady two,
+     so a number is never orphaned on its own row. */
+  .results-grid.cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .results-grid.cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .results-grid.cols-4 .result-value,
+  .results-grid.cols-2 .result-value {
+    font-size: clamp(40px, 4.6vw, 84px);
+  }
+  @media (max-width: 900px) {
+    .results-grid.cols-4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 519px) {
+    .results-grid.cols-4,
+    .results-grid.cols-2 {
+      gap: 28px 20px;
+    }
+    .results-grid.cols-4 .result-value,
+    .results-grid.cols-2 .result-value {
+      font-size: clamp(32px, 10.5vw, 44px);
+    }
+  }
+  .case-results h2.has-period {
+    margin-bottom: 10px;
+  }
+  .results-period {
+    margin: 0 0 clamp(32px, 4vw, 56px);
+    font-size: 15px;
+    color: var(--muted-on-dark);
+  }
+  .dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .dots i {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+  }
+  .dots i.on {
+    background: var(--accent);
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+  .split-intro {
+    margin: 0 0 24px;
+    font-size: clamp(18px, 1.5vw, 21px);
+    line-height: 1.5;
+    max-width: 40ch;
+  }
+  .index-bars {
+    display: grid;
+    gap: 10px;
+    max-width: 520px;
+  }
+  .index-bar {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr) 52px;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--muted-on-dark);
+  }
+  .index-bar.accent {
+    color: var(--bg);
+  }
+  .bar-track {
+    display: block;
+    height: 14px;
+    background: rgba(243, 240, 233, 0.14);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    display: block;
+    height: 100%;
+    background: var(--muted-on-dark);
+  }
+  .index-bar.accent .bar-fill {
+    background: var(--accent);
+  }
+  .bar-value {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (max-width: 519px) {
+    .index-bar {
+      grid-template-columns: 80px minmax(0, 1fr) 40px;
+    }
+  }
+  .results-footnote {
+    margin: clamp(32px, 4vw, 48px) 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted-on-dark);
+    max-width: 62ch;
+  }
   .result-value {
     margin: 0;
     font-family: var(--font-display);
@@ -616,6 +774,9 @@ const breadcrumbLd = {
     margin: 0 auto;
     padding: clamp(64px, 8vw, 120px) clamp(20px, 5vw, 72px) 0;
   }
+  .images-title {
+    margin-bottom: clamp(28px, 3.5vw, 48px);
+  }
   .images-row {
     display: flex;
     flex-wrap: wrap;
@@ -625,6 +786,20 @@ const breadcrumbLd = {
   .images-row figure {
     margin: 0;
     flex: 0 1 320px;
+  }
+  /* Four or more tiles: a fixed grid, so the row never wraps 3 + 1. */
+  .images-row.four {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: clamp(28px, 3vw, 48px);
+  }
+  .images-row.four figure {
+    flex: none;
+  }
+  @media (max-width: 900px) {
+    .images-row.four {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   .shot-frame {
     background: #ffffff;

@@ -9,6 +9,7 @@ import logoGoogleAds from '../assets/img/logo-google-ads.png';
 import logoGa4 from '../assets/img/logo-ga4.svg';
 import logoWordpress from '../assets/img/logo-wordpress.png';
 import logoShopify from '../assets/img/logo-shopify.svg';
+import logoMeta from '../assets/img/logo-meta.svg';
 
 export const projects = {
   cutz: {
@@ -48,7 +49,13 @@ export const projects = {
     linkText: 'hairsupply28.com',
     image: heroHairsupply,
     logo: logoHairsupply,
-    chips: [{ icon: logoShopify, label: 'Shopify' }],
+    chips: [
+      { icon: logoShopify, label: 'Shopify' },
+      { icon: logoGoogleAds, label: 'Google Ads' },
+      { icon: logoMeta, label: 'Meta' },
+      // TODO: лого на Klaviyo (src/assets/img/); дотогава чипът е само текст.
+      { label: 'Klaviyo' },
+    ],
   },
   // Djidji Stil has no real logo in the repo, so the card shows the name as
   // text only (no ladybird placeholder icon).

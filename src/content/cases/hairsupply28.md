@@ -1,63 +1,120 @@
 ---
-# Страницата е публикувана без числа. TODO преди да се покажат резултатите:
-# потвърждение на числата от собственика, реален цитат и скрийншот от таблото
-# в Looker Studio. Дотогава блоковете стоят коментирани по-долу и страницата
-# показва само какво правим.
-title: "HairSupply28: нов канал и ясна картина за всяка продажба"
+# Източник на всички числа: Shopify, Google Analytics 4, Google Ads, Meta Ads
+# и Klaviyo, от 1 юни до 30 октомври 2026. Дяловете от продажбите са по
+# данните на всяка платформа и може да се застъпват. По договорка с клиента
+# страницата показва само проценти и съотношения, без суми.
+title: "HairSupply28: 8 от 10 поръчки от нови клиенти, с реклами за 13% от оборота"
+seoTitle: "HairSupply28: 8 от 10 поръчки от нови клиенти | Riddle Marketing"
+seoDescription: Онлайн магазин за продукти за къдрава коса. От юни поехме рекламите, имейлите и измерването. 8 от 10 поръчки са от нови клиенти, с реклами за 13% от оборота.
 client: HairSupply28
 category: Онлайн магазин
-period: работим заедно от юни 2026
-intro: Онлайн магазин в Shopify. Работим заедно от юни 2026. Пуснахме реклами в Google, настроихме Google Analytics и Google Tag Manager, имейл маркетинг с Klaviyo и отчети на живо в Looker Studio.
-before: Магазин с добро търсене, но без реклами в Google и с проследяване само през браузъра. Продажбите вървяха, без да се вижда кой канал ги носи.
+# location пълни средното място на реда „категория · … · период" в героя.
+location: Shopify
+period: от 1 юни до 30 октомври 2026
+intro: Онлайн магазин за продукти за къдрава коса. Собствениците го движат до основната си работа и нямаха време за маркетинга. От юни поехме рекламите, имейлите и измерването.
+before: Нямаше реклами в Google и имейл маркетинг. Рекламите в Meta се отчитаха само с пиксела, без сървърно проследяване. Собствениците търсеха някой, който да поеме маркетинга, да предлага сам и да отговаря бързо.
 logo: logo-hairsupply28.jpg
-# TODO (скрити, непотвърдени): heroStats
-# heroStats:
-#   - value: "436"
-#     label: конверсии от Google Ads
-#   - value: 20 300 €
-#     label: оборот от новия канал
-#   - value: +11%
-#     label: продажби на месец
-#   - value: +12%
-#     label: средна стойност на поръчка
 services:
-  - name: Реклами в Google, изградени от нулата
+  - name: Реклами в Google при търсене на продуктите
     logo: logo-google-ads.png
-  - name: Server-side проследяване и банер за съгласие
-    logo: logo-gtm.svg
-  - name: Нова структура на Meta рекламите, каталог и видео
+  - name: Реклами в Meta с UGC видеа и динамичен каталог
     logo: logo-meta.svg
-  - name: GA4, Tag Manager и Search Console
-    logo: logo-ga4.svg
-  - name: Имейл маркетинг с Klaviyo
-  - name: Табло на живо в Looker Studio
-# TODO (скрити до потвърждение от собственика): results, resultGroups, chart,
-# resultsNote, highlight. Числата от чернова 2026-10: 20 300 € стойност на
-# конверсиите, 436 конверсии, ROAS 3,8, 5 280 € разход за пет месеца, 0,50 €
-# CPC, 12,1 € цена на конверсия, 15 072 € средни месечни продажби (13 611 €
-# преди), 51,4 € средна поръчка (46,0 € преди); октомври +22% спрямо
-# септември, Meta покупки +42% при 22% по-нисък разход.
-# TODO: цитат от собственика (без лично име, „Собственикът на HairSupply28“).
-# quoteImage остава за цитата, когато има цитат.
-# quoteImage:
-#   src: photo-hairsupply-product.jpg
-#   alt: Продукти на HairSupply28
-# TODO: скрийншот от таблото в Looker Studio (dashboard.image), после се
-# връща блокът dashboard.
+  - name: Сървърно проследяване и Conversions API за Meta
+    logo: logo-gtm.svg
+  - name: "Автоматични имейли в Klaviyo: приветствие, изоставена количка, връщане на клиенти"
+  - name: Почистен списък и нов банер за бисквитки по GDPR
+  - name: Google Analytics 4, Tag Manager и Search Console
+  - name: "Табло на живо: Shopify, Meta и Google Ads на едно място"
+resultsPeriod: От 1 юни до 30 октомври 2026
+resultGroups:
+  - id: channels
+    title: Два нови канала
+    source: "Източник: Google Analytics 4, Google Ads и Klaviyo"
+    columns: 4
+  - id: store
+    title: Магазинът
+    source: "Източник: Shopify, Google Ads и Meta"
+    columns: 2
+  - id: octsep
+    title: Октомври спрямо септември
+    source: "Източник: Shopify и Meta"
+    columns: 2
+    intro: "През септември продажбите паднаха. Пуснахме нови UGC видеа в Meta. Месец по-късно:"
+    bars:
+      ariaLabel: "Продажби: септември 100, октомври 127"
+      items:
+        - label: Септември
+          value: 100
+        - label: Октомври
+          value: 127
+          accent: true
+results:
+  - value: 1 от 5
+    label: продажби идва от рекламите в Google
+    group: channels
+  - value: 3,8 €
+    label: продажби за всеки 1 € в Google Ads
+    group: channels
+  - value: 12%
+    label: от продажбите идват от автоматичните имейли, по данни на Klaviyo
+    group: channels
+  - value: 39%
+    label: отварят приветствения имейл
+    group: channels
+  - value: 8 от 10
+    label: поръчки са от нови клиенти
+    group: store
+    dots:
+      total: 10
+      filled: 8
+  - value: 13%
+    label: от оборота отиват за реклами, във всички канали заедно
+    group: store
+  - value: +27%
+    label: продажби
+    group: octsep
+  - value: +32%
+    label: поръчки
+    group: octsep
+  - value: "−45%"
+    label: цена на покупка в Meta
+    group: octsep
+  - value: +65%
+    label: възвръщаемост на рекламите в Meta
+    group: octsep
+resultsFootnote: Данни от Shopify, Google Analytics 4, Google Ads, Meta и Klaviyo. Дяловете от продажбите са по данните на всяка платформа и може да се застъпват.
+highlight:
+  value: 8 от 10
+  label: поръчки са от нови клиенти
+  cardLabel: поръчки от нови клиенти
+# TODO: цитат от собствениците. Блокът стои скрит, докато quote липсва.
+# Подпис, когато има цитат: „Собствениците на HairSupply28".
+# quote:
+#   text: ...
+#   author: Собствениците на HairSupply28
 hero:
-  src: hero-hairsupply28.png
+  src: photo-hairsupply-product.jpg
   alt: Продукти на HairSupply28
+imagesTitle: От рекламите и имейл маркетинга
+imagesAspect: 2 / 3
+# Резервен кадър, нарочно извън галерията: hairsupply28/klaviyo-popup.jpg
+# (формата за записване в магазина), стои в папката за по-късна смяна.
 images:
-  - src: photo-hairsupply-fifty-fifty.jpg
-    alt: Кремът за къдрици Fifty Fifty
-    caption: Fifty Fifty, кремът за къдрици на магазина
-  - src: photo-hairsupply-fifty-fifty-2.jpg
-    alt: Кремът Fifty Fifty в употреба
-    caption: Fifty Fifty в употреба
-  - src: photo-hairsupply-colorsave.jpg
-    alt: Серията Color Save на HairSupply28
-    caption: Серията Color Save
+  - src: hairsupply28/ugc-one-secret-feed.jpg
+    alt: UGC видео реклама в Meta за One Secret с каталог с продукти под нея
+    caption: UGC видео и каталог в Meta
+  - src: hairsupply28/ugc-fifty-fifty.jpg
+    alt: UGC видео реклама в Meta за Fifty Fifty Curly Creme
+    caption: UGC видео в Meta
+  - src: hairsupply28/catalog-carousel.jpg
+    alt: Реклама в Meta с въртележка от продукти на HairSupply28
+    caption: Реклама с каталог в Meta
+  - src: hairsupply28/welcome-email.jpg
+    alt: Приветствен имейл на HairSupply28 с код за отстъпка и препоръчани продукти
+    caption: Приветствен имейл в Klaviyo
 siteUrl: https://hairsupply28.com/
+siteUrlLabel: "Вижте магазина на живо:"
+siteUrlNewTab: true
 order: 3
 published: true
 ---

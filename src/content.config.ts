@@ -10,6 +10,10 @@ const cases = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/cases' }),
   schema: z.object({
     title: z.string().optional(),
+    // Exact <title> and meta description. Absent: both are derived from the
+    // page content (title + intro + highlight), as before.
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
     client: z.string(),
     category: z.string(),
     location: z.string().optional(),
@@ -22,7 +26,15 @@ const cases = defineCollection({
     // Compact stat cards in the hero, next to the intro.
     heroStats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
     results: z
-      .array(z.object({ value: z.string(), label: z.string(), group: z.string() }))
+      .array(
+        z.object({
+          value: z.string(),
+          label: z.string(),
+          group: z.string(),
+          // Decorative row of circles under the number (e.g. 8 of 10 filled).
+          dots: z.object({ total: z.number(), filled: z.number() }).optional(),
+        })
+      )
       .default([]),
     // Names the result groups. Absent: the legacy pair (site / ads) is used,
     // so older cases keep their wording without repeating it. A group's note
@@ -34,6 +46,21 @@ const cases = defineCollection({
           title: z.string(),
           source: z.string().optional(),
           note: z.string().optional(),
+          // Fixed column count for the group's numbers (2 or 4). They drop to
+          // two columns on narrow screens, so a number is never alone on a row.
+          // Absent: the auto-fit grid, as before.
+          columns: z.number().optional(),
+          // A group with bars renders split: intro text and horizontal index
+          // bars on the left, its numbers in two columns on the right.
+          intro: z.string().optional(),
+          bars: z
+            .object({
+              ariaLabel: z.string(),
+              items: z.array(
+                z.object({ label: z.string(), value: z.number(), accent: z.boolean().default(false) })
+              ),
+            })
+            .optional(),
         })
       )
       .optional(),
@@ -50,6 +77,10 @@ const cases = defineCollection({
       .optional(),
     // Short line shown under both result groups.
     resultsNote: z.string().optional(),
+    // Small line right under the „Резултатът" heading (e.g. the period).
+    resultsPeriod: z.string().optional(),
+    // Small muted methodology footnote at the bottom of the results band.
+    resultsFootnote: z.string().optional(),
     // Bar chart inside the results section. markIndex points at the month a
     // dashed line and markLabel single out. A point's note is printed under
     // its month label (e.g. a partial month).
@@ -89,8 +120,16 @@ const cases = defineCollection({
       .optional(),
     quoteImage: img.optional(),
     hero: img.optional(),
+    // Optional heading above the screenshot gallery and an aspect ratio for
+    // its frames (CSS value, e.g. "2 / 3"; default 3 / 5).
+    imagesTitle: z.string().optional(),
+    imagesAspect: z.string().optional(),
     images: z.array(img).default([]),
     siteUrl: z.string().url().optional(),
+    // Lead-in text for the live link (default „Вижте резултата на живо:")
+    // and whether it opens in a new tab.
+    siteUrlLabel: z.string().optional(),
+    siteUrlNewTab: z.boolean().default(false),
     order: z.number().default(99),
     published: z.boolean().default(false),
   }),

@@ -1,0 +1,282 @@
+<title>Казус HairSupply28</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@700;800&family=Sofia+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: riddle-marketing.com case-study template. Light paper page, one dark pine results band with gold figures, yellow CTA band. Single light look on purpose, matching the live site. */
+:root {
+  --paper: #f2f0ea;
+  --sand: #e7e3d6;
+  --ink: #1a1a17;
+  --muted: #5d5b53;
+  --line: #d6d1c2;
+  --pine: #212b25;
+  --pine-2: #2a362f;
+  --pine-line: #3c4a42;
+  --gold: #f3c12e;
+  --on-pine: #f2f0ea;
+  --on-pine-muted: #b8beb4;
+  --display: "Sofia Sans Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Sofia Sans", "Segoe UI", system-ui, sans-serif;
+  --wrap: 1120px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+.band { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: var(--wrap); margin: 0 auto; }
+h1, h2, h3, .num { font-family: var(--display); font-weight: 800; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+
+/* draft note */
+.note { background: var(--ink); color: var(--paper); font-size: 14px; padding-block: 10px; }
+.note .wrap { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.note b { color: var(--gold); font-weight: 700; }
+
+/* header */
+.top { border-bottom: 1px solid var(--line); padding-block: 16px; background: var(--paper); }
+.top .wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.logo { font-family: var(--display); font-weight: 800; font-size: 24px; text-decoration: none; }
+.nav { display: flex; gap: 20px; font-size: 15px; flex-wrap: wrap; }
+.nav a { text-decoration: none; }
+.nav a[aria-current] { border-bottom: 2px solid var(--ink); }
+.top .right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 15px; font-weight: 600; }
+.btn { display: inline-block; background: var(--gold); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px; padding: 12px 18px; border-radius: 4px; }
+.btn.dark { background: var(--ink); color: var(--paper); }
+
+/* hero */
+.hero { padding-block: 56px 72px; }
+.hero .wrap { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
+.crumbs { font-size: 14px; color: var(--muted); display: flex; gap: 8px; margin-bottom: 22px; }
+.crumbs a { color: var(--ink); }
+.hero h1 { font-size: clamp(44px, 6.4vw, 82px); line-height: 0.92; }
+.hero h1 .brand { display: block; color: var(--muted); font-size: 0.5em; line-height: 1.1; margin-bottom: 10px; letter-spacing: 0; }
+.lead { font-size: 19px; max-width: 34em; margin: 26px 0 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--muted); margin-top: 20px; }
+.meta span + span::before { content: "·"; margin-right: 18px; color: var(--line); }
+
+.photo { aspect-ratio: 4 / 5; max-width: 100%; border-radius: 6px; background:
+  repeating-linear-gradient(135deg, var(--sand) 0 14px, #ebe7db 14px 28px); display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 14px; padding: 24px; border: 1px dashed #c9c3b2; }
+.photo b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
+
+/* before / did */
+.story { padding-block: 0 80px; }
+.story .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; border-top: 1px solid var(--line); padding-top: 48px; }
+.story h2 { font-size: 34px; margin-bottom: 16px; }
+.story p { margin: 0; max-width: 32em; }
+.did { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.did li { padding: 13px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.did li:first-child { padding-top: 2px; }
+
+/* results */
+.results { background: var(--pine); color: var(--on-pine); padding-block: 80px; }
+.results h2 { font-size: clamp(40px, 5vw, 60px); }
+.results .period { color: var(--on-pine-muted); font-size: 15px; margin-top: 8px; }
+.group { border-top: 1px solid var(--pine-line); margin-top: 44px; padding-top: 30px; }
+.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
+.group-head h3 { font-size: 30px; }
+.src { font-size: 13px; color: var(--on-pine-muted); }
+.stats { display: grid; gap: 28px 32px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stat { min-width: 0; }
+.num { color: var(--gold); font-size: clamp(52px, 6vw, 76px); line-height: 0.95; font-variant-numeric: tabular-nums; }
+.num small { font-size: 0.5em; margin-left: 2px; }
+.stat p { margin: 10px 0 0; color: var(--on-pine-muted); font-size: 15px; max-width: 18em; }
+.stat p strong { color: var(--on-pine); font-weight: 600; }
+.intro { margin: 0 0 26px; max-width: 40em; color: var(--on-pine); }
+
+/* 8 of 10 strip */
+.dots { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.dots i { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--gold); }
+.dots i.on { background: var(--gold); }
+
+/* oct vs sep index bars */
+.bars { display: grid; gap: 10px; margin-top: 4px; max-width: 520px; }
+.bar { display: grid; grid-template-columns: 92px 1fr 52px; align-items: center; gap: 12px; font-size: 14px; color: var(--on-pine-muted); }
+.bar .track { height: 14px; background: var(--pine-2); border-radius: 2px; overflow: hidden; }
+.bar .fill { height: 100%; background: var(--on-pine-muted); }
+.bar.oct .fill { background: var(--gold); }
+.bar.oct { color: var(--on-pine); }
+.bar span:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+
+.foot-note { margin-top: 48px; font-size: 13px; color: var(--on-pine-muted); max-width: 52em; }
+
+/* gallery */
+.gallery { padding-block: 80px 56px; }
+.gallery h2 { font-size: 34px; margin-bottom: 24px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.tile figure { margin: 0; }
+.tile .shot { aspect-ratio: 9 / 16; max-width: 100%; border-radius: 6px; background:
+  repeating-linear-gradient(135deg, var(--sand) 0 14px, #ebe7db 14px 28px); border: 1px dashed #c9c3b2; display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 13px; padding: 16px; }
+.tile img { display: block; width: 100%; max-width: 100%; aspect-ratio: 2 / 3; object-fit: cover; object-position: top; border-radius: 6px; border: 1px solid var(--line); background: var(--sand); }
+.tile figcaption { font-size: 14px; margin-top: 10px; }
+.site-link { margin-top: 40px; font-size: 17px; }
+.site-link a { font-weight: 700; }
+
+/* CTA */
+.cta { background: var(--gold); padding-block: 72px; }
+.cta .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: end; }
+.cta h2 { font-size: clamp(44px, 6vw, 78px); line-height: 0.95; }
+.cta ul { list-style: none; padding: 0; margin: 28px 0 0; max-width: 30em; font-size: 15px; }
+.cta li { padding: 10px 0; border-top: 1px solid rgba(26, 26, 23, 0.25); }
+.cta .act { display: grid; gap: 12px; justify-items: start; font-size: 15px; }
+
+.footer { background: var(--pine); color: var(--on-pine-muted); padding-block: 28px; font-size: 13px; }
+
+@media (max-width: 900px) {
+  .hero .wrap, .story .wrap, .cta .wrap, .split { grid-template-columns: 1fr; gap: 36px; }
+  .photo { aspect-ratio: 16 / 10; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav { display: none; }
+}
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .top .right .phone { display: none; }
+  .hero { padding-block: 36px 48px; }
+  .stats.two { grid-template-columns: 1fr 1fr; }
+  .results { padding-block: 56px; }
+  .bar { grid-template-columns: 76px 1fr 44px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bar .fill { animation: grow 900ms ease-out both; transform-origin: left; }
+  @keyframes grow { from { transform: scaleX(0.2); } to { transform: scaleX(1); } }
+}
+</style>
+
+<div lang="bg">
+
+<div class="note band"><div class="wrap"><b>Чернова за преглед.</b> Сивото поле горе е снимката на продукта от сайта. Всички числа са проценти от реалните данни.</div></div>
+
+<header class="top band">
+  <div class="wrap">
+    <a class="logo" href="#">Riddle Marketing</a>
+    <nav class="nav" aria-label="Основна навигация">
+      <a href="#">Услуги</a><a href="#" aria-current="page">Проекти</a><a href="#">За нас</a><a href="#">Контакт</a>
+    </nav>
+    <div class="right">
+      <span class="phone">0897 853 219</span>
+      <a class="btn" href="#">Запазете 30-минутен разговор</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero band">
+    <div class="wrap">
+      <div>
+        <div class="crumbs"><a href="#">Начало</a><span>›</span><a href="#">Проекти</a><span>›</span><span>HairSupply28</span></div>
+        <h1><span class="brand">HairSupply28</span>8 от 10 поръчки от нови клиенти, с реклами за 13% от оборота.</h1>
+        <p class="lead">Онлайн магазин за продукти за къдрава коса. Собствениците го движат до основната си работа и нямаха време за маркетинга. От юни поехме рекламите, имейлите и измерването.</p>
+        <div class="meta"><span>Онлайн магазин</span><span>Shopify</span><span>от 1 юни до 30 октомври 2026</span></div>
+      </div>
+      <div class="photo"><div><b>Снимка на продукта</b>photo-hairsupply-product, вече е в сайта</div></div>
+    </div>
+  </section>
+
+  <section class="story band">
+    <div class="wrap">
+      <div>
+        <h2>Преди</h2>
+        <p>Нямаше реклами в Google и имейл маркетинг. Рекламите в Meta се отчитаха само с пиксела, без сървърно проследяване. Собствениците търсеха някой, който да поеме маркетинга, да предлага сам и да отговаря бързо.</p>
+      </div>
+      <div>
+        <h2>Какво направихме</h2>
+        <ul class="did">
+          <li>Реклами в Google при търсене на продуктите</li>
+          <li>Реклами в Meta с UGC видеа и динамичен каталог</li>
+          <li>Сървърно проследяване и Conversions API за Meta</li>
+          <li>Автоматични имейли в Klaviyo: приветствие, изоставена количка, връщане на клиенти</li>
+          <li>Почистен списък и нов банер за бисквитки по GDPR</li>
+          <li>Google Analytics 4, Tag Manager и Search Console</li>
+          <li>Табло на живо: Shopify, Meta и Google Ads на едно място</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="results band">
+    <div class="wrap">
+      <h2>Резултатът</h2>
+      <div class="period">От 1 юни до 30 октомври 2026</div>
+
+      <div class="group">
+        <div class="group-head"><h3>Два нови канала</h3><span class="src">Източник: Google Analytics 4, Google Ads и Klaviyo</span></div>
+        <div class="stats">
+          <div class="stat"><div class="num">1 от 5</div><p><strong>продажби</strong> идва от рекламите в Google</p></div>
+          <div class="stat"><div class="num">3,8<small>€</small></div><p><strong>продажби</strong> за всеки 1 € в Google Ads</p></div>
+          <div class="stat"><div class="num">12<small>%</small></div><p><strong>от продажбите</strong> идват от автоматичните имейли, по данни на Klaviyo</p></div>
+          <div class="stat"><div class="num">39<small>%</small></div><p><strong>отварят</strong> приветствения имейл</p></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-head"><h3>Магазинът</h3><span class="src">Източник: Shopify, Google Ads и Meta</span></div>
+        <div class="stats two">
+          <div class="stat"><div class="num">8 от 10</div><p><strong>поръчки</strong> са от нови клиенти</p>
+            <div class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          </div>
+          <div class="stat"><div class="num">13<small>%</small></div><p><strong>от оборота</strong> отиват за реклами, във всички канали заедно</p></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-head"><h3>Октомври спрямо септември</h3><span class="src">Източник: Shopify и Meta</span></div>
+        <div class="split">
+          <div>
+            <p class="intro">През септември продажбите паднаха. Пуснахме нови UGC видеа в Meta. Месец по-късно:</p>
+            <div class="bars" role="img" aria-label="Продажби: септември 100, октомври 127">
+              <div class="bar"><span>Септември</span><div class="track"><div class="fill" style="width: 78.7%"></div></div><span>100</span></div>
+              <div class="bar oct"><span>Октомври</span><div class="track"><div class="fill" style="width: 100%"></div></div><span>127</span></div>
+            </div>
+          </div>
+          <div class="stats two">
+            <div class="stat"><div class="num">+27<small>%</small></div><p><strong>продажби</strong></p></div>
+            <div class="stat"><div class="num">+32<small>%</small></div><p><strong>поръчки</strong></p></div>
+            <div class="stat"><div class="num">−45<small>%</small></div><p><strong>цена на покупка</strong> в Meta</p></div>
+            <div class="stat"><div class="num">+65<small>%</small></div><p><strong>възвръщаемост</strong> на рекламите в Meta</p></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="foot-note">Данни от Shopify, Google Analytics 4, Google Ads, Meta и Klaviyo. Дяловете от продажбите са по данните на всяка платформа и може да се застъпват.</p>
+    </div>
+  </section>
+
+  <section class="gallery band">
+    <div class="wrap">
+      <h2>От рекламите и имейл маркетинга</h2>
+      <div class="tiles">
+        <div class="tile"><figure><img src="img/ugc-one-secret-feed.jpg" alt="UGC видео реклама в Meta за One Secret с каталог с продукти под нея" loading="lazy"><figcaption>UGC видео и каталог в Meta</figcaption></figure></div>
+        <div class="tile"><figure><img src="img/ugc-fifty-fifty.jpg" alt="UGC видео реклама в Meta за Fifty Fifty Curly Creme" loading="lazy"><figcaption>UGC видео в Meta</figcaption></figure></div>
+        <div class="tile"><figure><img src="img/catalog-carousel.jpg" alt="Реклама в Meta с въртележка от продукти на HairSupply28" loading="lazy"><figcaption>Реклама с каталог в Meta</figcaption></figure></div>
+        <div class="tile"><figure><img src="img/welcome-email.jpg" alt="Приветствен имейл на HairSupply28 с код за отстъпка и препоръчани продукти" loading="lazy"><figcaption>Приветствен имейл в Klaviyo</figcaption></figure></div>
+      </div>
+      <p class="site-link">Вижте магазина на живо: <a href="https://hairsupply28.com/">hairsupply28.com</a></p>
+    </div>
+  </section>
+
+  <section class="cta band">
+    <div class="wrap">
+      <div>
+        <h2>Нека поговорим за вашия бизнес.</h2>
+        <ul>
+          <li>Разказвате ни за бизнеса и откъде идват клиентите ви сега.</li>
+          <li>Отваряме заедно сайта и профила ви в Google.</li>
+          <li>Казваме ви какво бихме направили първо и какво не ви трябва.</li>
+        </ul>
+      </div>
+      <div class="act">
+        <a class="btn dark" href="#">Запазете 30-минутен разговор</a>
+        <span>Разговорът е безплатен.</span>
+        <span>Или се обадете на 0897 853 219</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer band"><div class="wrap">© 2026 Riddle Marketing</div></footer>
+</div>
