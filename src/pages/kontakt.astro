@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Faq from '../components/Faq.astro';
 import viberLogo from '../assets/img/logo-viber.png';
+import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib/site';
 ---
 
 <Base
@@ -17,14 +18,15 @@ import viberLogo from '../assets/img/logo-viber.png';
     <h1>Обадете се или запазете час за разговор.</h1>
     <div class="columns">
       <div class="contact-col">
-        <a href="tel:+359897853219" class="big-phone">0897 853 219</a>
+        <a href={PHONE_HREF} class="big-phone">{PHONE_DISPLAY}</a>
         <div class="cta-row">
-          <a href="https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор" class="cta">Запазете 30-минутен разговор</a>
-          <a href="viber://chat?number=%2B359897853219" class="viber">
+          <a href={BOOKING_URL} class="cta">Запазете 30-минутен разговор</a>
+          <a href={VIBER_URL} class="viber">
             <Image src={viberLogo} alt="" width={52} height={52} class="viber-icon" />
             <span>Пишете във Viber</span>
           </a>
         </div>
+        {EMAIL && <a href={`mailto:${EMAIL}`} class="email">{EMAIL}</a>}
       </div>
       <div class="card">
         <h2>Какво става в тези 30 минути</h2>
@@ -124,6 +126,10 @@ import viberLogo from '../assets/img/logo-viber.png';
   .viber :global(.viber-icon) {
     width: 26px;
     height: 26px;
+  }
+  .email {
+    font-size: 19px;
+    font-weight: 600;
   }
   dl {
     margin: 24px 0 0;

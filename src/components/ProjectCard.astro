@@ -12,25 +12,26 @@ interface Props {
   imageAlt?: string;
   imagePosition?: string;
   placeholderIcon?: ImageMetadata;
-  logo: ImageMetadata;
-  logoAlt: string;
+  logo?: ImageMetadata;
   logoBg?: string;
   chips: { icon: ImageMetadata; label: string }[];
   aspect?: string;
   result?: { value: string; label: string };
 }
 
+/* The project name is always rendered as text in the title row, so the logo
+   and cover images are decorative: empty alt keeps screen readers from
+   reading the name three times. */
 const {
   href,
   title,
   description,
   linkText,
   image,
-  imageAlt = title,
+  imageAlt = '',
   imagePosition = 'center',
   placeholderIcon,
   logo,
-  logoAlt,
   logoBg = '#FFFFFF',
   chips,
   aspect = '4 / 3',
@@ -60,9 +61,13 @@ const {
     )
   }
   <div class="title-row">
-    <div class="logo-box" style={`background:${logoBg}`}>
-      <Image src={logo} alt={logoAlt} width={176} height={104} loading="lazy" class="logo-img" />
-    </div>
+    {
+      logo && (
+        <div class="logo-box" style={`background:${logoBg}`}>
+          <Image src={logo} alt="" width={176} height={104} loading="lazy" class="logo-img" />
+        </div>
+      )
+    }
     <h3>{title}</h3>
   </div>
   <p>{description}</p>

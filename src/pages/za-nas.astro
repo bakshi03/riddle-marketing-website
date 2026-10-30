@@ -3,38 +3,15 @@ import { Picture, Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Chip from '../components/Chip.astro';
 import logo21cutz from '../assets/img/logo-21cutz.png';
 import logoScaffrent from '../assets/img/logo-scaffrent.png';
 import logoHairsupply from '../assets/img/logo-hairsupply28.jpg';
-import ladybird from '../assets/img/ladybird.svg';
-import logoGoogleAds from '../assets/img/logo-google-ads.png';
-import logoGoogleMaps from '../assets/img/logo-google-maps.png';
-import logoGa4 from '../assets/img/logo-ga4.svg';
-import logoGtm from '../assets/img/logo-gtm.svg';
-import logoWordpress from '../assets/img/logo-wordpress.png';
-import logoViber from '../assets/img/logo-viber.png';
-import logoGoogleBusiness from '../assets/img/logo-google-business.png';
-import logoMeta from '../assets/img/logo-meta.svg';
-import logoInstagram from '../assets/img/logo-instagram.svg';
-import logoShopify from '../assets/img/logo-shopify.svg';
 import photo21cutz from '../assets/img/photo-21cutz-interior.jpg';
 import photoBoyana from '../assets/img/photo-scaffrent-boyana-2.jpg';
-import Placeholder from '../components/Placeholder.astro';
-
-const tools = [
-  { icon: logoGoogleAds, label: 'Google Ads' },
-  { icon: logoGoogleMaps, label: 'Google Maps' },
-  { icon: logoGa4, label: 'Google Analytics' },
-  { icon: logoGtm, label: 'Google Tag Manager' },
-  { icon: logoWordpress, label: 'WordPress' },
-  { icon: logoViber, label: 'Viber' },
-  { icon: logoGoogleBusiness, label: 'Google Business Profile' },
-];
 ---
 
 <Base
-  title="За нас: човекът зад Riddle Marketing"
+  title="За нас: екипът зад Riddle Marketing"
   description="Riddle Marketing е малък екип от София. Правим сайтове, профили в Google и реклами за местни бизнеси. Говорите директно с хората, които вършат работата."
 >
   <Header current="about" />
@@ -78,29 +55,17 @@ const tools = [
       <a href="https://hairsupply28.com/" class="logo-tile">
         <Image src={logoHairsupply} alt="HairSupply28" width={400} height={184} loading="lazy" class="tile-img mid" />
       </a>
-      <div class="logo-tile ladybird-tile">
-        <Image src={ladybird} alt="Djidji Stil" width={176} height={176} loading="lazy" class="tile-img ladybird" />
-      </div>
-    </div>
-  </section>
-
-  <section class="tools">
-    <p class="tools-label">С какво работим.</p>
-    <div class="tools-chips">
-      {tools.map((t) => <Chip icon={t.icon} label={t.label} bg="#FFFFFF" />)}
-      <div class="meta-chip">
-        <Image src={logoMeta} alt="Meta" width={200} height={40} loading="lazy" class="meta-logo" />
-      </div>
-      <Chip icon={logoInstagram} label="Instagram" bg="#FFFFFF" />
-      <Chip icon={logoShopify} label="Shopify" bg="#FFFFFF" />
+      <a href="https://share.google/HMsM5ODVUHr5m9B5t" class="logo-tile">
+        <span class="tile-name">Djidji Stil</span>
+      </a>
     </div>
   </section>
 
   <section class="where">
     <div class="where-inner">
       <div class="where-head">
-        <h2>Работя там, където са клиентите.</h2>
-        <p>В бръснарницата, на обекта, в склада. Не по имейл.</p>
+        <h2>Работим там, където са клиентите.</h2>
+        <p>В бръснарницата, на обекта, в склада.</p>
       </div>
       <figure class="fig-wide">
         <Picture
@@ -213,7 +178,7 @@ const tools = [
   .clients {
     max-width: 1440px;
     margin: 0 auto;
-    padding: clamp(72px, 8vw, 128px) clamp(20px, 5vw, 72px) 40px;
+    padding: clamp(72px, 8vw, 128px) clamp(20px, 5vw, 72px);
   }
   .clients h2 {
     font-family: var(--font-display);
@@ -241,8 +206,11 @@ const tools = [
   .logo-tile.narrow-pad {
     padding: 10px 28px;
   }
-  .logo-tile.ladybird-tile {
-    padding: 8px;
+  .tile-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 32px;
+    color: var(--text);
   }
   .logo-tile :global(.tile-img) {
     max-width: 100%;
@@ -258,42 +226,6 @@ const tools = [
   }
   .logo-tile :global(.tile-img.mid) {
     max-height: 92px;
-  }
-  .logo-tile :global(.tile-img.ladybird) {
-    height: 100%;
-    max-height: 88px;
-  }
-  .tools {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 40px clamp(20px, 5vw, 72px) clamp(72px, 8vw, 128px);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px 48px;
-    align-items: center;
-  }
-  .tools-label {
-    flex: 0 1 220px;
-    margin: 0;
-    font-size: 18px;
-    line-height: 1.4;
-  }
-  .tools-chips {
-    flex: 1 1 640px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .meta-chip {
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    padding: 10px 14px;
-    border-radius: 4px;
-  }
-  .meta-chip :global(.meta-logo) {
-    height: 20px;
-    width: auto;
   }
   .where {
     background: var(--bg-alt);

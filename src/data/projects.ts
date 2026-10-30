@@ -9,7 +9,6 @@ import logoGoogleAds from '../assets/img/logo-google-ads.png';
 import logoGa4 from '../assets/img/logo-ga4.svg';
 import logoWordpress from '../assets/img/logo-wordpress.png';
 import logoShopify from '../assets/img/logo-shopify.svg';
-import ladybird from '../assets/img/ladybird.svg';
 
 export const projects = {
   cutz: {
@@ -19,9 +18,7 @@ export const projects = {
     description: 'Бръснарница. Сайт със записване на час, реклами и проследяване.',
     linkText: '21cutz.com',
     image: hero21cutz,
-    imageAlt: '21cutz',
     logo: logo21cutz,
-    logoAlt: '21cutz',
     logoBg: '#0A0A0A',
     chips: [
       { icon: logoGoogleBusiness, label: 'Google Business Profile' },
@@ -36,10 +33,8 @@ export const projects = {
     description: 'Скеле под наем. Сайт и реклами в Google.',
     linkText: 'scaff-rent.com',
     image: heroScaffrent,
-    imageAlt: 'Scaff-Rent',
     imagePosition: 'center 30%',
     logo: logoScaffrent,
-    logoAlt: 'Scaff-Rent',
     chips: [
       { icon: logoWordpress, label: 'WordPress' },
       { icon: logoGoogleAds, label: 'Google Ads' },
@@ -52,20 +47,17 @@ export const projects = {
     description: 'Онлайн магазин. Магазин в Shopify, реклами и проследяване на поръчките.',
     linkText: 'hairsupply28.com',
     image: heroHairsupply,
-    imageAlt: 'HairSupply28',
     logo: logoHairsupply,
-    logoAlt: 'HairSupply28',
     chips: [{ icon: logoShopify, label: 'Shopify' }],
   },
+  // Djidji Stil has no real logo in the repo, so the card shows the name as
+  // text only (no ladybird placeholder icon).
   djidji: {
     caseSlug: 'djidji-stil',
     href: 'https://share.google/HMsM5ODVUHr5m9B5t',
     title: 'Djidji Stil',
     description: 'Шивашко ателие. Само Google бизнес профил, без сайт.',
     linkText: 'Профилът в Google',
-    placeholderIcon: ladybird,
-    logo: ladybird,
-    logoAlt: 'Djidji Stil',
     chips: [{ icon: logoGoogleBusiness, label: 'Google Business Profile' }],
   },
 };

@@ -1,0 +1,112 @@
+---
+// Reviewed scope: the policy covers only what the site actually uses
+// (consent banner, GA4, GTM, Google Ads, cal.com booking link, phone/Viber/email).
+// Data controller: operating name Riddle Marketing with the site email as contact,
+// per the owner's decision on 2026-10-30. No legal entity or address is listed.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { EMAIL, PHONE_DISPLAY, PHONE_HREF } from '../lib/site';
+---
+
+<Base
+  title="Политика за поверителност | Riddle Marketing"
+  description="Как riddle-marketing.com събира и използва данни: бисквитки, Google Analytics, Google Ads и контакт по телефон, Viber и имейл. Вашите права по GDPR."
+>
+  <Header />
+
+  <section class="policy">
+    <h1>Политика за поверителност</h1>
+    <p class="updated">Последна промяна: 30 октомври 2026 г.</p>
+
+    <h2>Кой отговаря за данните ви</h2>
+    <p>
+      Сайтът riddle-marketing.com се поддържа от екипа на Riddle Marketing. За всичко, свързано с
+      личните ви данни, пишете на <a href={`mailto:${EMAIL}`}>{EMAIL}</a> или се обадете на
+      <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>.
+    </p>
+
+    <h2>Какви данни събираме и защо</h2>
+    <p>
+      <strong>Данни за посещението.</strong> Ако се съгласите с бисквитките за измерване, ползваме
+      Google Analytics 4 и Google Tag Manager, за да видим кои страници се разглеждат, откъде идват
+      посетителите и кои бутони се натискат. Данните са обобщени и не ви идентифицират по име.
+    </p>
+    <p>
+      <strong>Данни за рекламата.</strong> Ако се съгласите с рекламните бисквитки, Google Ads
+      измерва дали посещението идва от наша реклама. Без вашето съгласие тези бисквитки не се
+      зареждат.
+    </p>
+    <p>
+      <strong>Данни при контакт.</strong> Когато се обадите, пишете във Viber, изпратите имейл или
+      запазите разговор през cal.com, получаваме данните, които сами ни дадете: име, телефон, имейл
+      и темата на разговора. Ползваме ги само за да се свържем с вас.
+    </p>
+
+    <h2>Бисквитки и съгласие</h2>
+    <p>
+      При първото ви посещение сайтът пита за съгласие и нищо не се измерва, преди да се съгласите.
+      Изборът ви се пази на вашето устройство. Може да го промените по всяко време от връзката
+      „Настройки за бисквитки“ в долната част на всяка страница.
+    </p>
+
+    <h2>Записване на разговор през cal.com</h2>
+    <p>
+      Бутонът „Запазете 30-минутен разговор“ води към календар в cal.com. Данните, които въведете
+      там, се обработват от cal.com според тяхната политика за поверителност. Ние виждаме само
+      името, имейла и часа, които сте избрали.
+    </p>
+
+    <h2>Колко време пазим данните</h2>
+    <p>
+      Статистиката в Google Analytics се пази до 14 месеца. Кореспонденцията с вас пазим, докато
+      работим заедно или докато поискате да я изтрием.
+    </p>
+
+    <h2>Вашите права</h2>
+    <p>
+      По Общия регламент за защита на данните (GDPR) имате право да поискате копие от данните си,
+      да ги поправим, да ги изтрием или да ограничим обработката им. Имате право и на жалба до
+      Комисията за защита на личните данни (<a href="https://www.cpdp.bg/" target="_blank" rel="noopener">cpdp.bg</a>).
+    </p>
+    <p>
+      За всяко от тези права пишете на <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. Отговаряме до 30
+      дни.
+    </p>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  .policy {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 128px) clamp(20px, 5vw, 72px) clamp(72px, 9vw, 144px);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .updated {
+    margin: 20px 0 0;
+    font-size: 15px;
+    color: rgba(26, 26, 23, 0.65);
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 0.95;
+    margin: clamp(40px, 5vw, 56px) 0 0;
+  }
+  p {
+    margin: 16px 0 0;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+</style>

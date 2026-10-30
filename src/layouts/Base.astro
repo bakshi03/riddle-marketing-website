@@ -108,8 +108,8 @@ const jsonLd = {
         var name = null;
         if (href.indexOf('tel:') === 0) name = 'click_phone';
         else if (href.indexOf('viber:') === 0) name = 'click_viber';
-        else if (href.indexOf('wa.me') !== -1) name = 'click_whatsapp';
         else if (href.indexOf('cal.com') !== -1) name = 'click_booking';
+        else if (href.indexOf('mailto:') === 0) name = 'click_email';
         if (!name) return;
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({ event: name, link_url: href, page_path: location.pathname });

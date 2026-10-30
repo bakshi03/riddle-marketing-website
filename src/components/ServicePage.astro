@@ -38,7 +38,9 @@ const {
   faq,
 } = Astro.props;
 
-const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
+import { PHONE_DISPLAY, PHONE_HREF, BOOKING_URL } from '../lib/site';
+
+const calUrl = BOOKING_URL;
 ---
 
 <Base title={title} description={description}>
@@ -50,7 +52,7 @@ const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-ми
       <p>{opening}</p>
       <div class="sv-cta">
         <a href={calUrl} class="cta">Запазете 30-минутен разговор</a>
-        <a href="tel:+359897853219" class="sv-phone">или се обадете: 0897 853 219</a>
+        <a href={PHONE_HREF} class="sv-phone">или се обадете: {PHONE_DISPLAY}</a>
       </div>
     </div>
   </section>

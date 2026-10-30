@@ -2,8 +2,9 @@
 import CallSteps from './CallSteps.astro';
 import { HAS_TAGS as hasTags } from '../lib/analytics';
 import { SERVICE_PAGES_LIVE } from '../lib/flags';
+import { PHONE_DISPLAY, PHONE_HREF, VIBER_URL, BOOKING_URL, EMAIL } from '../lib/site';
 
-const calUrl = 'https://cal.com/tihomir-paunov-9sigpg/безплатен-30-минутен-разговор';
+const calUrl = BOOKING_URL;
 
 const serviceLinks = SERVICE_PAGES_LIVE
   ? [
@@ -24,7 +25,7 @@ const serviceLinks = SERVICE_PAGES_LIVE
       <div class="cta-actions">
         <a href={calUrl} class="cta-btn">Запазете 30-минутен разговор</a>
         <span class="cta-free">Разговорът е безплатен.</span>
-        <a href="tel:+359897853219" class="cta-phone">Или се обадете на 0897 853 219</a>
+        <a href={PHONE_HREF} class="cta-phone">Или се обадете на {PHONE_DISPLAY}</a>
       </div>
     </div>
   </div>
@@ -53,14 +54,16 @@ const serviceLinks = SERVICE_PAGES_LIVE
         )
       }
       <div class="footer-contact">
-        <a href="tel:+359897853219" class="footer-phone">0897 853 219</a>
-        <a href="viber://chat?number=%2B359897853219">Пишете ни във Viber</a>
+        <a href={PHONE_HREF} class="footer-phone">{PHONE_DISPLAY}</a>
+        <a href={VIBER_URL}>Пишете ни във Viber</a>
+        {EMAIL && <a href={`mailto:${EMAIL}`}>{EMAIL}</a>}
         <a href={calUrl}>Запазете разговор</a>
       </div>
     </div>
     <div class="footer-meta">
       <span>© 2026 Riddle Marketing</span>
       <span>riddle-marketing.com</span>
+      <a href="/poveritelnost/" class="footer-policy">Политика за поверителност</a>
       {
         hasTags && (
           <button type="button" class="cookie-settings" data-consent-settings>
@@ -73,7 +76,7 @@ const serviceLinks = SERVICE_PAGES_LIVE
 </footer>
 <div class="mobile-bar-spacer" aria-hidden="true"></div>
 <div class="mobile-bar">
-  <a href="tel:+359897853219" class="bar-call">Обадете се</a>
+  <a href={PHONE_HREF} class="bar-call">Обадете се</a>
   <a href={calUrl} class="bar-book">Запазете разговор</a>
 </div>
 
@@ -218,6 +221,13 @@ const serviceLinks = SERVICE_PAGES_LIVE
     gap: 12px 32px;
     font-size: 15px;
     color: var(--muted-on-dark);
+  }
+  .footer-policy {
+    color: var(--muted-on-dark);
+    text-decoration: underline;
+  }
+  .footer-policy:hover {
+    color: var(--bg);
   }
   .cookie-settings {
     background: none;
